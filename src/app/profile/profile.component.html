@@ -1,0 +1,42 @@
+<table class="centered" style="margin-top: 8%;">
+    <tr>
+        <td colspan="2" style="text-align: center;">
+            <!-- <h3 class="creds"> -->
+                Username: &nbsp;
+                <mat-form-field>
+                    <input matInput value="{{this.s['u_name']}}" readonly>
+                </mat-form-field>
+            <!-- </h3> -->
+            Email ID: &nbsp;&nbsp;&nbsp;&nbsp; 
+                <mat-form-field>
+                    <input matInput value="{{this.s['email_id']}}" readonly>
+                </mat-form-field><br>
+            Password: &nbsp;
+                <mat-form-field>
+                    <input matInput [type]="hide ? 'password' : 'text'"  value="{{this.s['u_pass']}}"readonly>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+            </mat-form-field>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <circle-progress
+                [percent]= "this.per"
+                [radius]="100"
+                [outerStrokeWidth]="12"
+                [innerStrokeWidth]="8"
+                [outerStrokeColor]="this.color"
+                [innerStrokeColor]="'#3f51b5'"
+                [animation]="true"
+                [animationDuration]="300">
+            </circle-progress>
+        </td>
+        <td style="margin-left: 10%;">
+            <h2 style="color: #3f51b5;">Total Funds: ${{this.tf}}</h2>
+            <h2 style="color: darkred;">Invested Funds: ${{this.ivf.toFixed(2)}} </h2>
+            <h2 style="color: mediumseagreen;">Funds Left: ${{this.lf.toFixed(2)}} </h2>
+        </td>
+    </tr>
+</table>

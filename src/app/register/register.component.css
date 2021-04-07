@@ -1,0 +1,8 @@
+html,body{height:100%;margin:0;padding:0;}
+body{background-position:center;background-size:cover;background-repeat:no-repeat;font-family:'Roboto', sans-serif;}
+
+  #chart {
+    max-width: 650px;
+    margin: 50px auto;
+  }
+  

@@ -1,0 +1,34 @@
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container" style="margin-top: 5%;">
+    <div id="tradingview_b0bf0"></div>
+</div>
+
+<div style="text-align:centre; height: 100%; padding-left: 10%;">
+    <h1 style="color: black;"><b>Spot Market</b></h1><br>
+    <table class="table" >
+        <!-- ADD HEADERS -->
+        <thead>
+        <tr>
+            <th>Currency</th>
+            <th>Cost</th>
+            <th>Avg Open</th>
+            <th>Invest</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td><br>BTC</td>
+            <td><br>$60k</td>
+            <td><br>
+              <p style="color: red; font-size: xx-small;">
+                <span style="color: black; font-size: 14px;">OP</span>
+              </p>
+            </td>
+            <td><p></p>
+              <button mat-raised-button (click)="openDialogBuy()" style="background-color: #981B40; color: white;">Buy</button>&nbsp;
+              <button mat-raised-button (click)="openDialogSell()" style="color: #981B40; background-color: white;" >Sell</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

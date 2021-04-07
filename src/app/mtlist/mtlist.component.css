@@ -1,0 +1,26 @@
+.mat-accordion .mat-expansion-panel{
+    margin-bottom: 10px;
+  }
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.btn-block{
+  border-radius: 25px;
+  width: 20%;
+  /* align-self: center; */
+  /* margin-top: 5px; */
+  /* margin-right: -15%; */
+}
+button:focus { outline: none; }

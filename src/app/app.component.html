@@ -1,0 +1,51 @@
+
+  <!-- Links (sit on top) -->
+  <div class="w3-top">
+    <div class="w3-row w3-large" style="background-color: white; padding: 1%;">
+      <div class="w3-col s3">
+        <!-- <a href="#" class="w3-button w3-block">Home</a> -->
+        <a mat-list-item [routerLink]="''" style="color: #981B40; text-decoration: none;">
+          <img src="../assets/Kazcade.png" alt="" style="height: 80%; width: 50%;">
+        </a>
+      </div>
+      <div class="w3-col s2">
+        <a href="#plans" class="w3-button w3-block" [routerLink]="'trading'">Markets</a>
+      </div>
+      <div class="w3-col s2">
+        <a href="#about" class="w3-button w3-block" [routerLink]="'home'">About</a>
+      </div>
+      <div class="w3-col s2">
+        <a href="#about" class="w3-button w3-block" [routerLink]="'market'">News</a>
+      </div>
+      <div *ngIf="this.authService.isLoggedIn" class="w3-col s3" style="text-align:center;">
+        <p class="w3-block" *ngIf="username()">
+          <button mat-stroked-button style="background-color:#981B40; color:white;" [matMenuTriggerFor]="appMenu">
+            Hi, {{this.name}}
+          </button>
+          <mat-menu #appMenu="matMenu">
+            <button *ngIf="this.authService.isLoggedIn" mat-menu-item [routerLink]="'kyc'"><mat-icon>info</mat-icon> Complete Your KYC</button>
+            <button *ngIf="this.authService.isLoggedIn" mat-menu-item [routerLink]="'dashboard'"><mat-icon>perm_identity</mat-icon> Dashboard</button>
+            <button *ngIf="this.authService.isLoggedIn" mat-menu-item [routerLink]="'history'"><mat-icon>history</mat-icon> Trade History</button>
+            <button *ngIf="this.authService.isLoggedIn" mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Logout</button>
+          </mat-menu>
+        </p>
+      </div>
+      <div *ngIf="!this.authService.isLoggedIn" class="w3-col s3" style="text-align:center;">
+        <button mat-stroked-button  [routerLink]="'login'" style="background-color: #981B40; color: white;" class="btn-block">Sign In</button>
+      </div>
+    </div>
+    </div>
+    <router-outlet></router-outlet>
+    <footer class="w3-container w3-padding-32 w3-light-grey w3-center" style="position: relative;">
+      <h4>Footer</h4>
+      <a href="#" class="w3-button w3-black w3-margin"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+      <div class="w3-xlarge w3-section">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-snapchat w3-hover-opacity"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+      </div>
+      <p>Copyright 2021 Kazcade</p>
+    </footer>

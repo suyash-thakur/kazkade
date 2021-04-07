@@ -1,0 +1,43 @@
+<div style="text-align:centre; padding: 10%; height: 100%;">
+    <h1 style="color: black;"><b>History</b></h1><br>
+    <table class="table" *ngIf="arr" >
+        <!-- ADD HEADERS -->
+        <thead>
+        <tr>
+            <th>Currency</th>
+            <th>Units</th>
+            <th>Avg Open</th>
+            <th>Invested</th>
+            <th>PnL</th>
+            <th>PnL%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pred of arr; trackBy: trackById;">
+            <td><br>{{pred.curr}}</td>
+            <td><br>{{pred.units}}</td>
+            <td><br>
+              <!-- <p *ngIf="check(pred.cur_price,pred.pr_price)" style="color: green; font-size: xx-small;">
+                <span style="color: black; font-size: 14px;">${{(pred.pr_price)}} </span>
+                <mat-icon style="vertical-align: middle;"  [ngStyle]="{'color': 'green'}">trending_up</mat-icon>
+                (+{{((pred.pr_price-pred.cur_price)*100/pred.cur_price).toFixed(2)}}%)
+              </p> -->
+              <p style="color: red; font-size: xx-small;">
+                <span style="color: black; font-size: 14px;">{{pred.avgop}} </span>
+              </p>
+            </td>
+            <td>
+              <br>{{pred.invested}}
+            </td>
+            <td>
+              <br>${{pred.pnl}}
+            </td>
+            <td>
+              <br>{{pred.pnlp}}
+            </td>
+            <td><p></p>
+              <button mat-raised-button (click)="openDialog(pred,pred.selected)" color="primary" >View</button></td>
+        </tr>
+      </tbody>
+    </table>
+</div>

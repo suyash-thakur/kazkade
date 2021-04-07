@@ -1,0 +1,37 @@
+<div style="height: 100%; padding-left: 10%; padding-top: 7%;">
+    <h1 style="color: black;"><b>Dashboard</b></h1>
+    <table class="centered" style="margin-top: 5%; width: 100%;">
+        <tr >
+            <td *ngIf="this.authService.binanceuser" style="width: 50%;">
+                <kendo-chart class="second">
+                    <kendo-chart-series>
+                      <kendo-chart-series-item
+                          type="donut" [data]="data"
+                          categoryField="kind" field="share">
+                        <kendo-chart-series-item-labels
+                          [content]="labelContent"
+                          color="#fff" background="none">
+                        </kendo-chart-series-item-labels>
+                      </kendo-chart-series-item>
+                    </kendo-chart-series>
+                    <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+                </kendo-chart>
+
+                <h1>Total {{currency}}: ${{amount}}</h1>
+            </td>
+            <td *ngIf="!this.authService.binanceuser" >
+                <div style="text-align:center">
+                    <button mat-stroked-button [routerLink]="'/keys'" style="background-color: #981B40; color: white; font-size: larger;" class="btn-block">Connect to Binance</button>
+                </div>
+            </td>
+            <td colspan="2" style="text-align: center; margin: 20px;">
+                <div style="text-align:center; margin: 20px;">
+                    <button mat-stroked-button style="background-color: white; color: #981B40; font-size: larger;" class="btn-block"><b>Register as Master Trader</b></button>
+                </div>
+                <div style="text-align:center; margin: 20px;">
+                    <button mat-stroked-button [routerLink]="'/masterlist'" style="background-color: #981B40; color: white; font-size: larger;" class="btn-block">Register as Copy trader</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

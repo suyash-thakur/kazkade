@@ -1,0 +1,29 @@
+<div style="text-align:centre;" *ngIf="!this.call"> 
+  <br><br>
+  <table>
+  <tr *ngFor="let news of arr;">
+  <mat-card>
+      <td>
+        {{callfunc()}}
+        <img src={{news_photos[ran_no]}} alt="">
+      </td>
+      <td style="padding: 15px;">
+        <a style="text-decoration: none;" target="_blank" href={{news.url}}>
+          <h1>{{news.title}}<br></h1>
+          <h2>{{news.text}}<br></h2>
+        </a>
+        <p>
+          Published At: {{news.date}}<br>
+        </p>
+      </td>
+    </mat-card>
+  </tr>
+</table>
+</div>
+
+<div *ngIf="this.call" style="min-height: 100%;">
+  <span class="centered">
+    <h2 style="color: #981B40;">News are being updated... </h2>
+    <h2 style="margin-left: 75px;"><mat-spinner color="#981B40;" style="color: #981B40;"></mat-spinner></h2>
+</span>
+</div>

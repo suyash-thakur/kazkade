@@ -1,0 +1,19 @@
+<div style='text-align: center;'>
+<h1 mat-dialog-title class="primary-color">Confirm your Order</h1>
+  <mat-dialog-content class="accent-color">
+    <p>
+      You Are buying this stock.
+      Kindly confirm within 10 seconds.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-stroked-button color="primary" 
+    style="width: 40%; margin: 5px;" (click)='onNoClick()'>
+      Cancel
+    </button>
+    <button mat-raised-button color="accent" routerLink="bought" 
+    style="width: 40%; margin: 5px;" (click)='onNoClick()'>
+      Confirm
+    </button>
+  </mat-dialog-actions>
+</div>

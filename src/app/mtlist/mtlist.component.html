@@ -1,0 +1,19 @@
+<div style="padding: 10%; height: 100%;">
+    <h2>
+        Master Traders who you would like to copy:
+    </h2>
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel hideToggle *ngFor="let i of arr; let j = index" [attr.data-index]="j">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{i.user[0].full_name}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{i.user[0].email}}
+                <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Copy</button>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>All recent trades and Performance.</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

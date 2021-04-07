@@ -1,0 +1,16 @@
+<div mat-dialog-content style="padding: 10%; margin-top: 10%; text-align: center; color: black;">
+    <h1 style="color: black; font-size: 40px;"> Connect Your Binance Account </h1><br>
+    <form class="example-form" [formGroup]="keys"  (ngSubmit)="onSubmit()">
+        <div class="example-full-width">
+            <input id="ip2" type="text"  formControlName="path_api_key" placeholder="Binance API Key" required>
+        </div>
+        <br>
+        <div class="example-full-width">
+            <input id="ip2" type="text"  formControlName="path_secret_key" placeholder="Binanace Secret Key" required>
+        </div>
+        <br>
+        <button mat-button style="background-color: #981B40; color: white;" class="btn-block1">
+            Submit
+        </button>
+    </form>
+</div>

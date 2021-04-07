@@ -1,0 +1,13 @@
+mat-grid-tile {
+    background: #FCEAEA;
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  align-content: center;
+  display: inline-block;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
