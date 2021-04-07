@@ -6,7 +6,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatInputModule} from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
@@ -34,7 +34,7 @@ import {  MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './home/home.component';
 import { MarketviewComponent } from './marketview/marketview.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { TradingComponent } from './trading/trading.component';
+import { TradingComponent, DialogSell, DialogTrade } from './trading/trading.component';
 import { KycComponent } from './kyc/kyc.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonModule } from '@angular/common';
@@ -62,11 +62,15 @@ import 'hammerjs';
     KycComponent,
     DashboardComponent,
     BinancekeysComponent,
-    MtlistComponent
+    MtlistComponent,
+    DialogSell,
+    DialogTrade
   ],
 
   entryComponents: [
-    BuycomComponent
+    BuycomComponent,
+    DialogSell,
+    DialogTrade
   ],
   imports: [
     MatFormFieldModule,
@@ -121,7 +125,6 @@ import 'hammerjs';
   bootstrap: [AppComponent],
   exports: [
     CommonModule,
-    MatFormFieldModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
