@@ -1,6 +1,8 @@
 import { AfterViewInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 import { timeout } from 'rxjs/operators';
 // import { setInterval } from 'timers';
 declare const TradingView: any;

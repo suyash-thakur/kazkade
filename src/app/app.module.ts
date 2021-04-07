@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatInputModule} from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
@@ -41,7 +42,6 @@ import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import 'hammerjs';
 
 
@@ -64,6 +64,7 @@ import 'hammerjs';
     BinancekeysComponent,
     MtlistComponent
   ],
+
   entryComponents: [
     BuycomComponent
   ],
@@ -119,7 +120,8 @@ import 'hammerjs';
   ],
   bootstrap: [AppComponent],
   exports: [
-    CommonModule
+    CommonModule,
+    MatFormFieldModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
