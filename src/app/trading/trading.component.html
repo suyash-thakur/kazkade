@@ -1,34 +1,485 @@
 <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container" style="margin-top: 5%;">
-    <div id="tradingview_b0bf0"></div>
-</div>
+<div style="display: flex; margin-top: 20px; margin-top: 5%; padding-left: 10px; padding-right: 10px;">
+  <div style=" margin-top:35px; background-color:white;" class="watchlistContainer">
+    <mat-tab-group class="watchlist">
+      <mat-tab label="INR">
+        <div *ngFor="let item of wathcList; let i = index;"
+          style=" margin-bottom:5px; padding-left: 5px; padding-right:5px;" class="watchContainer">
+          <div style="display: flex; cursor:pointer;" (click)="clickWishList(i)">
+            <div>
+              <div>
+                <b>{{ getstockName(item) }}</b>/<span style="opacity:0.8; font-size:12px;">INR</span>
+              </div>
+              <div *ngIf="status[i]">
+                <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">Rs 1500</span>
+              </div>
+              <div *ngIf="!status[i]">
+                <img src="../../assets/icons8-triangle-arrow-24.png" style="width: 12px;"> &nbsp; <span
+                  style="color: #e74c3c">Rs
+                  1500</span>
+              </div>
+            </div>
+            <div style="flex-grow: 1;">
 
-<div style="text-align:centre; height: 100%; padding-left: 10%;">
-    <h1 style="color: black;"><b>Spot Market</b></h1><br>
-    <table class="table" >
-        <!-- ADD HEADERS -->
-        <thead>
-        <tr>
-            <th>Currency</th>
-            <th>Cost</th>
-            <th>Avg Open</th>
-            <th>Invest</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td><br>BTC</td>
-            <td><br>$60k</td>
-            <td><br>
-              <p style="color: red; font-size: xx-small;">
-                <span style="color: black; font-size: 14px;">OP</span>
-              </p>
-            </td>
-            <td><p></p>
-              <button mat-raised-button (click)="openDialogBuy()" style="background-color: #981B40; color: white;">Buy</button>&nbsp;
-              <button mat-raised-button (click)="openDialogSell()" style="color: #981B40; background-color: white;" >Sell</button>
-            </td>
-        </tr>
-      </tbody>
-    </table>
-</div>
+            </div>
+            <div>
+              Rs 4500
+            </div>
+          </div>
+          <hr>
+        </div>
+      </mat-tab>
+      <mat-tab label="USDT">
+        <div *ngFor="let item of wathcList; let i = index;"
+          style=" margin-bottom:5px; padding-left: 5px; padding-right:5px;" class="watchContainer">
+          <div style="display: flex; cursor:pointer;" (click)="clickWishList(i)">
+            <div>
+              <div>
+                <b>{{ getstockName(item) }}</b>/<span style="opacity:0.8; font-size:12px;">INR</span>
+              </div>
+              <div *ngIf="status[i]">
+                <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">Rs 1500</span>
+              </div>
+              <div *ngIf="!status[i]">
+                <img src="../../assets/icons8-triangle-arrow-24.png" style="width: 12px;"> &nbsp; <span
+                  style="color: #e74c3c">Rs
+                  1500</span>
+              </div>
+            </div>
+            <div style="flex-grow: 1;">
+
+            </div>
+            <div>
+              Rs 4500
+            </div>
+          </div>
+          <hr>
+        </div>
+      </mat-tab>
+      <mat-tab label="WRX">
+        <div *ngFor="let item of wathcList; let i = index;"
+          style=" margin-bottom:5px; padding-left: 5px; padding-right:5px;" class="watchContainer">
+          <div style="display: flex; cursor:pointer;" (click)="clickWishList(i)">
+            <div>
+              <div>
+                <b>{{ getstockName(item) }}</b>/<span style="opacity:0.8; font-size:12px;">INR</span>
+              </div>
+              <div *ngIf="status[i]">
+                <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">Rs 1500</span>
+              </div>
+              <div *ngIf="!status[i]">
+                <img src="../../assets/icons8-triangle-arrow-24.png" style="width: 12px;"> &nbsp; <span
+                  style="color: #e74c3c">Rs
+                  1500</span>
+              </div>
+            </div>
+            <div style="flex-grow: 1;">
+
+            </div>
+            <div>
+              Rs 4500
+            </div>
+          </div>
+          <hr>
+        </div>
+      </mat-tab>
+      <mat-tab label="BTC">
+        <div *ngFor="let item of wathcList; let i = index;"
+          style=" margin-bottom:5px; padding-left: 5px; padding-right:5px;" class="watchContainer">
+          <div style="display: flex; cursor:pointer;" (click)="clickWishList(i)">
+            <div>
+              <div>
+                <b>{{ getstockName(item) }}</b>/<span style="opacity:0.8; font-size:12px;">INR</span>
+              </div>
+              <div *ngIf="status[i]">
+                <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">Rs 1500</span>
+              </div>
+              <div *ngIf="!status[i]">
+                <img src="../../assets/icons8-triangle-arrow-24.png" style="width: 12px;"> &nbsp; <span
+                  style="color: #e74c3c">Rs
+                  1500</span>
+              </div>
+            </div>
+            <div style="flex-grow: 1;">
+
+            </div>
+            <div>
+              Rs 4500
+            </div>
+          </div>
+          <hr>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+  <div style="padding-top:35px; margin-left:10px; margin-right: 10px;">
+
+    <div class="parent_taradingview">
+      <div class="tradingview-widget-container">
+        <div id="tradingview_b0bf0"></div>
+        </div>
+  </div>
+  <div style="display: flex; margin-top:10px;">
+    <div style="flex: 1; margin-right: 5px;">
+      <div style="background-color:white; height: 400px; ">
+        <mat-tab-group class="orderDetail" style="max-width: 100%;">
+          <mat-tab label="MARKET DEPTH">
+            <div style="display:flex; justify-content: space-between; ">
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  VOLUME
+                </div>
+                <div class="order-detailItem" style="color:#2ecc71">
+                  0.08765
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  BUY PRICE
+                </div>
+                <div class="order-detailItem">
+                  45,73,077
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  SELL PRICE
+                </div>
+                <div class="order-detailItem" style="color: #e74c3c">
+                  45,73,077
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  VOLUME
+                </div>
+                <div style="" class="order-detailItem">
+                  0.7456
+                </div>
+              </div>
+            </div>
+
+          </mat-tab>
+          <mat-tab label="ORDER VOLUME">
+            <div style="display:flex; justify-content: space-between; ">
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  VOLUME
+                </div>
+                <div class="order-detailItem" style="color:#2ecc71">
+                  0.08765
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  BUY PRICE
+                </div>
+                <div class="order-detailItem">
+                  45,73,077
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  SELL PRICE
+                </div>
+                <div class="order-detailItem" style="color: #e74c3c">
+                  45,73,077
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <div class="header-orderDetail">
+                  VOLUME
+                </div>
+                <div style="" class="order-detailItem">
+                  0.7456
+                </div>
+              </div>
+            </div>
+
+          </mat-tab>
+          </mat-tab-group>
+          </div>
+          </div>
+          <div style="flex: 1; margin-left: 5px;">
+            <div style="background-color:white; height: 400px; ">
+              <mat-tab-group class="orderDetail" style="max-width: 100%;">
+                <mat-tab label="TRADE HISTORY">
+                  <div style="display:flex; justify-content: space-between; ">
+                    <div style="flex-grow: 1;">
+                      <div class="header-orderDetail">
+                        PRICE
+                      </div>
+                      <div class="order-detailItem">
+                        <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">203.753</span>
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <div class="header-orderDetail">
+                        VOLUME
+                      </div>
+                      <div class="order-detailItem">
+                        0.98
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <div class="header-orderDetail">
+                        TIME
+                      </div>
+                      <div class="order-detailItem">
+                        1:17:41
+                      </div>
+                    </div>
+                  </div>
+
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+          </div>
+          </div>
+          <div style=" margin-top:35px; display: flex;  flex-direction: column; justify-content:center ">
+            <div style="background-color:white; height: 400px; ">
+              <mat-tab-group class="orderDetail">
+                <mat-tab label="OPEN ORDERS">
+                  <div style="display:flex; justify-content: space-between; " *ngIf="authService.isLoggedIn">
+                    <div>
+                      <div class="header-orderDetail">
+                        PAIR
+                      </div>
+                      <div class="order-detailItem">
+                        BNBUSD/INR
+                      </div>
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        AMOUNT
+                      </div>
+                      <div class="order-detailItem">
+                        50000
+                      </div>
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        PRICE
+                      </div>
+                      <div class="order-detailItem">
+                        234
+                      </div>
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        TOTAL
+                      </div>
+                      <div style="" class="order-detailItem">
+                        789
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="buy_button" style="background-color: #981B40; margin-top:80px" [routerLink]="'/login'"
+                      *ngIf="!authService.isLoggedIn">
+                      LOGIN
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="COMPLETED ORDERS">
+                  <div style="height: 200px; display: flex; justify-content: center; align-items: center;">
+                    <div style="opacity: 0.8; font-weight:400;" *ngIf="authService.isLoggedIn">
+                      No Complete Order
+                    </div>
+                    <div class="buy_button" style="background-color: #981B40; margin-top:0px; width:100%" [routerLink]="'/login'"
+                      *ngIf="!authService.isLoggedIn">
+                      LOGIN
+                    </div>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+            <div style="height: 400px; margin-top:5px; background-color:white;" class="buy_sell">
+              <mat-tab-group class="">
+                <mat-tab label="BUY">
+                  <div style="display: flex; justify-content: flex-end; margin-top: 10px; ">
+                    <div style="margin-right: 10px;">
+                      <select class="limit_dropdown">
+                        <option>
+                          LIMIT
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 25px;">
+                    <div class="info">
+                      <div>
+                        AT PRICE
+                      </div>
+                      <div style="font-weight: bold;">
+                        INR
+                      </div>
+                    </div>
+                    <div style="">
+                      <input type="number" value="0.78898" step="0.000001" placeholder="PRICE" style="width:100%">
+                    </div>
+                    <div style="font-size: 10px; font-weight: bold; cursor: pointer; color: #2ecc71;">
+                      LOWEST PRICE
+                    </div>
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 25px;">
+                    <div class="info">
+                      <div>
+                        AMOUNT
+                      </div>
+                      <div style="font-weight: bold;">
+                        BIT
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <input type="number" value="0.78898" step="0.000001" placeholder="PRICE" style="width:100%"
+                        [(ngModel)]="buyAmount">
+                    </div>
+
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px 10px 0px 0px; margin-top: 25px;">
+                    <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                      <div>
+                        TOTAL
+                      </div>
+                      <div style="font-weight: bold;">
+                        INR
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <input type="number" step="0.000001" placeholder="PRICE" style="width:100%">
+                    </div>
+
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 0px 0px 10px 10px; margin-top: 0px; border-top:none; ">
+                    <div class="info" style="flex: 1; text-align: left; padding-left: 10px;">
+                      <div style="font-weight: bold;">
+                        Rs 4500.124
+                      </div>
+                    </div>
+                    <div style="flex: 1; padding-left: 5px; font-weight: bold;">
+                      <div style="display: flex; justify-content: space-between;">
+                        <div>
+                          25%
+                        </div>
+                        <div>
+                          50%
+                        </div>
+                        <div>
+                          75%
+                        </div>
+                        <div>
+                          100%
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+                    <div *ngIf="isInsufficientFund">
+                      <b> Insufficient Fund</b>
+                    </div>
+                  </div>
+                  <div class="buy_button" style="margin-top: 20px;" (click)="buy()">
+                    BUY {{ getstockName(wathcList[index]) }}
+                  </div>
+                </mat-tab>
+                <mat-tab label="SELL">
+                  <div style="display: flex; justify-content: flex-end; margin-top: 10px; ">
+                    <div style="margin-right: 10px;">
+                      <select class="limit_dropdown">
+                        <option>
+                          LIMIT
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 25px;">
+                    <div class="info">
+                      <div>
+                        AT PRICE
+                      </div>
+                      <div style="font-weight: bold;">
+                        INR
+                      </div>
+                    </div>
+                    <div style="">
+                      <input type="number" step="0.000001" placeholder="PRICE" style="width:100%">
+                    </div>
+                    <div style="font-size: 10px; font-weight: bold; cursor: pointer; color: #e74c3c;">
+                      HIGHEST PRICE
+                    </div>
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 25px;">
+                    <div class="info">
+                      <div>
+                        AMOUNT
+                      </div>
+                      <div style="font-weight: bold;">
+                        BIT
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount">
+                    </div>
+
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px 10px 0px 0px; margin-top: 25px;">
+                    <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                      <div>
+                        TOTAL
+                      </div>
+                      <div style="font-weight: bold;">
+                        INR
+                      </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <input type="number" value="0.78898" step="0.000001" placeholder="PRICE" style="width:100%">
+                    </div>
+
+                  </div>
+                  <div class="buy_input"
+                    style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 0px 0px 10px 10px; margin-top: 0px; border-top:none; ">
+                    <div class="info" style="flex: 1; text-align: left; padding-left: 10px;">
+                      <div style="font-weight: bold;">
+                        Rs 4500.124
+                      </div>
+                    </div>
+                    <div style="flex: 1; padding-left: 5px; font-weight: bold;">
+                      <div style="display: flex; justify-content: space-between;">
+                        <div>
+                          25%
+                        </div>
+                        <div>
+                          50%
+                        </div>
+                        <div>
+                          75%
+                        </div>
+                        <div>
+                          100%
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <div class="buy_button" style="margin-top: 40px; background-color: #e74c3c" (click)="sell()">
+                    SELL {{ getstockName(wathcList[index]) }}
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+  </div>
+

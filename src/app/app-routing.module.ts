@@ -14,6 +14,8 @@ import { KycComponent } from './kyc/kyc.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
+import { MasterUserSettingComponent } from './master-user-setting/master-user-setting.component';
+import { UserProfileComponent } from './master-user-setting/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -75,6 +77,14 @@ const routes: Routes = [
     path: 'kyc',
     component: KycComponent,
     // canActivate: [AuthGuard]
+  },
+  {
+    path: 'settings',
+    component: MasterUserSettingComponent
+  },
+  {
+    path: 'userProfile',
+    component: UserProfileComponent
   }
 ];
 

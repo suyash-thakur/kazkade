@@ -1,0 +1,72 @@
+<div style="margin-top:95px;
+">
+  <div class="button-column">
+    <br>
+    <img src="../../assets/icons8-menu-48.png" style="width:40px; cursor: pointer; padding-left:15px;"
+      (click)="drawer.toggle()">
+    <br>
+  </div>
+  <mat-drawer-container class="example-container" autosize style="min-height: 80vh;     background-color: rgba(206, 200, 200, 0.1);
+  ">
+    <mat-drawer #drawer [opened]="opened" class="example-sidenav sideNav" mode="side">
+      <p><b>My Account</b></p>
+      <p>Password Settings</p>
+      <p>Billing Details</p>
+      <p>Get Support</p>
+      <p>Sign Out</p>
+      <p>Deactivate Account</p>
+    </mat-drawer>
+    <div class="example-sidenav-content">
+      <h2>Account Details</h2>
+      <br>
+      <div class="input_container">
+        <div class="label" style="flex:1">
+          First Name
+        </div>
+        <div style="flex: 3;">
+          <input class="input_account" type="text">
+        </div>
+      </div>
+      <div class="input_container">
+        <div class="label" style="flex: 1;">
+          Last Name
+        </div>
+        <div style="flex:3">
+          <input class="input_account" type="text">
+        </div>
+      </div>
+      <div style="" class="input_container">
+        <div class="label" style="flex:1">
+          Mobile
+        </div>
+        <div style="flex:3">
+          <input class="input_account" type="number">
+        </div>
+      </div>
+      <div style="" class="input_container">
+        <div class="label" style="flex:1">
+          Email
+        </div>
+        <div style="flex:3">
+          <input class="input_account" type="email">
+        </div>
+      </div>
+      <div style="" class="input_container">
+        <div class="label" style="flex:1">
+          About
+        </div>
+        <div style="flex:3">
+          <textarea class="input_account" type="email" rows="6"
+            style="border-radius: 20px; color:black; padding-top: 5px;"></textarea>
+        </div>
+      </div>
+      <div style=" justify-content: center;" class="input_container">
+        <div
+          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;">
+          Save Changes
+        </div>
+      </div>
+    </div>
+
+  </mat-drawer-container>
+</div>

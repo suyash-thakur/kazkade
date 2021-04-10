@@ -1,0 +1,38 @@
+h2 {
+  color:#981B40;
+  font-size: 30px;
+
+}
+h3 {
+  font-size: 25px;
+  font-weight: bolder;
+
+}
+p {
+  font-size: 20px;
+
+}
+select {
+  font-size:15px;
+  font-weight: bolder;
+  width: 100%;
+  padding: 10px;
+border: none;
+box-shadow:  20px 20px 60px #bebebe,
+             -20px -20px 60px #ffffff;
+             border-radius: 35px;
+}
+.container-performance{
+  max-height: 500px;
+}
+.container-performance::-webkit-scrollbar {
+  width: 2px;
+  height: 8px;
+  border-radius: 30px;
+  background-color: rgba(206, 200, 200, 0.1);
+ }
+ .container-performance::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: #981b4194;
+  border: 50px solid rgba(206, 200, 200, 0.1);
+ }

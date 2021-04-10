@@ -30,7 +30,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { WavesModule } from 'angular-bootstrap-md';
 import { MarketComponent } from './market/market.component';
-import {  MatMenuModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import {MatTabsModule} from '@angular/material/tabs';
 import { HomeComponent } from './home/home.component';
 import { MarketviewComponent } from './marketview/marketview.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -42,7 +43,10 @@ import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+
 import 'hammerjs';
+import { MasterUserSettingComponent } from './master-user-setting/master-user-setting.component';
+import { UserProfileComponent } from './master-user-setting/user-profile/user-profile.component';
 
 
 
@@ -64,7 +68,9 @@ import 'hammerjs';
     BinancekeysComponent,
     MtlistComponent,
     DialogSell,
-    DialogTrade
+    DialogTrade,
+    MasterUserSettingComponent,
+    UserProfileComponent
   ],
 
   entryComponents: [
@@ -90,6 +96,7 @@ import 'hammerjs';
     MatIconModule,
     MatSidenavModule,
     MatListModule,
+    MatTabsModule,
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
