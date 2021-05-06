@@ -11,3 +11,13 @@ mat-grid-tile {
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
 }
+.hoverStyle {
+  transition: transform 250ms;
+}
+.hoverStyle:hover{
+  transform: translateY(-15px);
+
+}
+mat-slider {
+  width: 300px;
+}

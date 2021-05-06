@@ -1,6 +1,9 @@
-<div style="height: 100%; padding-left: 10%; padding-top: 7%;">
-    <h1 style="color: black;"><b>Dashboard</b></h1>
-    <table class="centered" style="margin-top: 5%; width: 100%;">
+<h1 style="color: #981B40; padding-top: 70px; padding-left: 15px;"><b>Dashboard</b></h1>
+
+<div
+  style="height: 100%; padding-left: 15px; padding-top: 20px; min-height:80vh; display:flex; justify-content: center; align-items: center;">
+
+  <!-- <table class="centered" style=" width: 100%;">
         <tr >
             <td *ngIf="this.authService.binanceuser" style="width: 50%;">
                 <kendo-chart class="second">
@@ -34,5 +37,57 @@
                 </div>
             </td>
         </tr>
-    </table>
+    </table> -->
+    <div style="display:flex; width:100%; margin: auto;">
+      <div style="flex:3">
+        <div style="display:flex">
+          <div>
+            <ngx-charts-pie-chart [view]='view' [results]="dataArray">
+            </ngx-charts-pie-chart>
+          </div>
+          <div style="display:flex; flex-direction: column; justify-content: center; align-items: center; ">
+            <div *ngFor="let item of dataArray" style="width:100%; margin-bottom: 15px;">
+              <div style="font-weight: bold; color:#981B40; font-size:18px">{{ item.name }}</div>
+              <div style="font-size:18px">{{ item.value }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div
+        style="flex:2; display: flex; justify-content: center; align-items: center; flex-direction: column; border-left: 2px solid #981B40;">
+        <div style="text-align:center" *ngIf="!this.authService.binanceuser">
+          <button mat-stroked-button [routerLink]="'/keys'"
+            style="background-color: #981B40; color: white; font-size: larger;" class="btn-block">Connect to
+            Binance</button>
+        </div>
+        <div style="text-align:center; margin: 20px;"
+          *ngIf="this.authService.binanceuser && this.authService.userType !== 'MASTER' && this.authService.userType !== 'COPY'">
+          <button mat-stroked-button style="background-color: white; color: #981B40; font-size: larger;" class="btn-block"
+            (click)="registerMaster()"><b>Register as Master Trader</b></button>
+        </div>
+        <div style="text-align:center; margin: 20px;"
+          *ngIf="this.authService.binanceuser && this.authService.userType !== 'MASTER'  && this.authService.userType !== 'COPY'">
+          <button mat-stroked-button style="background-color: #981B40; color: white; font-size: larger;" class="btn-block"
+            (click)="registerCopy()">Register as Copy
+            trader</button>
+        </div>
+        <div style="text-align:center; margin: 20px;"
+          *ngIf="this.authService.userType === 'MASTER' ||  this.authService.userType === 'COPY'">
+          <button mat-stroked-button style="background-color: #981B40; color: white; font-size: larger;" class="btn-block"
+            [routerLink]="['/profitLoss']" routerLinkActive="router-link-active">Profit And Loss
+          </button>
+        </div>
+        <div style="text-align:center; margin: 20px;" *ngIf="this.authService.userType === 'COPY'">
+          <button mat-stroked-button style="background-color: #981B40; color: white; font-size: larger;" class="btn-block"
+            [routerLink]="['/masterlist']" routerLinkActive="router-link-active">Explore Traders
+          </button>
+        </div>
+        <div style="text-align:center; margin: 20px;" *ngIf="this.authService.userType === 'MASTER'">
+          <button mat-stroked-button style="background-color: #981B40; color: white; font-size: larger;" class="btn-block"
+            [routerLink]="['/followerList']" routerLinkActive="router-link-active">Followers
+          </button>
+        </div>
+      </div>
+    </div>
 </div>

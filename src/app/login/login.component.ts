@@ -12,7 +12,10 @@ export class LoginComponent implements OnInit {
 
   signinForm: FormGroup;
   signupForm: FormGroup;
-  a=0;
+  a = 0;
+  isForgotPass = false;
+  showMsg = false;
+  emailPassword = '';
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
@@ -41,6 +44,9 @@ export class LoginComponent implements OnInit {
   {
     this.a=0
   }
+  togglePassword() {
+    this.isForgotPass = !this.isForgotPass;
+  }
   loginUser() {
     // console.log(this.signinForm.value)
     if(this.signinForm.value.mno!=='' && this.signinForm.value.mno!==null &&
@@ -61,9 +67,14 @@ export class LoginComponent implements OnInit {
       this.a=1;
     }
   }
+  sendmail() {
+    this.authService.sendEmail(this.emailPassword).subscribe((res) => {
+      this.showMsg = true;
+    });
+  }
   registerUser() {
     if(this.signupForm.value.email!=='' && this.signupForm.value.email!==null
-    && this.signupForm.value.password!=='' && this.signupForm.value.password!==null 
+    && this.signupForm.value.password!=='' && this.signupForm.value.password!==null
     // && this.signupForm.value.password!=this.signupForm.value.password
     && this.signupForm.value.Email_id!=='' && this.signupForm.value.Email_id!==null)
     {
@@ -81,7 +92,7 @@ export class LoginComponent implements OnInit {
     }
   }
   check(){
-    
+
     if(this.a==1)
     {
       return true;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from './../shared/auth.service';
@@ -18,31 +18,38 @@ export class MarketComponent implements OnInit {
   arr: any;
   news_photos: any
   ran_no: any;
-  call=true;
+  call = true;
+  news = [];
   endpoint = environment.Route+'/api/data/news';
   // tslint:disable-next-line: ban-types
   currentUser: Object = {};
   constructor(public dialog: MatDialog, private httpService: HttpClient, private http: HttpClient, public authService: AuthService,
     private actRoute: ActivatedRoute) {
+    this.http.get('https://newsapi.org/v2/everything?q=bitcoin&apiKey=2edf6f125baf49c9a1e4224351124306').subscribe((res: any) => {
+      console.log(res);
+      this.news = res.articles;
+      this.call = true;
+    });
      }
   ngOnInit(): void {
     this.news_photos = ["../../assets/news1.jpeg","../../assets/news2.jpeg","../../assets/news3.jpeg","../../assets/news4.jpeg"]
-    this.httpService.get(this.endpoint).subscribe(
-      data => {
-        let i=0;
-        // tslint:disable-next-line: no-string-literal
-        this.arr = data;	 // FILL THE ARRAY WITH DATA
-        console.log(this.arr);
-        this.call = false;
-        //console.log(this.arr.results[0].title);
-      },
-      (err: HttpErrorResponse) => {
-        console.log (err.message);
-      }
-    );
+    // this.httpService.get(this.endpoint).subscribe(
+    //   data => {
+    //     let i=0;
+    //     // tslint:disable-next-line: no-string-literal
+    //     this.arr = data;	 // FILL THE ARRAY WITH DATA
+    //     console.log(this.arr);
+    //     this.call = false;
+    //     //console.log(this.arr.results[0].title);
+    //   },
+    //   (err: HttpErrorResponse) => {
+    //     console.log (err.message);
+    //   }
+    // );
+
 
   }
-
+ 
   getData(pred,s) {
     // tslint:disable-next-line: radix
     s=parseInt(s);
@@ -86,5 +93,8 @@ export class MarketComponent implements OnInit {
   }
   trackById(item) {
     return item.id
-}
+  }
+  openTab(index) {
+    window.location.href = this.news[index].url;
+  }
 }

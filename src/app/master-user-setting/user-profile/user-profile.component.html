@@ -4,8 +4,10 @@
   <h3>Bio</h3>
   <br>
   <div class="row" style="align-items: center;">
-    <div class="col-md-2 col-sm-12">
-      <img src="../../../assets/image 42.png" style="max-width:145px;">
+    <div class="col-md-2 col-sm-12" style="text-align: center;">
+      <img src="../../../assets/image 42.png" style="max-width:145px;"> <br> <br>
+
+      <button mat-button (click)="openDialog()" style="background-color:#981B40; opacity: 1; color:white;">Copy</button>
     </div>
     <div class="col-md-8 col-sm-12">
 
@@ -65,6 +67,14 @@
   <br>
   <h3>Open Position</h3>
   <br>
+  <div
+    style="display:flex; margin-top: 55px; padding-bottom: 15px; font-size:20px; width:100%;   justify-content: center;">
+    <div style="width:100%; max-width: 550px;">
+      <ngx-charts-bar-vertical-stacked Fit Container="true" [results]="saleData">
+      </ngx-charts-bar-vertical-stacked>
+    </div>
+
+  </div>
   <div style="display:flex; justify-content: center; align-items: center; flex-direction:column;">
     <div
       style="display:flex; margin-top: 55px; padding-bottom: 15px; font-size:20px; width:100%;  max-width: 550px; border-bottom: 2px solid rgba(128, 128, 128, 0.295);">

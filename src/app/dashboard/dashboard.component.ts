@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
- 
+
 /**
  * @title Injecting data when opening a dialog
  */
@@ -15,29 +15,75 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  
+  view: any[] = [500, 400]
   color='#981B40';
   amount:any;
   currency:any;
-  public data :any[];
+  dataArray = [];
+  dataArrayTemp = [];
+  isloaded = false;
   endpoint = environment.Route+'/api/user';
-  
+  pieData = [
+    {
+      "name": "Spain",
+      "value": 33000,
+    },
+    {
+      "name": "Israel",
+      "value": 45445
+    },
+    {
+      "name": "India",
+      "value": 50922
+    },
+    {
+      "name": "Vanuatu",
+      "value": 34420
+    }
+  ]
+
 
   constructor(public dialog: MatDialog,private httpService: HttpClient,public router: Router,
     private http: HttpClient, public authService: AuthService,
-    private actRoute: ActivatedRoute) {
+    public actRoute: ActivatedRoute) {
       let id = this.actRoute.snapshot.paramMap.get('id');
-      this.data=[];
+
     }
   ngOnInit(): void {
     // this.openDialog();
-    this.http.get<any>(this.endpoint+'/user-balance').subscribe((res: any) => {
-      this.amount = res.balances[0].free;
-      this.currency = res.balances[0].asset;
+    console.log(this.authService.userType);
+    this.http.get<any>(environment.Route + '/api/action/future-balance').subscribe((res: any) => {
+      console.log(res);
+      res.data.forEach((item) => {
+        if (Number(item.availableBalance) > 0) {
+          var pieDataVa = {
+            "name": item.asset,
+            "value": Number(item.availableBalance)
 
-      this.data=[{
-        kind: this.currency, share: Number(this.amount)/Number(this.amount)
-      }];
+
+          }
+          this.dataArrayTemp.push(pieDataVa);
+        }
+      });
+    });
+    if (this.authService.userType !== undefined) {
+
+      this.http.get<any>(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        console.log(res);
+        res.data.positions.forEach((data: any) => {
+          if (Number(data.entryPrice) > 0) {
+            var pieDataVa = {
+              "name": data.symbol,
+              "value": Number(data.positionAmt)
+
+
+            }
+            this.dataArrayTemp.push(pieDataVa);
+
+          }
+
+        });
+        this.dataArray = this.dataArrayTemp;
       //  [{
       //   kind: 'Hydroelectric', share: 0.175
       // }, {
@@ -51,14 +97,18 @@ export class DashboardComponent implements OnInit {
       // }, {
       //   kind: 'Other', share: 0.192
       // }];
-    
-      console.log(this.data);
+
+        console.log(this.dataArray);
+        console.log(this.pieData);
+
+        this.isloaded = true;
       // console.log(res);
     },
     (err: HttpErrorResponse) => {
       console.log (err.message);
     }
     );
+    }
 
     if(this.authService.getToken()!=null)
     {
@@ -74,11 +124,28 @@ export class DashboardComponent implements OnInit {
     const api = `${this.endpoint}/user-type`;
     this.http.post(api, {
       "user_type": "MASTER"
-    })
-      .pipe(
-        catchError(this.handleError)
-      );
-   
+    }).subscribe((res) => {
+      console.log(res);
+      this.authService.userType = "MASTER";
+      this.authService.tokenRefresh();
+    });
+
+    this.router.navigate(['/settings']);
+
+
+  }
+
+  registerCopy() {
+    const api = `${this.endpoint}/user-type`;
+    this.http.post(api, {
+      "user_type": "COPY"
+    }).subscribe((res) => {
+      console.log(res);
+      this.authService.userType = "COPY";
+      this.authService.tokenRefresh();
+
+    });
+    this.router.navigate(['/masterlist']);
 
   }
   handleError(handleError: any): import("rxjs").OperatorFunction<Object, any> {
@@ -86,7 +153,7 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialog() {
-    
+
     this.dialog.open(DialogDataExampleDialog, {});
   }
 

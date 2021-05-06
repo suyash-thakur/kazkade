@@ -1,4 +1,4 @@
-<div style="padding: 10%; height: 100%;">
+<!-- <div style="padding: 10%; height: 100%;">
     <h2>
         Master Traders who you would like to copy:
     </h2>
@@ -16,4 +16,86 @@
         <p>All recent trades and Performance.</p>
         </mat-expansion-panel>
     </mat-accordion>
-</div>
+</div> -->
+<div style="padding-top: 80px; padding-left: 15px; padding-right: 15px;">
+  <h2>
+    Explore Traders:
+  </h2>
+  <div style="display:flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; max-width:800px; width: 100%; align-items: center; margin-top:15px;"
+      *ngFor="let item of arr">
+      <div style="flex: 1;">
+        <img src="../../assets/image 42.png" style="max-width:70px;">
+      </div>
+      <div style="font-size:20px; font-weight:bold; margin-left: 20px; flex: 1;">
+        {{item.user[0].full_name}}
+      </div>
+      <div style="flex: 1; text-align: center; display: flex; justify-content:center;">
+        <div style=" text-align: right; width:fit-content; color: #308725; padding: 5px; border:2px solid #308725; ">
+          1
+        </div>
+      </div>
+      <div style="flex: 1; display: flex; justify-content:center;">
+        <div style=" color: #308725; font-size:20px; font-weight:bold;">
+          51.83 %
+        </div>
+      </div>
+      <div style="flex: 1; display: flex; justify-content:center;">
+        <button mat-raised-button routerLink="/userProfile">View</button>
+      </div>
+      <div style="flex: 1; display: flex; justify-content:center;">
+        <button mat-raised-button data-toggle="modal" data-target="#exampleModal" (click)="selectId(item.id)"
+          *ngIf="followerId.indexOf(item.id) === -1">Follow</button>
+        <button mat-raised-button data-toggle="modal" data-target="#exampleModal" (click)="selectId(item.id)"
+          *ngIf="followerId.indexOf(item.id)  > -1">Following</button>
+      </div>
+      </div>
+      </div>
+      </div>
+
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Select Fllower Type</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- <div style="display:flex; justify-content:center; align-items: center; ">
+                            <div>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                (click)="followmasterTrader('AUTO')">Automatic</button> &nbsp;
+                              <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                (click)="followmasterTrader('MANUAL')">Manual</button>
+                            </div>
+                          </div> -->
+              <div style="display: flex; ">
+                <div style="font-size:18px; font-weight:bold;">
+                  Amount
+                </div>
+                <div style="margin-left: 25px;">
+                  <input type="number" step="0.00001" [disabled]="disabled" [(ngModel)]="amount">
+                </div>
+              </div>
+              <br>
+              <div>
+                <input type="checkbox" placeholder="Automatic" (change)="toggleCheckbox($event)" id="isautomatic">&nbsp;<label
+                  for="isautomatic">Automatic</label>
+              </div>
+              <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+                <div
+                  style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
+                  (click)="followmasterTrader()">
+                  Save
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>

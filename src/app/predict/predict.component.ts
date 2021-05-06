@@ -66,19 +66,38 @@ export class PredictComponent implements OnInit {
       pnlp: "20%"
     }
   ]
-  call=true;
+  call = true;
+  orderData = [];
   // tslint:disable-next-line: ban-types
   currentUser: Object = {};
   constructor(public dialog: MatDialog, private httpService: HttpClient, private http: HttpClient, public authService: AuthService,
     private actRoute: ActivatedRoute) {
      }
   ngOnInit(): void {
+    this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
+      this.orderData = res.data;
+      console.log(this.orderData);
+    });
   }
 
   openDialog(pred,s): void {
     // tslint:disable-next-line: no-use-before-declare
     const dialogRef = this.dialog.open(BuycomComponent, {
       width: '250px',
+    });
+  }
+  spotOrders() {
+    this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
+      console.log(res);
+      this.orderData = res.data;
+
+    });
+  }
+  futureOrders() {
+    this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
+      console.log(res);
+      this.orderData = res.data;
+
     });
   }
   check(a,b): boolean{

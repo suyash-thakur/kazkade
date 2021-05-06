@@ -1,0 +1,44 @@
+<div style="padding:10px; padding-top:85px; padding-bottom:85px; min-height: 80vh;">
+  <div>
+    <h1 style="color:#981B40;">Profit And Loss</h1>
+  </div>
+  <hr>
+  <div style="display:flex; ">
+    <div style="font-size: 20px;">
+      <b>Total Cross PNL</b>
+    </div>
+    <div *ngIf="isLoaded" style="margin-left:20px;font-size: 20px;">
+      {{pnlData.data.totalCrossUnPnl}}
+    </div>
+  </div>
+  <div style="display:flex; width: 100%; justify-content: center; margin-top: 50px;" *ngIf="isLoaded">
+    <div style="max-width:800px; width: 100%; box-shadow:  20px 20px 60px #bebebe,
+    -20px -20px 60px #ffffff; display: flex; flex-direction: column; padding: 20px;">
+      <div style="display:flex; width: 100%; justify-content:space-between; font-size: 20px;">
+        <div>
+          Symbol
+        </div>
+        <div style="">
+          Amount
+        </div>
+        <div style="">
+          Profit
+        </div>
+
+      </div>
+      <hr>
+      <div style="display:flex;justify-content:space-between; font-size: 20px;" *ngFor="let item of coinData">
+        <div>
+          {{item.symbol}}
+        </div>
+        <div>
+          {{item.positionAmt}}
+        </div>
+        <div>
+          {{item.unrealizedProfit}}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

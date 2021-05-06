@@ -1,0 +1,69 @@
+<div style="min-width: 100vw; min-height: 80vh; padding-top: 85px;">
+  <mat-card style="margin: auto; max-width: 800px">
+    <mat-card-title>
+      <div style="display:flex;align-items: center;">
+        <div>
+          Deposit Money &nbsp;
+        </div>
+        <div>
+          <mat-icon>info</mat-icon>
+        </div>
+      </div>
+      <hr>
+    </mat-card-title>
+    <mat-card-content>
+      <div style="display:flex; justify-content:center; padding: 35px;">
+        <div style="text-align:center;">
+          <div style="font-size: 24px; font-weight: bold;">BTC Address</div>
+          <br>
+          <img src="../../assets/qr.jpg" style="max-width:300px;">
+        </div>
+      </div>
+      <div style="display: flex; justify-content:center; align-items: center;">
+        <div><input id="clipboard-example-textarea" [(ngModel)]="qrCode" style="border:1px solid gray;" disabled></div>
+        <div>
+          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+            <mat-icon> file_copy</mat-icon>
+          </button>
+        </div>
+      </div>
+      <br>
+      <div style="display: flex; justify-content:center; align-items: center;">
+        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+        <div>
+          <button mat-button color="primary" (click)="submitPayment()">
+            Submit
+          </button>
+        </div>
+      </div>
+      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+        <div style="color:#2ecc71">Request Submitted</div>
+      </div>
+      <br>
+      <br>
+      <div style="display: flex; justify-content:center; align-items: center;">
+        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+          <div style="display: flex; align-items: center; margin-left: 25px;">
+            <div>
+              <mat-icon>warning</mat-icon>
+            </div>
+            <div>
+              <b>Tips</b>
+            </div>
+          </div>
+          <div>
+            <uL>
+              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                you</li>
+              <li>
+                Coins will be deposited after network confirmations
+              </li>
+            </uL>
+          </div>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+</div>

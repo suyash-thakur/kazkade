@@ -5,6 +5,7 @@ import { Router, NavigationStart, NavigationCancel, NavigationEnd }
 from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import {LoggedInUser} from "../app/shared/user";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,48 @@ import {LoggedInUser} from "../app/shared/user";
 })
 export class AppComponent implements AfterViewInit{
   title = 'Kazkade';
-  indeterminate='indeterminate';
+  indeterminate = 'indeterminate';
+  notification = [];
   name:string;
   loading;
-  constructor(private titleService:Title, private httpService: HttpClient, private http: HttpClient, public authService: AuthService, private router: Router) {
+  constructor(private titleService: Title, private httpService: HttpClient, private http: HttpClient, public authService: AuthService, public router: Router) {
     this.loading = true;
     this.titleService.setTitle("Kazkade");
+    let isLoggedIn = localStorage.getItem('isLoggedIn');
+    this.authService.userType = localStorage.getItem('userType');
+    if (this.authService.userType === 'admin') {
+      this.authService.showMenu = false;
+
+    }
+
+    console.log(this.authService.userType);
+    if (isLoggedIn === 'true') {
+      let userName = localStorage.getItem('user_name');
+      this.authService.userType = localStorage.getItem('userType');
+      if (this.authService.userType === 'admin') {
+        this.authService.showMenu = false;
+      }
+
+
+      this.authService.subscription = localStorage.getItem('userSubscription');
+      console.log(this.authService.subscription);
+
+      console.log(this.authService.userType);
+      LoggedInUser.full_name = userName;
+      this.username();
+      this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {
+        console.log(res);
+        this.authService.followers = res;
+      });
+      this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
+        console.log(res);
+        res.forEach((item) => {
+          this.notification.push(JSON.parse(item.notification));
+
+        })
+      });
+    }
+
   }
   arr: string [];
   // tslint:disable-next-line: use-lifecycle-interface
@@ -38,7 +75,10 @@ export class AppComponent implements AfterViewInit{
     }
     @HostListener('window:beforeunload', ['$event'])
     beforeunloadHandler(event) {
-    this.logout();
+      let userName = localStorage.getItem('user_name');
+      LoggedInUser.full_name = userName;
+      this.username();
+
     }
   logout() {
     LoggedInUser.full_name = "";
@@ -49,5 +89,5 @@ export class AppComponent implements AfterViewInit{
     //console.log("Hi ",this.name);
     return true;
   }
-  
+
 }

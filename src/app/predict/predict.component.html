@@ -1,5 +1,22 @@
 <div style="text-align:centre; padding: 10%; height: 100%;">
-    <h1 style="color: black;"><b>History</b></h1><br>
+  <div style="display:flex; justify-content:space-between">
+    <div>
+      <h1 style="color: black;"><b>History</b></h1><br>
+</div>
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Market Type</mat-label>
+    <mat-select>
+      <mat-option value='Future' (click)="futureOrders()">
+        Future
+      </mat-option>
+      <mat-option value='Spot' (click)="spotOrders()">
+        Spot
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+</div>
     <table class="table" *ngIf="arr" >
         <!-- ADD HEADERS -->
         <thead>
@@ -7,15 +24,13 @@
             <th>Currency</th>
             <th>Units</th>
             <th>Avg Open</th>
-            <th>Invested</th>
-            <th>PnL</th>
-            <th>PnL%</th>
+            <th>Time</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pred of arr; trackBy: trackById;">
-            <td><br>{{pred.curr}}</td>
-            <td><br>{{pred.units}}</td>
+        <tr *ngFor="let pred of orderData; trackBy: trackById;">
+          <td><br>{{pred.symbol}}</td>
+          <td><br>{{pred.executedQty}}</td>
             <td><br>
               <!-- <p *ngIf="check(pred.cur_price,pred.pr_price)" style="color: green; font-size: xx-small;">
                 <span style="color: black; font-size: 14px;">${{(pred.pr_price)}} </span>
@@ -23,20 +38,10 @@
                 (+{{((pred.pr_price-pred.cur_price)*100/pred.cur_price).toFixed(2)}}%)
               </p> -->
               <p style="color: red; font-size: xx-small;">
-                <span style="color: black; font-size: 14px;">{{pred.avgop}} </span>
+                <span style="color: black; font-size: 14px;">{{pred.avgPrice}} </span>
               </p>
             </td>
-            <td>
-              <br>{{pred.invested}}
-            </td>
-            <td>
-              <br>${{pred.pnl}}
-            </td>
-            <td>
-              <br>{{pred.pnlp}}
-            </td>
-            <td><p></p>
-              <button mat-raised-button (click)="openDialog(pred,pred.selected)" color="primary" >View</button></td>
+<td>{{pred.time | date : 'medium'}}</td>
         </tr>
       </tbody>
     </table>

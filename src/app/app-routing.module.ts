@@ -16,6 +16,12 @@ import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
 import { MasterUserSettingComponent } from './master-user-setting/master-user-setting.component';
 import { UserProfileComponent } from './master-user-setting/user-profile/user-profile.component';
+import { FollowerListComponent } from './follower-list/follower-list.component';
+import { NewsComponent } from './news/news.component';
+import { ProfitLossComponent } from './profit-loss/profit-loss.component';
+import { AboutComponent } from './about/about.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 const routes: Routes = [
@@ -46,13 +52,12 @@ const routes: Routes = [
   {
     path: 'masterlist',
     component: MtlistComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'market',
-    component: MarketComponent,
     // canActivate: [AuthGuard]
   },
+  {
+    path: 'news',
+    component: NewsComponent
+},
   {
     path: 'keys',
     component: BinancekeysComponent,
@@ -85,6 +90,22 @@ const routes: Routes = [
   {
     path: 'userProfile',
     component: UserProfileComponent
+  },
+  {
+    path: 'followerList',
+    component: FollowerListComponent
+  }, {
+    path: 'profitLoss',
+    component: ProfitLossComponent
+  }, {
+    path: 'about',
+    component: AboutComponent
+  }, {
+    path: 'deposit',
+    component: DepositComponent
+  }, {
+    path: 'admin',
+    component: AdminComponent
   }
 ];
 

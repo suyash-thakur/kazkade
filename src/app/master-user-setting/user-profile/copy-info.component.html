@@ -1,0 +1,28 @@
+<div style="display: flex; align-items: flex-end;">
+  <div>
+    <img src="../../../assets/image 42.png" style="max-width:145px;">
+  </div>
+  <div style="font-size:18px; font-weight:bold; margin-left:25px">
+    Jack
+  </div>
+</div>
+<hr>
+<div style="display: flex; justify-content: center;">
+  <div style="font-size:24px; font-weight:bold;">
+    Amount
+  </div>
+  <div style="margin-left: 25px;">
+    <input type="number" step="0.00001" [disabled]="disabled">
+  </div>
+</div>
+<br>
+<div>
+  <input type="checkbox" placeholder="Automatic" (change)="toggleCheckbox($event)" id="isautomatic">&nbsp;<label
+    for="isautomatic">Automatic</label>
+</div>
+<div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+  <div
+    style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; ">
+    Save
+  </div>
+</div>

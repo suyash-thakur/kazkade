@@ -1,0 +1,34 @@
+<div style="padding-top: 100px; padding-left: 10px; padding-right: 30px;">
+  <div class="row" *ngIf="this.call">
+    <div class="col-md-3 col-xs-12 col-sm-6 hoverStyle" *ngFor="let item of news; let index = index"
+      style="margin-top:20px; ">
+      <div style="padding:10px; background-color:white; margin: 5px; height:440px; box-shadow:  20px 20px 60px #bebebe,
+      -20px -20px 60px #ffffff; cursor: pointer;" (click)="openTab(index)">
+        <div style="font-weight: bold; margin-bottom: 15px;">
+          {{item.title}}
+        </div>
+        <div style=" margin-top: 5px; margin-bottom: 5px; font-weight: bold">
+          {{item.publishedAt |date:'medium'}}
+        </div>
+        <div style="width:100%; height:220px; background-position: center; background-size: cover;"
+          [style.background-image]="'url('+item.urlToImage+')'">
+
+        </div>
+        <div style=" margin-top: 10px;">
+          {{item.description| slice:0:100}}...
+        </div>
+        <div style=" margin-top: 5px; font-weight: bold">
+          by-: &nbsp; {{item.author}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!this.call" style="min-height: 100%;">
+  <span class="centered">
+    <h2 style="color: #981B40;">News are being updated... </h2>
+    <h2 style="margin-left: 75px;">
+      <mat-spinner color="#981B40;" style="color: #981B40;"></mat-spinner>
+    </h2>
+  </span>
+</div>

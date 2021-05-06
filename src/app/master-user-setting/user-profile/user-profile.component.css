@@ -36,3 +36,6 @@ box-shadow:  20px 20px 60px #bebebe,
   background-color: #981b4194;
   border: 50px solid rgba(206, 200, 200, 0.1);
  }
+ chartArea {
+  background: "transparent",
+}

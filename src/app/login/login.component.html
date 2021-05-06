@@ -1,8 +1,9 @@
 <body class="abc" *ngIf="!this.authService.isLoggedIn">
-    
+
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card>
-    <mat-tab-group>
+  <mat-card style="box-shadow:  20px 20px 60px #bebebe,
+                                                                            -20px -20px 60px #ffffff;">
+    <mat-tab-group *ngIf="!isForgotPass">
       <mat-tab label="Login">
         <br><br>
           <form class="example-form" [formGroup]="signinForm" (ngSubmit)="loginUser()">
@@ -14,10 +15,15 @@
               <div class="example-full-width">
                 <input id="ip2" type="password" formControlName="password" placeholder="Password" required>
               </div>
+              <br>
+              <div style="padding-left: 10px; opacity:0.7; cursor:pointer;">
+                <a (click)="togglePassword()">Forgot Password</a>
+              </div>
             </mat-card-content><br>
             <div style="text-align:center">
               <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Log in</button>
             </div>
+
             <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
               <p *ngIf="check()">
                 Unable to verify your crendentials. Please try again.
@@ -25,10 +31,10 @@
             </div>
           </form>
       </mat-tab>
-      <mat-tab label="Sign Up">   
-        <br><br>  
+      <mat-tab label="Sign Up">
+        <br><br>
           <form class="example-form" [formGroup]="signupForm" (ngSubmit)="registerUser()">
-      
+
             <mat-card-content>
               <div class="example-full-width">
                 <input id="ip2" type="text" formControlName="full_name" placeholder="Username" required>
@@ -37,19 +43,19 @@
               <div class="example-full-width">
                 <input id="ip2" type="text" formControlName="mno" placeholder="Mobile Number" required>
               </div><br>
-      
+
               <div class="example-full-width">
                 <input id="ip2" type="email" formControlName="email" placeholder="Email" required>
               </div><br>
-      
+
               <div class="example-full-width">
                 <input id="ip2" type="password" formControlName="password" placeholder="Password" required>
               </div><br>
-    
+
               <div class="example-full-width">
                 <input id="ip2" type="password" formControlName="U_c_pass" placeholder="Confirm Password" required>
               </div><br>
-      
+
             </mat-card-content>
             <div style="text-align:center">
               <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Sign Up!</button>
@@ -60,6 +66,22 @@
           </div>
       </mat-tab>
     </mat-tab-group>
+    <div *ngIf="isForgotPass">
+
+      <mat-form-field class="example-full-width-2" style="">
+        <mat-label>Enter Email</mat-label>
+        <input matInput placeholder="email" [(ngModel)]="emailPassword">
+      </mat-form-field>
+      <div *ngIf="showMsg">
+        Email Sent
+      </div>
+      <div style="width:100%; display: flex; justify-content:center;">
+        <button mat-stroked-button style="background-color: #981B40; color: white; max-width: 200px; margin: auto;"
+          class="btn-block" (click)="sendmail()">Submit!</button>
+      </div>
+
+
+    </div>
   </mat-card>
 </div>
 

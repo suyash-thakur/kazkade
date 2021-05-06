@@ -68,5 +68,39 @@
 .w3-top {
   z-index: 100000 !important;
 }
-
+.nav-item {
+  cursor: pointer;
+}
+.nav-item:focus {
+  outline:none;
+}
+.active {
+  color:#981b4194;
+  font-weight: bold;
+  border-bottom: 1px solid #981B40;
+}
+.active > a {
+  color:#981B40 !important;
+  opacity: 1;
+}
+.highlightButton {
+  background-color:#981B40;  padding-left: 15px; padding-right: 15px; border-radius: 15px;
+  margin-left: 25px;
+}
 button:focus { outline: none; }
+mat-icon {
+  transform:translateY(7px);
+}
+#navbarSupportedContent {
+  transform: translateX(-50px);
+}
+@media only screen and (max-width: 900px) {
+  .highlightButton {
+    background-color:#f8f9fa!important;
+    margin-left: 0;
+    padding-left: 0px; padding-right: 0px;
+  }
+  .highlightButton > a {
+    color:#981B40 !important;
+  }
+}

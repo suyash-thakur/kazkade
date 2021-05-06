@@ -4,7 +4,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -43,13 +43,21 @@ import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatDialogModule} from '@angular/material/dialog';
 import 'hammerjs';
 import { MasterUserSettingComponent } from './master-user-setting/master-user-setting.component';
 import { UserProfileComponent } from './master-user-setting/user-profile/user-profile.component';
-
-
-
+import { FollowerListComponent } from './follower-list/follower-list.component';
+import { Injectable } from '@angular/core';
+import { NewsComponent } from './news/news.component';
+import {MatSliderModule} from '@angular/material/slider';
+import { ProfitLossComponent } from './profit-loss/profit-loss.component';
+import { AboutComponent } from './about/about.component';
+import { DepositComponent } from './deposit/deposit.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import { AdminComponent } from './admin/admin.component';
+import { SettingsComponent } from './settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +78,14 @@ import { UserProfileComponent } from './master-user-setting/user-profile/user-pr
     DialogSell,
     DialogTrade,
     MasterUserSettingComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    FollowerListComponent,
+    NewsComponent,
+    ProfitLossComponent,
+    AboutComponent,
+    DepositComponent,
+    AdminComponent,
+    SettingsComponent
   ],
 
   entryComponents: [
@@ -97,11 +112,15 @@ import { UserProfileComponent } from './master-user-setting/user-profile/user-pr
     MatSidenavModule,
     MatListModule,
     MatTabsModule,
+    ClipboardModule,
     BrowserModule,
     AppRoutingModule,
     AngularMaterialModule,
     FlexLayoutModule,
     FormsModule,
+    NgxChartsModule,
+    MatDialogModule,
+    MatSliderModule,
     ReactiveFormsModule,
     NgCircleProgressModule.forRoot({
       // set defaults here

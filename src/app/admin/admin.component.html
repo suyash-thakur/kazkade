@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+  <span>ADMIN</span>
+  <span style=" flex: 1 1 auto;"></span>
+  <button mat-button (click)="authService.doLogout()">Logout</button>
+</mat-toolbar>
+<mat-list style="width:100%; max-width: 800px; margin:auto; min-height:80vh" *ngIf="show">
+  <mat-list-item *ngFor="let item of users">
+
+    <div style="display:flex; width:100%; justify-content: flex-start;">
+      <div style="flex:1">
+        {{item.user[0].full_name}}
+      </div>
+      <div *ngIf="item.subscription.length > 0" style="flex:1">
+        {{item.subscription[0].subscription_type}}
+      </div>
+      <div *ngIf="item.subscription.length == 0" style="flex:1">
+        No Subscription
+      </div>
+      <div *ngIf="item.subscription.length > 0" style="flex:1">
+        {{item.subscription[0].payment_reference_number}}
+      </div>
+      <div *ngIf="item.subscription.length == 0" style="flex:1">
+        NILL
+      </div>
+      <div *ngIf="item.subscription.length > 0 && !item.subscription[0].subscription_status" style="flex:1">
+        <button (click)="verify(item.id)">VERIFY</button>
+      </div>
+      <div *ngIf="item.subscription.length > 0 && item.subscription[0].subscription_status" style="flex:1">
+        VERIFIED
+      </div>
+      <div *ngIf="item.subscription.length == 0" style="flex:1">
+        NILL
+      </div>
+    </div>
+
+  </mat-list-item>
+
+</mat-list>
