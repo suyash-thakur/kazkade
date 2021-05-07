@@ -207,17 +207,17 @@ export class TradingComponent implements AfterViewInit {
         if (number1 === (this.wathcList.length - 1)) {
           this.isLoaded = true;
         }
-        // if (index === res.symbols.length - 1) {
-        //   this.http.get('https://fapi.binance.com/fapi/v1/exchangeInfo').subscribe((res: any) => {
-        //     res.symbols.forEach((item) => {
-        //       if (this.wathcList.indexOf('BINANCE:' + item.symbol) > -1) {
-        //         console.log('called');
-        //         this.coinDataList[item.symbol].precision = item.quantityPrecision;
-        //       }
+        if (index === res.symbols.length - 1) {
+          this.http.get('https://fapi.binance.com/fapi/v1/exchangeInfo').subscribe((res: any) => {
+            res.symbols.forEach((item) => {
+              if (this.wathcList.indexOf('BINANCE:' + item.symbol) > -1) {
+                console.log('called');
+                this.coinDataList[item.symbol].precision = item.quantityPrecision;
+              }
 
-        //     })
-        //   });
-        // }
+            })
+          });
+        }
       }
 
       );
@@ -236,12 +236,12 @@ export class TradingComponent implements AfterViewInit {
           }
 
         });
-        // this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
-        //   if (res !== {}) {
-        //     this.completedOrders = (res.data);
-        //   }
+        this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
+          if (res !== {}) {
+            this.completedOrders = (res.data);
+          }
 
-        // });
+        });
 
       }
 
