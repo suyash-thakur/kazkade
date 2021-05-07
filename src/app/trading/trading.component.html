@@ -471,7 +471,8 @@
                         CROSS
                       </div>
                     </div>
-                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" step="1" min="1" max='100'
+                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" step="1" min="1"
+                      [max]="maxLev[this.selectedCoin]"
                       aria-label="units" (input)="onInputChange($event)">
                     </mat-slider>
                   </div>
