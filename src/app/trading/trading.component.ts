@@ -15,6 +15,7 @@ import { formatLabel } from '@swimlane/ngx-charts';
 import { Subject } from 'rxjs';
 // import { setInterval } from 'timers';
 declare const TradingView: any;
+
 export interface CoinInfo {
   symbol: string,
   minPrice: number,
@@ -39,6 +40,8 @@ export class TradingComponent implements AfterViewInit {
   myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
   selectedCoin = 'ETHUSDT';
   temp;
+  buyAtPriceLimit: number;
+  sellAtPriceLimit: number;
   isLimit = false;
   isLImitSell = false;
   currentLeverage = 1;
@@ -323,6 +326,7 @@ export class TradingComponent implements AfterViewInit {
           toolbar_bg: '#f1f3f6',
           enable_publishing: false,
           allow_symbol_change: true,
+          hide_side_toolbar: false,
 
           container_id: 'tradingview_b0bf0'
         });
@@ -401,6 +405,8 @@ export class TradingComponent implements AfterViewInit {
         toolbar_bg: '#f1f3f6',
         enable_publishing: false,
         allow_symbol_change: true,
+        hide_side_toolbar: false,
+
 
         container_id: 'tradingview_b0bf0'
       });
@@ -413,6 +419,12 @@ export class TradingComponent implements AfterViewInit {
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['/login']);
       return;
+    }
+    if (this.currentLeverage > this.maxLev[this.selectedCoin]) {
+      this.currentLeverage = this.maxLev[this.selectedCoin];
+    }
+    if (this.currentLeverage <= 0) {
+      this.currentLeverage = 1;
     }
     this.http.post(environment.Route + '/api/action/future-leverage', {
       symbol: this.selectedCoin,
@@ -472,7 +484,7 @@ export class TradingComponent implements AfterViewInit {
         this.http.post(environment.Route + '/api/action/future-buy', {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
-          price: this.buyAtPrice,
+          price: this.buyAtPriceLimit,
           leverage: this.currentLeverage,
           quantityPrecision: this.coinDataList[this.selectedCoin].precision
 
@@ -501,7 +513,7 @@ export class TradingComponent implements AfterViewInit {
         this.http.post(environment.Route + '/api/action/future-buy', {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
-          price: this.buyAtPrice,
+          price: this.buyAtPriceLimit,
           stopPrice: this.stopPriceBuy,
           leverage: this.currentLeverage,
           quantityPrecision: this.coinDataList[this.selectedCoin].precision
@@ -566,6 +578,12 @@ export class TradingComponent implements AfterViewInit {
     this.changeTotalPriceSell();
   }
   sellLeverage() {
+    if (this.currentLeverage > this.maxLev[this.selectedCoin]) {
+      this.currentLeverage = this.maxLev[this.selectedCoin];
+    }
+    if (this.currentLeverage <= 0) {
+      this.currentLeverage = 1;
+    }
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['/login']);
       return;
@@ -888,7 +906,9 @@ export class TradingComponent implements AfterViewInit {
         'yfi' + data.toLowerCase() + '@aggTrade',
         'zrx' + data.toLowerCase() + '@aggTrade',
         'link' + data.toLowerCase() + '@aggTrade',
+        'one' + data.toLowerCase() + '@aggTrade',
 
+        'one' + data.toLowerCase() + '@ticker',
         'ada' + data.toLowerCase() + '@ticker',
         'eth' + data.toLowerCase() + '@ticker',
         'bnb' + data.toLowerCase() + '@ticker',
@@ -1021,658 +1041,1271 @@ export class TradingComponent implements AfterViewInit {
 
           if (message.s === 'ETHUSDT' && this.coinDataList.ETHUSDT !== undefined) {
             this.coinDataList.ETHUSDT.priceChangePercent = message.P;
-            this.coinDataList.ETHUSDT.priceChange = message.P;
+            this.coinDataList.ETHUSDT.priceChange = message.p;
             if (this.coinDataList.ETHUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ETHUSDT.volume.shift();
+                this.coinDataList.ETHUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ETHUSDT.volume.shift();
+                this.coinDataList.ETHUSDT.volume.push(history);
               }
-              this.coinDataList.ETHUSDT.volume.shift();
-              this.coinDataList.ETHUSDT.volume.push(history);
+
+
             } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ETHUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ETHUSDT.volume.push(history);
+
               }
-              this.coinDataList.ETHUSDT.volume.push(history);
 
             }
           }
           if (message.s === 'YFIUSDT' && this.coinDataList.YFIUSDT !== undefined) {
             this.coinDataList.YFIUSDT.priceChangePercent = message.P;
-            this.coinDataList.YFIUSDT.priceChange = message.P;
+            this.coinDataList.YFIUSDT.priceChange = message.p;
             if (this.coinDataList.YFIUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.YFIUSDT.volume.shift();
-              this.coinDataList.YFIUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.YFIUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.YFIUSDT.volume.shift();
+                this.coinDataList.YFIUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.YFIUSDT.volume.shift();
+                this.coinDataList.YFIUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.YFIUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.YFIUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'LINKUSDT' && this.coinDataList.LINKUSDT !== undefined) {
             this.coinDataList.LINKUSDT.priceChangePercent = message.P;
-            this.coinDataList.LINKUSDT.priceChange = message.P;
+            this.coinDataList.LINKUSDT.priceChange = message.p;
             if (this.coinDataList.LINKUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.LINKUSDT.volume.shift();
-              this.coinDataList.LINKUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.LINKUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.LINKUSDT.volume.shift();
+                this.coinDataList.LINKUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.LINKUSDT.volume.shift();
+                this.coinDataList.LINKUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.LINKUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.LINKUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'ZRXUSDT' && this.coinDataList.ZRXUSDT !== undefined) {
-            this.coinDataList.ZRXUSDT.priceChangePercent = message.P;
-            this.coinDataList.ZRXUSDT.priceChange = message.P;
+            this.coinDataList.ZRXUSDT.priceChange = message.p;
             if (this.coinDataList.ZRXUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ZRXUSDT.volume.shift();
-              this.coinDataList.ZRXUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ZRXUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ZRXUSDT.volume.shift();
+                this.coinDataList.ZRXUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.ZRXUSDT.volume.shift();
+                this.coinDataList.ZRXUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ZRXUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ZRXUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'UNIUSDT' && this.coinDataList.UNIUSDT !== undefined) {
             this.coinDataList.UNIUSDT.priceChangePercent = message.P;
-            this.coinDataList.UNIUSDT.priceChange = message.P;
+            this.coinDataList.UNIUSDT.priceChange = message.p;
             if (this.coinDataList.UNIUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.UNIUSDT.volume.shift();
-              this.coinDataList.UNIUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.UNIUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.UNIUSDT.volume.shift();
+                this.coinDataList.UNIUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.UNIUSDT.volume.shift();
+                this.coinDataList.UNIUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.UNIUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.UNIUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'XRPUSDT' && this.coinDataList.XRPUSDT !== undefined) {
             this.coinDataList.XRPUSDT.priceChangePercent = message.P;
-            this.coinDataList.XRPUSDT.priceChange = message.P;
+            this.coinDataList.XRPUSDT.priceChange = message.p;
             if (this.coinDataList.XRPUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.XRPUSDT.volume.shift();
-              this.coinDataList.XRPUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.XRPUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.XRPUSDT.volume.shift();
+                this.coinDataList.XRPUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.XRPUSDT.volume.shift();
+                this.coinDataList.XRPUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.XRPUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.XRPUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'TRXUSDT' && this.coinDataList.TRXUSDT !== undefined) {
             this.coinDataList.TRXUSDT.priceChangePercent = message.P;
-            this.coinDataList.TRXUSDT.priceChange = message.P;
+            this.coinDataList.TRXUSDT.priceChange = message.p;
             if (this.coinDataList.TRXUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.TRXUSDT.volume.shift();
-              this.coinDataList.TRXUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.TRXUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.TRXUSDT.volume.shift();
+                this.coinDataList.TRXUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.TRXUSDT.volume.shift();
+                this.coinDataList.TRXUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.TRXUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.TRXUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'XLMUSDT' && this.coinDataList.XLMUSDT !== undefined) {
             this.coinDataList.XLMUSDT.priceChangePercent = message.P;
-            this.coinDataList.XLMUSDT.priceChange = message.P;
+            this.coinDataList.XLMUSDT.priceChange = message.p;
             if (this.coinDataList.XLMUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.XLMUSDT.volume.shift();
-              this.coinDataList.XLMUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.XLMUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.XLMUSDT.volume.shift();
+                this.coinDataList.XLMUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.XLMUSDT.volume.shift();
+                this.coinDataList.XLMUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.XLMUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.XLMUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'SXPUSDT' && this.coinDataList.SXPUSDT !== undefined) {
             this.coinDataList.SXPUSDT.priceChangePercent = message.P;
-            this.coinDataList.SXPUSDT.priceChange = message.P;
+            this.coinDataList.SXPUSDT.priceChange = message.p;
             if (this.coinDataList.SXPUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.SXPUSDT.volume.shift();
-              this.coinDataList.SXPUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.SXPUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.SXPUSDT.volume.shift();
+                this.coinDataList.SXPUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.SXPUSDT.volume.shift();
+                this.coinDataList.SXPUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.SXPUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.SXPUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'RLCUSDT' && this.coinDataList.RLCUSDT !== undefined) {
             this.coinDataList.RLCUSDT.priceChangePercent = message.P;
-            this.coinDataList.RLCUSDT.priceChange = message.P;
+            this.coinDataList.RLCUSDT.priceChange = message.p;
             if (this.coinDataList.RLCUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.RLCUSDT.volume.shift();
-              this.coinDataList.RLCUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.RLCUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.RLCUSDT.volume.shift();
+                this.coinDataList.RLCUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.RLCUSDT.volume.shift();
+                this.coinDataList.RLCUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.RLCUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.RLCUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'ONEUSDT' && this.coinDataList.ONEUSDT !== undefined) {
             this.coinDataList.ONEUSDT.priceChangePercent = message.P;
-            this.coinDataList.ONEUSDT.priceChange = message.P;
+            this.coinDataList.ONEUSDT.priceChange = message.p;
             if (this.coinDataList.ONEUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ONEUSDT.volume.shift();
-              this.coinDataList.ONEUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ONEUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ONEUSDT.volume.shift();
+                this.coinDataList.ONEUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.ONEUSDT.volume.shift();
+                this.coinDataList.ONEUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ONEUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ONEUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'LITUSDT' && this.coinDataList.LITUSDT !== undefined) {
             this.coinDataList.LITUSDT.priceChangePercent = message.P;
-            this.coinDataList.LITUSDT.priceChange = message.P;
+            this.coinDataList.LITUSDT.priceChange = message.p;
             if (this.coinDataList.LITUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.LITUSDT.volume.shift();
-              this.coinDataList.LITUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.LITUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.LITUSDT.volume.shift();
+                this.coinDataList.LITUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.LITUSDT.volume.shift();
+                this.coinDataList.LITUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.LITUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.LITUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'KAVAUSDT' && this.coinDataList.KAVAUSDT !== undefined) {
             this.coinDataList.KAVAUSDT.priceChangePercent = message.P;
-            this.coinDataList.KAVAUSDT.priceChange = message.P;
+            this.coinDataList.KAVAUSDT.priceChange = message.p;
             if (this.coinDataList.KAVAUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.KAVAUSDT.volume.shift();
-              this.coinDataList.KAVAUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.KAVAUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.KAVAUSDT.volume.shift();
+                this.coinDataList.KAVAUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.KAVAUSDT.volume.shift();
+                this.coinDataList.KAVAUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.KAVAUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.KAVAUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'FLMUSDT' && this.coinDataList.FLMUSDT !== undefined) {
             this.coinDataList.FLMUSDT.priceChangePercent = message.P;
-            this.coinDataList.FLMUSDT.priceChange = message.P;
+            this.coinDataList.FLMUSDT.priceChange = message.p;
             if (this.coinDataList.FLMUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.FLMUSDT.volume.shift();
-              this.coinDataList.FLMUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.FLMUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.FLMUSDT.volume.shift();
+                this.coinDataList.FLMUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.FLMUSDT.volume.shift();
+                this.coinDataList.FLMUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.FLMUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.FLMUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'EOSUSDT' && this.coinDataList.EOSUSDT !== undefined) {
             this.coinDataList.EOSUSDT.priceChangePercent = message.P;
-            this.coinDataList.EOSUSDT.priceChange = message.P;
+            this.coinDataList.EOSUSDT.priceChange = message.p;
             if (this.coinDataList.EOSUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.EOSUSDT.volume.shift();
-              this.coinDataList.EOSUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.EOSUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.EOSUSDT.volume.shift();
+                this.coinDataList.EOSUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.EOSUSDT.volume.shift();
+                this.coinDataList.EOSUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.EOSUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.EOSUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'CELRUSDT' && this.coinDataList.CELRUSDT !== undefined) {
             this.coinDataList.CELRUSDT.priceChangePercent = message.P;
-            this.coinDataList.CELRUSDT.priceChange = message.P;
+            this.coinDataList.CELRUSDT.priceChange = message.p;
             if (this.coinDataList.CELRUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CELRUSDT.volume.shift();
-              this.coinDataList.CELRUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CELRUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CELRUSDT.volume.shift();
+                this.coinDataList.CELRUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.CELRUSDT.volume.shift();
+                this.coinDataList.CELRUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CELRUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.CELRUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'CRVUSDT' && this.coinDataList.CRVUSDT !== undefined) {
             this.coinDataList.CRVUSDT.priceChangePercent = message.P;
-            this.coinDataList.CRVUSDT.priceChange = message.P;
+            this.coinDataList.CRVUSDT.priceChange = message.p;
             if (this.coinDataList.CRVUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CRVUSDT.volume.shift();
-              this.coinDataList.CRVUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CRVUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CRVUSDT.volume.shift();
+                this.coinDataList.CRVUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.CRVUSDT.volume.shift();
+                this.coinDataList.CRVUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CRVUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.CRVUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'BZRXUSDT' && this.coinDataList.BZRXUSDT !== undefined) {
             this.coinDataList.BZRXUSDT.priceChangePercent = message.P;
-            this.coinDataList.BZRXUSDT.priceChange = message.P;
+            this.coinDataList.BZRXUSDT.priceChange = message.p;
             if (this.coinDataList.BZRXUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.BZRXUSDT.volume.shift();
-              this.coinDataList.BZRXUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.BZRXUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.BZRXUSDT.volume.shift();
+                this.coinDataList.BZRXUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.BZRXUSDT.volume.shift();
+                this.coinDataList.BZRXUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.BZRXUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.BZRXUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'BNBUSD' && this.coinDataList.BNBUSD !== undefined) {
             this.coinDataList.BNBUSD.priceChangePercent = message.P;
-            if (this.coinDataList.BNBUSD.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.BNBUSD.volume.shift();
-              this.coinDataList.BNBUSD.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.BNBUSD.volume.push(history);
+            this.coinDataList.BZRXUSDT.priceChange = message.p;
 
+            if (this.coinDataList.BZRXUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.BZRXUSDT.volume.shift();
+                this.coinDataList.BZRXUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.BZRXUSDT.volume.shift();
+                this.coinDataList.BZRXUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.BZRXUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.BZRXUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'ALGOUSDT' && this.coinDataList.ALGOUSDT !== undefined) {
             this.coinDataList.ALGOUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.ALGOUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ALGOUSDT.volume.shift();
-              this.coinDataList.ALGOUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ALGOUSDT.volume.push(history);
+            this.coinDataList.ALGOUSDT.priceChange = message.p;
 
+
+            if (this.coinDataList.ALGOUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ALGOUSDT.volume.shift();
+                this.coinDataList.ALGOUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ALGOUSDT.volume.shift();
+                this.coinDataList.ALGOUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ALGOUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ALGOUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'AVAXUSDT' && this.coinDataList.AVAXUSDT !== undefined) {
             this.coinDataList.AVAXUSDT.priceChangePercent = message.P;
+            this.coinDataList.AVAXUSDT.priceChange = message.p;
             if (this.coinDataList.AVAXUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.AVAXUSDT.volume.shift();
-              this.coinDataList.AVAXUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.AVAXUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.AVAXUSDT.volume.shift();
+                this.coinDataList.AVAXUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList.AVAXUSDT.volume.shift();
+                this.coinDataList.AVAXUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.AVAXUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.AVAXUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'CHZUSDT' && this.coinDataList.CHZUSDT !== undefined) {
             this.coinDataList.CHZUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.CHZUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CHZUSDT.volume.shift();
-              this.coinDataList.CHZUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.CHZUSDT.volume.push(history);
+            this.coinDataList.CHZUSDT.priceChange = message.p;
 
+            if (this.coinDataList.CHZUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CHZUSDT.volume.shift();
+                this.coinDataList.CHZUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.CHZUSDT.volume.shift();
+                this.coinDataList.CHZUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.CHZUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.CHZUSDT.volume.push(history);
+
+              }
             }
+
           }
           if (message.s === '1INCHUSDT' && this.coinDataList['1INCHUSDT'] !== undefined) {
             this.coinDataList['1INCHUSDT'].priceChangePercent = message.P;
+            this.coinDataList['1INCHUSDT'].priceChange = message.p;
             if (this.coinDataList['1INCHUSDT'].volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList['1INCHUSDT'].volume.shift();
-              this.coinDataList['1INCHUSDT'].volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList['1INCHUSDT'].volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList['1INCHUSDT'].volume.shift();
+                this.coinDataList['1INCHUSDT'].volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
+                }
+                this.coinDataList['1INCHUSDT'].volume.shift();
+                this.coinDataList['1INCHUSDT'].volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList['1INCHUSDT'].volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList['1INCHUSDT'].volume.push(history);
+
+              }
             }
           }
           if (message.s === 'DOGEUSDT' && this.coinDataList.DOGEUSDT !== undefined) {
             this.coinDataList.DOGEUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.DOGEUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DOGEUSDT.volume.shift();
-              this.coinDataList.DOGEUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DOGEUSDT.volume.push(history);
+            this.coinDataList.DOGEUSDT.priceChange = message.p;
 
+            if (this.coinDataList['DOGEUSDT'].volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList['DOGEUSDT'].volume.shift();
+                this.coinDataList['DOGEUSDT'].volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList['DOGEUSDT'].volume.shift();
+                this.coinDataList['DOGEUSDT'].volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList['DOGEUSDT'].volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList['DOGEUSDT'].volume.push(history);
+
+              }
             }
           }
           if (message.s === 'DOTUSDT' && this.coinDataList.DOTUSDT !== undefined) {
             this.coinDataList.DOTUSDT.priceChangePercent = message.P;
+            this.coinDataList.DOTUSDT.priceChange = message.p;
             if (this.coinDataList.DOTUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DOTUSDT.volume.shift();
-              this.coinDataList.DOTUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DOTUSDT.volume.push(history);
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.DOTUSDT.volume.shift();
+                this.coinDataList.DOTUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
 
-            }
-          }
-          if (message.s === 'ENJUSDT' && this.coinDataList.ENJUSDT !== undefined) {
-            this.coinDataList.ENJUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.ENJUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
+                }
+                this.coinDataList.DOTUSDT.volume.shift();
+                this.coinDataList.DOTUSDT.volume.push(history);
               }
-              this.coinDataList.ENJUSDT.volume.shift();
-              this.coinDataList.ENJUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ENJUSDT.volume.push(history);
 
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.DOTUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.DOTUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'DENTUSDT' && this.coinDataList.DENTUSDT !== undefined) {
             this.coinDataList.DENTUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.DENTUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DENTUSDT.volume.shift();
-              this.coinDataList.DENTUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.DENTUSDT.volume.push(history);
+            this.coinDataList.DENTUSDT.priceChange = message.p;
 
+            if (this.coinDataList.DENTUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.DENTUSDT.volume.shift();
+                this.coinDataList.DENTUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.DENTUSDT.volume.shift();
+                this.coinDataList.DENTUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.DENTUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.DENTUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'EGLDUSDT' && this.coinDataList.EGLDUSDT !== undefined) {
             this.coinDataList.EGLDUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.EGLDUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.EGLDUSDT.volume.shift();
-              this.coinDataList.EGLDUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.EGLDUSDT.volume.push(history);
+            this.coinDataList.EGLDUSDT.priceChange = message.p;
 
+            if (this.coinDataList.EGLDUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.EGLDUSDT.volume.shift();
+                this.coinDataList.EGLDUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.EGLDUSDT.volume.shift();
+                this.coinDataList.EGLDUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.EGLDUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.EGLDUSDT.volume.push(history);
+
+              }
             }
           }
           if (message.s === 'ONTUSDT' && this.coinDataList.ONTUSDT !== undefined) {
             this.coinDataList.ONTUSDT.priceChangePercent = message.P;
-            if (this.coinDataList.ONTUSDT.volume.length === 12) {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ONTUSDT.volume.shift();
-              this.coinDataList.ONTUSDT.volume.push(history);
-            } else {
-              const history = {
-                buyVolume: message.B,
-                buPrice: message.b,
-                sellVolume: message.A,
-                sellPrice: message.a
-              }
-              this.coinDataList.ONTUSDT.volume.push(history);
+            this.coinDataList.ONTUSDT.priceChange = message.p;
 
+            if (this.coinDataList.ONTUSDT.volume.length === 12) {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ONTUSDT.volume.shift();
+                this.coinDataList.ONTUSDT.volume.push(history);
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ONTUSDT.volume.shift();
+                this.coinDataList.ONTUSDT.volume.push(history);
+              }
+
+
+            } else {
+              if (!this.isFuture) {
+                const history = {
+                  buyVolume: message.B,
+                  buPrice: message.b,
+                  sellVolume: message.A,
+                  sellPrice: message.a
+                }
+                this.coinDataList.ONTUSDT.volume.push(history);
+
+              } else {
+                const history = {
+                  buyVolume: message.Q,
+                  buPrice: message.c,
+
+                }
+                this.coinDataList.ONTUSDT.volume.push(history);
+
+              }
             }
           }
         }

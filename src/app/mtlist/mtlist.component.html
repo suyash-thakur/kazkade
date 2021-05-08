@@ -45,9 +45,9 @@
       </div>
       <div style="flex: 1; display: flex; justify-content:center;">
         <button mat-raised-button data-toggle="modal" data-target="#exampleModal" (click)="selectId(item.id)"
-          *ngIf="followerId.indexOf(item.id) === -1">Follow</button>
-        <button mat-raised-button data-toggle="modal" data-target="#exampleModal" (click)="selectId(item.id)"
-          *ngIf="followerId.indexOf(item.id)  > -1">Following</button>
+          *ngIf="followerId.indexOf(item.id) === -1" style="background-color:#981B40; color:white">Follow</button>
+        <button mat-raised-button data-toggle="modal"  (click)="unFollow(item.id)"
+          *ngIf="followerId.indexOf(item.id)  > -1">Unfollow</button>
       </div>
       </div>
       </div>

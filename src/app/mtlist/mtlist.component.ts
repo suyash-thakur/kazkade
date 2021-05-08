@@ -55,6 +55,16 @@ export class MtlistComponent implements OnInit {
     console.log(this.followerId);
 
   }
+  unFollow(id) {
+    this.http.post(environment.Route + '/api/master-trader/unfollow', { master_trader_id: id }).subscribe((res: any) => {
+      console.log(res);
+      let followArray = this.followerId;
+      let index = this.followerId.indexOf(id);
+      followArray.slice(index, 1);
+      this.followerId = followArray;
+      console.log(this.followerId);
+    });
+  }
   selectId(id) {
     this.selectedId = id
   }
