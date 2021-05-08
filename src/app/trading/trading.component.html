@@ -228,11 +228,9 @@
                     *ngIf="Object.keys(openOrders).length === 0 && authService.isLoggedIn">
                     No Open Orders
                   </div>
-                  <div>
-                    <div class="buy_button" style="background-color: #981B40; margin-top:80px" [routerLink]="'/login'"
+                    <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
                       *ngIf="!authService.isLoggedIn">
                       LOGIN
-                    </div>
                   </div>
                 </mat-tab>
 
@@ -267,15 +265,18 @@
                       </div>
 
                     </div>
-                    <div style="opacity: 0.8; font-weight:400;" *ngIf="authService.isLoggedIn && completedOrders.length == 0">
+                    <div style="opacity: 0.8; font-weight:400; width:100%;" *ngIf="authService.isLoggedIn && completedOrders.length == 0">
                       No Complete Order
                     </div>
-
-                    <div class="buy_button" style="background-color: #981B40; margin-top:0px; width:100%" [routerLink]="'/login'"
+                    <div style="opacity: 1; font-weight:400; width:100%; " *ngIf="!authService.isLoggedIn">
+                      <div class="buy_button" style="background-color:#981B40">LOGIN
+                      </div>
+                    </div>
+                    <!-- <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
                       *ngIf="!authService.isLoggedIn">
                       LOGIN
+                    </div> -->
                     </div>
-                  </div>
                 </mat-tab>
               </mat-tab-group>
             </div>

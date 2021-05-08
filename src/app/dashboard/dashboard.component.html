@@ -1,5 +1,17 @@
 <h1 style="color: #981B40; padding-top: 70px; padding-left: 15px;"><b>Dashboard</b></h1>
 
+<mat-form-field appearance="fill" style="margin-top:10px; margin-left: 15px;">
+  <mat-label>Market Type</mat-label>
+  <mat-select>
+    <mat-option value="Future" (click)="toggleFuture()">
+      Future
+    </mat-option>
+    <mat-option value="Spot" (click)="togggleSpot()">
+      Spot
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
 <div
   style="height: 100%; padding-left: 15px; padding-top: 20px; min-height:80vh; display:flex; justify-content: center; align-items: center;">
 

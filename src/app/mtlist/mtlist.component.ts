@@ -29,7 +29,7 @@ export class MtlistComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '90%',
     });
-
+    console.log(this.authService.subscription);
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
 
@@ -72,11 +72,20 @@ export class MtlistComponent implements OnInit {
   toggleCheckbox(e) {
     if (e.target.checked) {
       this.disabled = true;
+      this.selectedType = 'AUTO';
       console.log(this.disabled);
 
     } else {
       this.disabled = false;
+      this.selectedType = 'MANUAL';
 
+    }
+  }
+  ifFollower(id) {
+    if (this.followerId.indexOf(id) === -1) {
+      return false;
+    } else {
+      return true;
     }
   }
   followmasterTrader() {

@@ -115,7 +115,86 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     }
   }
+  toggleFuture() {
+    this.dataArrayTemp = [];
 
+    this.http.get<any>(environment.Route + '/api/action/future-balance').subscribe((res: any) => {
+      console.log(res);
+      res.data.forEach((item) => {
+        if (Number(item.availableBalance) > 0) {
+          var pieDataVa = {
+            "name": item.asset,
+            "value": Number(item.availableBalance)
+
+
+          }
+          this.dataArrayTemp.push(pieDataVa);
+        }
+      });
+      this.http.get<any>(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        console.log(res);
+
+        res.data.positions.forEach((data: any) => {
+          if (Number(data.entryPrice) > 0) {
+            var pieDataVa = {
+              "name": data.symbol,
+              "value": Number(data.positionAmt)
+
+
+            }
+            this.dataArrayTemp.push(pieDataVa);
+
+          }
+
+        });
+        this.dataArray = this.dataArrayTemp;
+
+
+        console.log(this.dataArray);
+
+        this.isloaded = true;
+        // console.log(res);
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.message);
+        }
+      );
+    });
+
+  }
+  togggleSpot() {
+    this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+      console.log(res);
+      this.dataArrayTemp = [];
+
+      res.forEach((data: any) => {
+
+        var pieDataVa = {
+          "name": data.asset,
+          "value": Number(data.free)
+
+
+        }
+
+        this.dataArrayTemp.push(pieDataVa);
+
+
+
+      });
+      this.dataArray = this.dataArrayTemp;
+
+
+      console.log(this.dataArray);
+      console.log(this.pieData);
+
+      this.isloaded = true;
+      // console.log(res);
+    },
+      (err: HttpErrorResponse) => {
+        console.log(err.message);
+      }
+    );
+  }
   public labelContent(e: any): string {
     return e.category;
   }
