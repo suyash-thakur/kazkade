@@ -72,6 +72,9 @@ export class LoginComponent implements OnInit {
       this.showMsg = true;
     });
   }
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+  }
   registerUser() {
     if(this.signupForm.value.email!=='' && this.signupForm.value.email!==null
     && this.signupForm.value.password!=='' && this.signupForm.value.password!==null

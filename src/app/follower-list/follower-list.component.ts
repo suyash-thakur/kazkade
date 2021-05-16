@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../shared/auth.service';
 
@@ -32,8 +32,11 @@ export class FollowerListComponent implements OnInit {
 
 
   }
-  openDialog() {
-    const dialogRef = this.dialog.open(PilComponent);
+  openDialog(index) {
+    const dialogRef = this.dialog.open(PilComponent, {
+      width: '550px',
+      data: this.followerList[index].balance.positions
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -45,7 +48,16 @@ export class FollowerListComponent implements OnInit {
   templateUrl: 'pil.component.html',
 })
 export class PilComponent {
-
+  pilData = [];
+  constructor(
+    public dialogRef: MatDialogRef<PilComponent>,
+    @Inject(MAT_DIALOG_DATA) public data) {
+    data.forEach(data => {
+      if (data.positionAmt > 0) {
+        this.pilData.push(data);
+      }
+    });
+  }
   public saleData = [
     {
       "name": "Q1",

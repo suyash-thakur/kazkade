@@ -1,0 +1,151 @@
+::ng-deep .mat-select-trigger {
+  min-width: 20vw;
+}
+::ng-deep .mat-form-field {
+  min-width: 22vw;
+}
+::ng-deep .mat-select-panel {
+  max-height: 70vh !important;
+}
+.btn-block1{
+  border-radius: 25px;
+  /* width: 50%; */
+  align-self: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+}
+mat-slider {
+width: 300px;
+}
+table {
+  width: 100%;
+}
+td,th{
+  text-align: center;
+}
+
+
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+.orderDetail::ng-deep.mat-tab-label, .watchlistContainer::ng-deep.mat-tab-label-active{
+  min-width: 50px!important;
+  padding: 10px!important;
+  margin: 3px!important;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.watchlistContainer::ng-deep.mat-tab-label, .watchlistContainer::ng-deep.mat-tab-label-active{
+  min-width: 50px!important;
+  padding: 10px!important;
+  margin: 3px!important;
+ }
+ .watchlistContainer::ng-deep.mat-tab-body-content::-webkit-scrollbar {
+  width: 2px;
+  height: 8px;
+  border-radius: 30px;
+  background-color: rgba(206, 200, 200, 0.1);
+ }
+ .watchlistContainer::ng-deep.mat-tab-body-content::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: #981b4194;
+  border: 50px solid rgba(206, 200, 200, 0.1);
+ }
+
+hr {
+margin: 0px;
+}
+.watchlist {
+max-height: 800px;
+overflow-y: auto;
+}
+
+.orderDetail {
+max-height: 400px;
+overflow:auto;
+background-color:white;
+
+}
+.completedorders::ng-deep.mat-tab-body::-webkit-scrollbar-thumb {
+border-radius: 30px;
+background-color: #981b4194;
+border: 50px solid rgba(206, 200, 200, 0.1);
+}
+.completedorders::ng-deep.mat-tab-body::-webkit-scrollbar {
+background-color: #981b4194;
+border: 50px solid rgba(206, 200, 200, 0.1);
+}
+.mat-accent .mat-slider-track-fill, .mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label {
+background-color: #981b4194 !important;
+}
+.header-orderDetail {
+font-size: 13px;
+opacity: 0.4;
+font-weight: bolder;
+padding-left: 5px; padding-right:5px;
+border-bottom: 2px solid rgba(206, 200, 200, 0.8);
+}
+.order-detailItem {
+padding-left: 5px; padding-right:5px;
+margin-top: 5px;
+}
+.buy_sell::ng-deep.mat-tab-label, .watchlistContainer::ng-deep.mat-tab-label-active {
+font-weight: bold;
+font-size: 12px;
+
+}
+.limit_dropdown {
+border: none;
+border-bottom: 2px solid #981b4194;
+min-width: 130px;
+padding: 5px;
+}
+.buy_input {
+display: flex;
+font-size:11px;
+margin-left:5px;
+margin-right: 5px;
+align-items: center;
+}
+.buy_input > div > input {
+border: none;
+font-weight: bold;
+padding-left: 5px;
+}
+.info {
+font-size:10px;
+text-align:right;
+border-right: 2px solid rgba(206, 200, 200, 0.8);
+line-height:13px;
+padding-right: 5px;
+}
+.buy_button {
+background-color:#2ecc71;
+margin-top: 20px;
+text-align: center;
+margin-left: 5px;
+margin-right: 5px;
+padding-top: 10px;
+padding-bottom: 10px;
+color: #fff;
+font-weight: bold;
+font-size: 15px;
+cursor: pointer;
+}

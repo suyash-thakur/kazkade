@@ -22,6 +22,8 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { AboutComponent } from './about/about.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { AdminComponent } from './admin/admin.component';
+import { TermsComponent } from './terms/terms.component';
+import { TradingMarketComponent } from './trading-market/trading-market.component';
 
 
 const routes: Routes = [
@@ -106,6 +108,12 @@ const routes: Routes = [
   }, {
     path: 'admin',
     component: AdminComponent
+  }, {
+    path: 'terms',
+    component: TermsComponent
+  }, {
+    path: 'trade/:market/:coin',
+    component: TradingMarketComponent
   }
 ];
 

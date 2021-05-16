@@ -1,0 +1,717 @@
+<div style="background-color: rgb(224, 224, 224);">
+  <div style="display:flex;" *ngIf="isLoaded">
+    <div>
+      <mat-form-field appearance="fill" style="margin-top:105px; margin-right: 5px;" name="coin">
+        <mat-label>Coin</mat-label>
+        <input type="text" placeholder="Pick one" aria-label="Number" matInput [matAutocomplete]="auto"
+          [(ngModel)]="coinInput" name="coin">
+        <mat-autocomplete #auto="matAutocomplete" [(ngModel)]="selectedCoin" panelClass="myPanelClass">
+
+          <mat-option [value]="coinDataList[item].symbol" (click)="changeCoin(coinDataList[item].symbol)"
+            *ngFor="let item of  Object.keys(coinDataList)">
+            <b>{{ coinDataList[item].symbol }}</b>/<span style="opacity:0.8; font-size:12px;">USD</span> &nbsp; <span>
+              {{ coinDataList[item].lastPrice | number}}</span> &nbsp; <span style="color: #2ecc71"
+              *ngIf="!coinDataList[item].priceChangePercent.includes('-')">{{
+              coinDataList[item].priceChangePercent
+              }}</span>
+            <span *ngIf="coinDataList[item].priceChangePercent.includes('-')" style="color: #e74c3c">{{
+              coinDataList[item].priceChangePercent }}</span>
+
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div style="flex-grow: 1">
+      <div style="display:flex; width: 100%; align-items: center; margin-top:105px; justify-content: space-between;">
+        <div style="border-right: 2px solid gray; padding: 10px;">
+          <b style="font-size: 26px;">{{selectedCoin}}</b>
+        </div>
+        <div style="font-size: 20px; font-weight:bold; padding: 10px;">
+          {{coinDataList[selectedCoin].lastPrice}}
+        </div>
+        <div style="font-weight: bold;">
+          <div>24hr Change</div>
+          <span style="color: #2ecc71" *ngIf="!coinDataList[selectedCoin].priceChangePercent.includes('-')">{{
+            coinDataList[selectedCoin].priceChange
+            }} &nbsp; + {{
+            coinDataList[selectedCoin].priceChangePercent
+            }}</span>
+          <span *ngIf="coinDataList[selectedCoin].priceChangePercent.includes('-')" style="color: #e74c3c">{{
+            coinDataList[selectedCoin].priceChangePercent }}</span>
+        </div>
+        <div style="font-weight: bold; padding:10px;">
+          <div>24hr High</div>
+          <span>{{highPrice}}</span>
+
+        </div>
+        <div style="font-weight: bold; padding:10px;">
+          <div>24hr Low</div>
+          <span>{{lowPrice}}</span>
+
+        </div>
+        <div style="font-weight: bold; padding:10px;">
+          <div>24hr Volume</div>
+          <span>{{volCoin}}</span>
+
+        </div>
+        <div style="font-weight: bold; padding:10px;">
+          <div>24hr Volume(USDT)</div>
+          <span>{{volUsdt}}</span>
+
+        </div>
+      </div>
+    </div>
+    <div>
+
+    </div>
+  </div>
+  <br>
+  <div style="display:flex;">
+    <div style="flex-grow:1; padding: 10px;">
+      <div class="parent_taradingview">
+        <div class="tradingview-widget-container">
+          <div id="tradingview_b0bf0"></div>
+        </div>
+      </div>
+      <div>
+        <div style="background-color:white; height: 400px; margin:5px;">
+          <mat-tab-group class="orderDetail" style="max-width: 100%;" class="completedorders">
+            <mat-tab label="OPEN POSITIONS" *ngIf="Object.keys(openOrders).length !== 0">
+              <div style="display:flex; justify-content: space-between; ">
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    PAIR
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    <img src="../../assets/up.png" style="width: 12px;"> &nbsp; <span style="color: #2ecc71">{{
+                      item.symbol
+                      }}</span>
+                  </div>
+                </div>
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    AMOUNT
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.positionAmt}}
+                  </div>
+                </div>
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    PRICE
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.entryPrice}}
+                  </div>
+                </div>
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    PNL
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.unRealizedProfit}}
+                  </div>
+                </div>
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    PERCENTAGE
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions; let i = index">
+                    <input type="number" step="0.1" min="0.0" [(ngModel)]="closePercentage[i]" style="max-width: 55px;">
+                  </div>
+                </div>
+
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    ACTION
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions; let i = index"
+                    (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
+                    CLOSE
+                  </div>
+                </div>
+              </div>
+
+            </mat-tab>
+            <mat-tab label="OPEN ORDERS">
+              <div style="display:flex; justify-content: space-between; "
+                *ngIf="authService.isLoggedIn && Object.keys(openOrders).length !== 0">
+                <div>
+                  <div class="header-orderDetail">
+                    PAIR
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.symbol}}
+                  </div>
+                </div>
+                <div>
+                  <div class="header-orderDetail">
+                    AMOUNT
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.positionAmt}}
+                  </div>
+                </div>
+                <div>
+                  <div class="header-orderDetail">
+                    PRICE
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of positions">
+                    {{item.entryPrice}}
+                  </div>
+                </div>
+
+              </div>
+              <div style="margin-top:80px; width:100%; text-align: center;"
+                *ngIf="Object.keys(openOrders).length === 0 && authService.isLoggedIn">
+                No Open Orders
+              </div>
+              <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
+                *ngIf="!authService.isLoggedIn">
+                LOGIN
+              </div>
+            </mat-tab>
+            <mat-tab label="COMPLETED ORDERS">
+              <div style="display: flex; justify-content: center; height: 350px;">
+                <div style="display:flex; justify-content: space-between; width:100%"
+                  *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
+                  <div>
+                    <div class="header-orderDetail">
+                      PAIR
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of completedOrders">
+                      {{item.symbol}}
+                    </div>
+
+                  </div>
+                  <div>
+                    <div class="header-orderDetail">
+                      AMOUNT
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of completedOrders">
+                      {{item.origQty}}
+                    </div>
+                  </div>
+                  <div>
+                    <div class="header-orderDetail">
+                      PRICE
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of completedOrders">
+                      {{item.avgPrice | number : '1.2-2'}}
+                    </div>
+                  </div>
+
+                </div>
+                <div style="opacity: 0.8; font-weight:400; width:100%;"
+                  *ngIf="authService.isLoggedIn && completedOrders.length == 0">
+                  No Complete Order
+                </div>
+                <div style="opacity: 1; font-weight:400; width:100%; " *ngIf="!authService.isLoggedIn">
+                  <div class="buy_button" style="background-color:#981B40">LOGIN
+                  </div>
+                </div>
+                <!-- <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
+                  *ngIf="!authService.isLoggedIn">
+                  LOGIN
+                </div> -->
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+
+        </div>
+      </div>
+    </div>
+    <div style="min-width: 22vw;">
+      <div style=" margin-top:5px; background-color:white;" class="buy_sell" *ngIf="isLoaded && !isFuture">
+
+        <mat-tab-group class="">
+          <mat-tab label="BUY">
+            <div
+              style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
+              <div
+                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimit()">
+                MARKET
+              </div>
+              <div
+                [ngStyle]="!isLimit ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimit()">
+                LIMIT
+              </div>
+              <div
+                [ngStyle]="!isStopLoss ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; flex:1; cursor: pointer; text-align:center; border-radius: 25px;  margin-left: 5px;"
+                (click)="toggleStopLoss()">
+                STOP LOSS
+              </div>
+            </div>
+
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="isStopLoss">
+              <div class="info">
+                <div>
+                  STOP PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="">
+                <input type="number" [(ngModel)]="stopPriceBuy" [step]="coinDataList[selectedCoin].stepSize"
+                  placeholder="STEP PRICE" style="width:100%">
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AT PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="display:flex; align-items: center;">
+                <div>
+                  <input type="number" [(ngModel)]="buyAtPrice" [disabled]="!isLimit"
+                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    style="background-color:transparent; border: none; font-weight: bold;">
+                </div>
+                <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
+                  LOWEST PRICE
+                </div>
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AMOUNT
+                </div>
+                <div style="font-weight: bold;">
+                  {{selectedCoin}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" value="0.78898" step="0.000001" placeholder="AMOUNT" style="width:100%"
+                  [(ngModel)]="buyAmount" (ngModelChange)="changeTotalPrice()">
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
+              </div>
+
+            </div>
+            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              <div *ngIf="isInsufficientFund">
+                <b> {{ errMsg }}</b>
+              </div>
+            </div>
+            <div class="buy_button" style="margin-top: 50px;" (click)="buy()">
+              BUY {{ selectedCoin }}
+            </div>
+          </mat-tab>
+          <mat-tab label="SELL">
+            <div
+              style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
+              <div
+                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimit()">
+                MARKET
+              </div>
+              <div
+                [ngStyle]="!isLImitSell ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimitSell()">
+                LIMIT
+              </div>
+              <div
+                [ngStyle]="!isStopLossSell ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; flex:1; cursor: pointer; text-align:center; border-radius: 25px;  margin-left: 5px;"
+                (click)="toggleStopLossSell()">
+                STOP LOSS
+              </div>
+            </div>
+
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="sellStopLimitValue === 'STOP LIMIT'">
+              <div class="info">
+                <div>
+                  STOP PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="">
+                <input type="number" [(ngModel)]="stopPriceSell" [step]="coinDataList[selectedCoin].stepSize"
+                  placeholder="STEP PRICE" style="width:100%">
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AT PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div>
+                  <input type="number" [(ngModel)]="sellAtPrice" step="0.000001" placeholder="PRICE"
+                    style="width:100%; border: none;">
+
+                </div>
+                <div>
+                  <div style="font-weight:bold; color:#e74c3c; cursor: pointer;" (click)="clickHighestPrice()">
+                    HIGHEST PRICE
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AMOUNT
+                </div>
+                <div style="font-weight: bold;">
+                  {{selectedCoin}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount"
+                  (ngModelChange)="changeTotalPriceSell()">
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" [(ngModel)]="sellTotalPrice" step="0.000001" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeSellAmount()">
+              </div>
+
+            </div>
+            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              <div *ngIf="isInsufficientFund2">
+                <b> {{ errMsg2 }}</b>
+              </div>
+            </div>
+            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sell()">
+              SELL {{ selectedCoin }}
+            </div>
+          </mat-tab>
+
+        </mat-tab-group>
+      </div>
+      <div style=" margin-top:5px; background-color:white;" class="buy_sell" *ngIf="isLoaded && isFuture">
+        <div style="display:flex; justify-content: center;">
+          <div>
+            <div class="info"
+              style='text-align: left; border:none; font-weight:bold; font-size: 14px; padding-top: 15px;'>
+              <div>
+                Leverage &nbsp; {{selectedCoin}}
+              </div>
+            </div>
+            <br>
+            <div style="display:flex; width:100%; justify-content: center;">
+              <div>
+                <input [(ngModel)]="currentLeverage" style="width:80px; text-align: center;">
+              </div>
+            </div>
+            <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1000" step="1" min="1"
+              [max]="maxLev[this.selectedCoin]" aria-label="units" (input)="onInputChange($event)"
+              [(ngModel)]="currentLeverage">
+            </mat-slider>
+            <div
+              style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
+              <div
+                [ngStyle]="!isIsolated ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleIsolated()">
+                ISOLATED
+              </div>
+              <div
+                [ngStyle]="isIsolated ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; flex:1; cursor: pointer; text-align:center; border-radius: 25px;  margin-left: 5px;"
+                (click)="toggleIsolated()">
+                CROSS
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+
+        <mat-tab-group class="">
+          <mat-tab label="BUY">
+
+            <div
+              style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
+              <div
+                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimit()">
+                MARKET
+              </div>
+              <div
+                [ngStyle]="!isLimit ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimit()">
+                LIMIT
+              </div>
+              <div
+                [ngStyle]="!isStopLoss ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; flex:1; cursor: pointer; text-align:center; border-radius: 25px;  margin-left: 5px;"
+                (click)="toggleStopLoss()">
+                STOP LOSS
+              </div>
+            </div>
+
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="isStopLoss">
+              <div class="info">
+                <div>
+                  STOP PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="">
+                <input type="number" [(ngModel)]="stopPriceBuy" [step]="coinDataList[selectedCoin].stepSize"
+                  placeholder="STEP PRICE" style="width:100%">
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AT PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="display:flex; align-items: center;">
+                <div>
+                  <input type="number" [(ngModel)]="buyAtPrice" [disabled]="!isLimit"
+                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="!isLimit">
+                  <input type="number" [(ngModel)]="buyAtPriceLimit" [disabled]="!isLimit"
+                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit">
+                </div>
+                <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
+                  LOWEST PRICE
+                </div>
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AMOUNT
+                </div>
+                <div style="font-weight: bold;">
+                  {{selectedCoin}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" value="0.78898" step="0.000001" placeholder="AMOUNT" style="width:100%"
+                  [(ngModel)]="buyAmount" (ngModelChange)="changeTotalPrice()">
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
+              </div>
+            </div>
+
+            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              <div *ngIf="isInsufficientFund">
+                <b> {{ errMsg }}</b>
+              </div>
+            </div>
+            <div class="buy_button" style="margin-top: 50px;" (click)="buyLeverage()">
+
+              BUY {{ selectedCoin }}
+            </div>
+          </mat-tab>
+          <mat-tab label="SELL">
+            <div
+              style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
+              <div
+                [ngStyle]="isLImitSell  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimitSell()">
+                MARKET
+              </div>
+              <div
+                [ngStyle]="!isLImitSell ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
+                (click)="toggleLimitSell()">
+                LIMIT
+              </div>
+              <div
+                [ngStyle]="!isStopLossSell ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                style="padding:5px; flex:1; cursor: pointer; text-align:center; border-radius: 25px;  margin-left: 5px;"
+                (click)="toggleStopLossSell()">
+                STOP LOSS
+              </div>
+            </div>
+
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="sellStopLimitValue === 'STOP LIMIT'">
+              <div class="info">
+                <div>
+                  STOP PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="">
+                <input type="number" [(ngModel)]="stopPriceSell" [step]="coinDataList[selectedCoin].stepSize"
+                  placeholder="STEP PRICE" style="width:100%">
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AT PRICE
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="display: flex;">
+                <div>
+                  <input type="number" [(ngModel)]="sellAtPriceLimit" step="0.000001" placeholder="PRICE"
+                    style="width:100%; border: none;" *ngIf="isLImitSell">
+                  <input type="number" [(ngModel)]="sellAtPrice" step="0.000001" placeholder="PRICE"
+                    style="width:100%; border: none;" *ngIf="!isLImitSell">
+                </div>
+                <div>
+                  <div style="font-weight:bold; color:#e74c3c; cursor: pointer;" (click)="clickHighestPrice()">
+                    HIGHEST PRICE
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info">
+                <div>
+                  AMOUNT
+                </div>
+                <div style="font-weight: bold;">
+                  {{selectedCoin}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount"
+                  (ngModelChange)="changeTotalPriceSell()">
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" [(ngModel)]="sellTotalPrice" step="0.000001" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeSellAmount()">
+              </div>
+
+            </div>
+            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              <div *ngIf="isInsufficientFund2">
+                <b> {{ errMsg2 }}</b>
+              </div>
+            </div>
+            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sellLeverage()">
+              SELL {{ selectedCoin }}
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <br>
+        <div style="padding:10px;">
+          <div>
+            <b style="font-size: 16px;"> Margin Ratio</b>
+          </div>
+          <div>
+            <b style="opacity:0.7; font-size: 16px;">0.00%</b>
+          </div>
+        </div>
+        <div style="padding:10px; display:flex;">
+          <div>
+            <b style="font-size: 16px;"> Maintenance Margin</b>
+          </div> &nbsp;
+          <div>
+            <b style="opacity:0.7; font-size: 16px;">{{marginPrice}}</b>
+          </div>
+        </div>
+        <div style="padding:10px; display:flex;">
+          <div>
+            <b style="font-size: 16px;"> Maintenance Balance</b>
+          </div> &nbsp;
+          <div>
+            <b style="opacity:0.7; font-size: 16px;">0.00 USDT</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

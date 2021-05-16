@@ -16,6 +16,7 @@ export class AuthService {
   endpoint = environment.Route+'/api/user';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   id;
+  isFuture = false;
   followers = [];
   currentUser = {};
   selectedPlan = '';

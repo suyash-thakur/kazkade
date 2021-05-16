@@ -26,14 +26,17 @@ export class MtlistComponent implements OnInit {
     private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '90%',
-    });
     console.log(this.authService.subscription);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
 
-    });
+    if (this.authService.subscription === 'null') {
+      const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { panelClass: 'mat-dialog-container-o' });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+
+      });
+    }
+
+
     this.http.get<any>(this.endpoint).subscribe((res: any) => {
       this.arr = res;
       console.log(this.arr);

@@ -40,6 +40,7 @@ import { KycComponent } from './kyc/kyc.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonModule } from '@angular/common';
 import { BinancekeysComponent } from './binancekeys/binancekeys.component';
+import { PilComponent } from './follower-list/follower-list.component';
 import { MtlistComponent } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -58,6 +59,11 @@ import { DepositComponent } from './deposit/deposit.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { AdminComponent } from './admin/admin.component';
 import { SettingsComponent } from './settings/settings.component';
+import { TermsComponent } from './terms/terms.component';
+import { RecaptchaModule } from "ng-recaptcha";
+import { TradingMarketComponent } from './trading-market/trading-market.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,13 +91,18 @@ import { SettingsComponent } from './settings/settings.component';
     AboutComponent,
     DepositComponent,
     AdminComponent,
-    SettingsComponent
+    SettingsComponent,
+    PilComponent,
+    TermsComponent,
+    TradingMarketComponent
+
   ],
 
   entryComponents: [
     BuycomComponent,
     DialogSell,
-    DialogTrade
+    DialogTrade,
+    PilComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -99,6 +110,7 @@ import { SettingsComponent } from './settings/settings.component';
     CommonModule,
     NgbModule,
     ChartsModule,
+    RecaptchaModule,
     WavesModule,
     NgApexchartsModule,
     BrowserAnimationsModule,
@@ -120,7 +132,9 @@ import { SettingsComponent } from './settings/settings.component';
     FormsModule,
     NgxChartsModule,
     MatDialogModule,
+    MatSelectModule,
     MatSliderModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
     NgCircleProgressModule.forRoot({
       // set defaults here

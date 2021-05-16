@@ -61,6 +61,7 @@
               <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Sign Up!</button>
             </div>
           </form>
+          <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
           <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
             Unable to process the details. Please try with different Username.
           </div>

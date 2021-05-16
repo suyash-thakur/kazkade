@@ -50,9 +50,19 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item " routerLinkActive="active" [routerLink]="'trading'">
-            <a class="nav-link">Market <span class="sr-only">(current)</span></a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown4" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">Market </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown4" style="background-color:white; opacity:1;">
+              <a class="dropdown-item" (click)="futureSelect()">
+                Future
+              </a>
+              <a class="dropdown-item" (click)="spotSelect()">
+                Spot
+              </a>
+            </div>
           </li>
+
           <li class="nav-item" routerLinkActive="active" [routerLink]="'about'">
             <a class="nav-link">About</a>
           </li>

@@ -15,7 +15,12 @@
 .example-headers-align .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }
-
+::ng-deep .custom-dialog > mat-dialog-container {
+  background-color: transparent;
+}
+mat-dialog-container {
+  background-color: transparent;
+}
 .btn-block{
   border-radius: 25px;
   width: 20%;
@@ -26,11 +31,10 @@
 button:focus { outline: none; }
 .snip1404 {
   font-family: 'Source Sans Pro', Arial, sans-serif;
-  color: #ffffff;
+  color: black;
   text-align: left;
   font-size: 16px;
   width: 100%;
-  max-width: 1000px;
 }
 .snip1404 img {
   position: absolute;
@@ -41,14 +45,14 @@ button:focus { outline: none; }
 }
 .snip1404 .plan {
   margin: 0;
-  width: 25%;
+  width: 32%;
   min-width:300px;
   position: relative;
   float: left;
   overflow: hidden;
-  border: 3px solid #442232;
+  border: 3px solid #F1F1F1;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  background-color: #5f3047;
+  background-color: #F1F1F1;
 }
 .snip1404 .plan:hover i,
 .snip1404 .plan.hover i {
@@ -68,16 +72,16 @@ button:focus { outline: none; }
   transition: all 0.25s ease-out;
 }
 .snip1404 header {
-  background-color: #5f3047;
-  color: #ffffff;
+  background-color: #F1F1F1;
+  color: #000000;
+  font-size: 30px;
 }
 .snip1404 .plan-title {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: relative;
-  margin: 0;
-  padding: 20px 20px 0;
-  text-transform: uppercase;
-  letter-spacing: 4px;
+text-align: center;
+padding-top: 20px;
+font-weight: bold;
+font-size: 25px;
+color: #981B40;
 }
 .snip1404 .plan-title:after {
   position: absolute;
@@ -87,11 +91,11 @@ button:focus { outline: none; }
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 40px 300px 0 0;
+  border-width: 30px 300px 0 0;
   border-color: rgba(0, 0, 0, 0.5) transparent transparent;
 }
 .snip1404 .plan-cost {
-  padding: 40px 20px 10px;
+  padding: 30px 20px 10px;
   text-align: right;
 }
 .snip1404 .plan-price {
@@ -107,6 +111,7 @@ button:focus { outline: none; }
   padding: 0 0 20px;
   margin: 0;
   list-style: outside none none;
+  margin-top: 20px;
 }
 .snip1404 .plan-features li {
   padding: 8px 5%;
@@ -114,6 +119,7 @@ button:focus { outline: none; }
 .snip1404 .plan-features i {
   margin-right: 8px;
   color: rgba(0, 0, 0, 0.5);
+  font-size: 20px;
 }
 .snip1404 .plan-select {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
@@ -121,7 +127,7 @@ button:focus { outline: none; }
   text-align: center;
 }
 .snip1404 .plan-select a {
-  background-color: #442232;
+  background-color: #981B40;
   color: #ffffff;
   text-decoration: none;
   padding: 12px 20px;
@@ -133,11 +139,11 @@ button:focus { outline: none; }
   display: inline-block;
 }
 .snip1404 .plan-select a:hover {
-  background-color: #552a3f;
+  background-color: #981B40;
 }
 .snip1404 .plan:hover {
   margin-top: -10px;
-  border-color: #331926;
+  border-color: #981B40;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
   z-index: 1;
   border-radius: 8px;cursor:pointer;
@@ -167,3 +173,17 @@ button:focus { outline: none; }
     width: 100%;
   }
 }
+.mat-dialog-container-o {
+  display: block;
+  padding: 24px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: auto;
+  outline: 0;
+  width: 100%;
+  max-width: 600px;
+  min-height: inherit;
+  max-height: inherit;
+  background: none !important;
+}
+

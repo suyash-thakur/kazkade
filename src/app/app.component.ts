@@ -89,5 +89,13 @@ export class AppComponent implements AfterViewInit{
     //console.log("Hi ",this.name);
     return true;
   }
+  futureSelect() {
+    this.authService.isFuture = true;
+    this.router.navigate(["/trade/future/ETHUSDT"]);
+  }
+  spotSelect() {
+    this.authService.isFuture = false;
+    this.router.navigate(["/trade/spot/ETHUSDT"]);
 
+  }
 }

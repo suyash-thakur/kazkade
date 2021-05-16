@@ -392,6 +392,7 @@ export class TradingComponent implements AfterViewInit {
   clickWishList(data): void {
     this.selectedCoin = data;
     this.buyAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
+    this.sellAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
     this.temp = new TradingView.widget(
       {
         symbol: 'BINANCE:' + data,
