@@ -1,8 +1,8 @@
-<body class="abc" *ngIf="!this.authService.isLoggedIn">
+<div class="abc" *ngIf="!this.authService.isLoggedIn">
 
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
   <mat-card style="box-shadow:  20px 20px 60px #bebebe,
-                                                                            -20px -20px 60px #ffffff;">
+                                                                            -20px -20px 60px #ffffff; margin-top: 50px;">
     <mat-tab-group *ngIf="!isForgotPass">
       <mat-tab label="Login">
         <br><br>
@@ -20,8 +20,11 @@
                 <a (click)="togglePassword()">Forgot Password</a>
               </div>
             </mat-card-content><br>
+            <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
+
             <div style="text-align:center">
-              <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Log in</button>
+              <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block" [disabled]="isDisabled"
+                (click)="loginUser()">Log in</button>
             </div>
 
             <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
@@ -57,13 +60,16 @@
               </div><br>
 
             </mat-card-content>
+            <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
+            <br>
             <div style="text-align:center">
-              <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block">Sign Up!</button>
+              <button mat-stroked-button style="background-color: #981B40; color: white;" class="btn-block"
+                [disabled]="isDisabled">Sign Up!</button>
             </div>
           </form>
-          <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
           <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
-            Unable to process the details. Please try with different Username.
+            Unable to process the details. <br>Password must contains
+            minimum eight characters, at least one letter and one number
           </div>
       </mat-tab>
     </mat-tab-group>
@@ -86,7 +92,7 @@
   </mat-card>
 </div>
 
-</body>
+</div>
 
 
 <!-- <mat-tab-group>

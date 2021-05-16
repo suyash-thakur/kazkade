@@ -74,6 +74,10 @@
 .nav-item:focus {
   outline:none;
 }
+a {
+  text-decoration:none;
+  color:inherit;
+}
 .active {
   color:#981b4194;
   font-weight: bold;

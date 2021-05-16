@@ -16,128 +16,655 @@
         <mat-card-content>
           <div style="display:flex; justify-content:center; padding: 35px;">
             <div style="text-align:center;">
-              <div style="font-size: 24px; font-weight: bold;">BTC Address</div>
-              <br>
-              <img src="../../assets/qr.jpg" style="max-width:300px;">
-            </div>
-          </div>
-          <div style="display: flex; justify-content:center; align-items: center;">
-            <div><input id="clipboard-example-textarea" [(ngModel)]="qrCode" style="border:1px solid gray;" disabled>
-            </div>
-            <div>
-              <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
-                <mat-icon> file_copy</mat-icon>
-              </button>
-            </div>
-          </div>
-          <br>
-          <div style="display: flex; justify-content:center; align-items: center;">
-            <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
-            <div>
-              <button mat-button color="primary" (click)="submitPayment()">
-                Submit
-              </button>
-            </div>
-          </div>
-          <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
-            <div style="color:#2ecc71">Request Submitted</div>
-          </div>
-          <br>
-          <br>
-          <div style="display: flex; justify-content:center; align-items: center;">
-            <div style="background-color: rgb(235, 228, 228);padding:15px;">
-              <div style="display: flex; align-items: center; margin-left: 25px;">
-                <div>
-                  <mat-icon>warning</mat-icon>
+                <div style="font-size: 15px; font-weight: bold;">
+                  Network Name: Bitcoin(BTC)
                 </div>
-                <div>
-                  <b>Tips</b>
+                <div style="font-size: 15px; font-weight: bold;">
+                  Average arrival time: 1 minutes
                 </div>
-              </div>
-              <div>
-                <uL>
-                  <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
-                    you</li>
-                  <li>
-                    Coins will be deposited after network confirmations
-                  </li>
-                </uL>
-              </div>
-            </div>
-          </div>
 
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-    <mat-tab style="margin: auto; max-width: 800px" label="BTC">
-      <mat-card>
-        <mat-card-title>
-          <div style="display:flex;align-items: center;">
-            <div>
-              Deposit Money &nbsp;
-            </div>
-            <div>
-              <mat-icon>info</mat-icon>
-            </div>
-          </div>
-          <hr>
-        </mat-card-title>
-        <mat-card-content>
-          <div style="display:flex; justify-content:center; padding: 35px;">
-            <div style="text-align:center;">
-              <div style="font-size: 24px; font-weight: bold;">BTC Address</div>
-              <br>
-              <img src="../../assets/qr.jpg" style="max-width:300px;">
-            </div>
-          </div>
-          <div style="display: flex; justify-content:center; align-items: center;">
-            <div><input id="clipboard-example-textarea" [(ngModel)]="qrCode" style="border:1px solid gray;" disabled>
-            </div>
-            <div>
-              <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
-                <mat-icon> file_copy</mat-icon>
-              </button>
-            </div>
-            </div>
-            <br>
-            <div style="display: flex; justify-content:center; align-items: center;">
-              <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
-              <div>
-                <button mat-button color="primary" (click)="submitPayment()">
-                  Submit
-                </button>
-              </div>
-            </div>
-            <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
-              <div style="color:#2ecc71">Request Submitted</div>
-            </div>
-            <br>
-            <br>
-            <div style="display: flex; justify-content:center; align-items: center;">
-              <div style="background-color: rgb(235, 228, 228);padding:15px;">
-                <div style="display: flex; align-items: center; margin-left: 25px;">
-                  <div>
-                    <mat-icon>warning</mat-icon>
+                <br>
+                <img src="../../assets/download.png" style="max-width:300px;">
+                </div>
+                </div>
+                <div style="display: flex; justify-content:center; align-items: center;">
+                  <div><input id="clipboard-example-textarea" value="1Nm9oiDBVCnwPureiGxTETNGaXgNj9pY71" style="border:1px solid gray;"
+                      disabled>
                   </div>
                   <div>
-                    <b>Tips</b>
+                    <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                      <mat-icon> file_copy</mat-icon>
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <uL>
-                    <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
-                      you</li>
-                    <li>
-                      Coins will be deposited after network confirmations
-                    </li>
-                  </uL>
+                <br>
+                <div style="display: flex; justify-content:center; align-items: center;">
+                  <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                  <div>
+                    <button mat-button color="primary" (click)="submitPayment()">
+                      Submit
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                  <div style="color:#2ecc71">Request Submitted</div>
+                </div>
+                <br>
+                <br>
+                <div style="display: flex; justify-content:center; align-items: center;">
+                  <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                    <div style="display: flex; align-items: center; margin-left: 25px;">
+                      <div>
+                        <mat-icon>warning</mat-icon>
+                      </div>
+                      <div>
+                        <b>Tips</b>
+                      </div>
+                    </div>
+                    <div>
+                      <uL>
+                        <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                          you</li>
+                        <li>
+                          Coins will be deposited after network confirmations
+                        </li>
+                      </uL>
+                    </div>
+                  </div>
+                </div>
 
-  </mat-card-content>
-  </mat-card>
-</mat-tab>
+                </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="ETH">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Network Name: Ethereum (ETH)
+                          </div>
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 3 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/download (1).png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="0xf596c81946a2bfa67590ddb11a3861819617b13c"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                        <div>
+                          <button mat-button color="primary" (click)="submitPayment()">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                        <div style="color:#2ecc71">Request Submitted</div>
+                      </div>
+                      <br>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                            <div>
+                              <mat-icon>warning</mat-icon>
+                            </div>
+                            <div>
+                              <b>Tips</b>
+                            </div>
+                          </div>
+                          <div>
+                            <uL>
+                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                you</li>
+                              <li>
+                                Coins will be deposited after network confirmations
+                              </li>
+                            </uL>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="USDT">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Network Name: Ethereum (ETH)
+                          </div>
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 3 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/download (2).png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="0xf596c81946a2bfa67590ddb11a3861819617b13c"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Network Name: Tron (TRX)
+
+                          </div>
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 2 minutes
+                          </div>
+                          <br>
+                          <img src="../../assets/download (3).png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="TTmANDiNmJU8GA9qhnT7vuvB38dE5JJma5"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                        <div>
+                          <button mat-button color="primary" (click)="submitPayment()">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                        <div style="color:#2ecc71">Request Submitted</div>
+                      </div>
+                      <br>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                            <div>
+                              <mat-icon>warning</mat-icon>
+                            </div>
+                            <div>
+                              <b>Tips</b>
+                            </div>
+                          </div>
+                          <div>
+                            <uL>
+                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                you</li>
+                              <li>
+                                Coins will be deposited after network confirmations
+                              </li>
+                            </uL>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="BNB">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Network Name: Binance Smart Chain (BSC)
+                          </div>
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 2 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/bsc.png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="0xf596c81946a2bfa67590ddb11a3861819617b13c"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                        <div>
+                          <button mat-button color="primary" (click)="submitPayment()">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                        <div style="color:#2ecc71">Request Submitted</div>
+                      </div>
+                      <br>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                            <div>
+                              <mat-icon>warning</mat-icon>
+                            </div>
+                            <div>
+                              <b>Tips</b>
+                            </div>
+                          </div>
+                          <div>
+                            <uL>
+                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                you</li>
+                              <li>
+                                Coins will be deposited after network confirmations
+                              </li>
+                            </uL>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="EOS">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 1 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/bsc.png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="binancecleos" style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+
+                          <br>
+                          <img src="../../assets/memo.png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="104781259" style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                        <div>
+                          <button mat-button color="primary" (click)="submitPayment()">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                        <div style="color:#2ecc71">Request Submitted</div>
+                      </div>
+                      <br>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                            <div>
+                              <mat-icon>warning</mat-icon>
+                            </div>
+                            <div>
+                              <b>Tips</b>
+                            </div>
+                          </div>
+                          <div>
+                            <uL>
+                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                you</li>
+                              <li>
+                                Coins will be deposited after network confirmations
+                              </li>
+                            </uL>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="LTC">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Minimal Deposit: 0.001 LTC
+                          </div>
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 7 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/download (6).png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="LRAQ6m4ZjgNdYu18A2dNnjNqZxytg9XT8q"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                        <div>
+                          <button mat-button color="primary" (click)="submitPayment()">
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                        <div style="color:#2ecc71">Request Submitted</div>
+                      </div>
+                      <br>
+                      <br>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                            <div>
+                              <mat-icon>warning</mat-icon>
+                            </div>
+                            <div>
+                              <b>Tips</b>
+                            </div>
+                          </div>
+                          <div>
+                            <uL>
+                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                you</li>
+                              <li>
+                                Coins will be deposited after network confirmations
+                              </li>
+                            </uL>
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </mat-tab>
+                <mat-tab style="margin: auto; max-width: 800px" label="XRP">
+                  <mat-card>
+                    <mat-card-title>
+                      <div style="display:flex;align-items: center;">
+                        <div>
+                          Deposit Money &nbsp;
+                        </div>
+                        <div>
+                          <mat-icon>info</mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card-title>
+                    <mat-card-content>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+                          <div style="font-size: 15px; font-weight: bold;">
+                            Average arrival time: 1 minutes
+                          </div>
+
+                          <br>
+                          <img src="../../assets/download (7).png" style="max-width:300px;">
+                        </div>
+                      </div>
+                      <div style="display: flex; justify-content:center; align-items: center;">
+                        <div><input id="clipboard-example-textarea" value="rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh"
+                            style="border:1px solid gray;" disabled>
+                        </div>
+                        <div>
+                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                            <mat-icon> file_copy</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <br>
+                      <div style="display:flex; justify-content:center; padding: 35px;">
+                        <div style="text-align:center;">
+
+
+                          <br>
+                                                    <img src="../../assets/download (8).png" style="max-width:300px;">
+                                                    </div>
+                                                    </div>
+                                                    <div style="display: flex; justify-content:center; align-items: center;">
+                                                  <div><input id="clipboard-example-textarea" value="101394954" style="border:1px solid gray;" disabled>
+                                                  </div>
+                                                  <div>
+                                                    <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                                                      <mat-icon> file_copy</mat-icon>
+                                                    </button>
+                                                  </div>
+                                                  </div>
+                                                  <br>
+                                                  <div style="display: flex; justify-content:center; align-items: center;">
+                                                    <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                                                    <div>
+                                                      <button mat-button color="primary" (click)="submitPayment()">
+                                                        Submit
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                  <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                                                    <div style="color:#2ecc71">Request Submitted</div>
+                                                  </div>
+                                                  <br>
+                                                  <br>
+                                                  <div style="display: flex; justify-content:center; align-items: center;">
+                                                    <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                                                      <div style="display: flex; align-items: center; margin-left: 25px;">
+                                                        <div>
+                                                          <mat-icon>warning</mat-icon>
+                                                        </div>
+                                                        <div>
+                                                          <b>Tips</b>
+                                                        </div>
+                                                      </div>
+                                                      <div>
+                                                        <uL>
+                                                          <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                                            you</li>
+                                                          <li>
+                                                            Coins will be deposited after network confirmations
+                                                          </li>
+                                                        </uL>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                                </mat-card-content>
+                                                </mat-card>
+                                                </mat-tab>
+                                                <mat-tab style="margin: auto; max-width: 800px" label="TRX">
+                                                  <mat-card>
+                                                    <mat-card-title>
+                                                      <div style="display:flex;align-items: center;">
+                                                        <div>
+                                                          Deposit Money &nbsp;
+                                                        </div>
+                                                        <div>
+                                                          <mat-icon>info</mat-icon>
+                                                        </div>
+                                                      </div>
+                                                      <hr>
+                                                    </mat-card-title>
+                                                    <mat-card-content>
+                                                      <div style="display:flex; justify-content:center; padding: 35px;">
+                                                        <div style="text-align:center;">
+                                                          <div style="font-size: 15px; font-weight: bold;">
+                                                            Network Name: Tron (TRX)
+
+                                                          </div>
+                                                          <div style="font-size: 15px; font-weight: bold;">
+                                                            Average arrival time: 2 minutes
+                                                          </div>
+                                                          <div style="font-size: 15px; font-weight: bold;">
+                                                            Minimal Deposit: 0.00001 TRX
+                                                          </div>
+                                                          <br>
+                                                          <img src="../../assets/download (9).png" style="max-width:300px;">
+                                                          </div>
+                                                          </div>
+                                                          <div style="display: flex; justify-content:center; align-items: center;">
+                                                        <div><input id="clipboard-example-textarea" value="TTmANDiNmJU8GA9qhnT7vuvB38dE5JJma5" style="border:1px solid gray;"
+                                                            disabled>
+                                                        </div>
+                                                        <div>
+                                                          <button [cdkCopyToClipboard]="qrCode" style="background-color:transparent; border:none;">
+                                                            <mat-icon> file_copy</mat-icon>
+                                                          </button>
+                                                        </div>
+                                                        </div>
+                                                        <br>
+
+                                                      <div style="display: flex; justify-content:center; align-items: center;">
+                                                        <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
+                                                        <div>
+                                                          <button mat-button color="primary" (click)="submitPayment()">
+                                                            Submit
+                                                          </button>
+                                                        </div>
+                                                      </div>
+                                                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="isSubmit">
+                                                        <div style="color:#2ecc71">Request Submitted</div>
+                                                      </div>
+                                                      <br>
+                                                      <br>
+                                                      <div style="display: flex; justify-content:center; align-items: center;">
+                                                        <div style="background-color: rgb(235, 228, 228);padding:15px;">
+                                                          <div style="display: flex; align-items: center; margin-left: 25px;">
+                                                            <div>
+                                                              <mat-icon>warning</mat-icon>
+                                                            </div>
+                                                            <div>
+                                                              <b>Tips</b>
+                                                            </div>
+                                                          </div>
+                                                          <div>
+                                                            <uL>
+                                                              <li>If you have deposited, please pay attention to the text messages, site letters and emails we send to
+                                                                you</li>
+                                                              <li>
+                                                                Coins will be deposited after network confirmations
+                                                              </li>
+                                                            </uL>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+
+                                                      </mat-card-content>
+                                                      </mat-card>
+                                                      </mat-tab>
 </mat-tab-group>
 
 </div>

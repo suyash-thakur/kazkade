@@ -6,7 +6,7 @@ from '@angular/router';
 import {Title} from "@angular/platform-browser";
 import {LoggedInUser} from "../app/shared/user";
 import { environment } from 'src/environments/environment';
-
+import { RecaptchaComponent } from 'ng-recaptcha';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,6 +26,11 @@ export class AppComponent implements AfterViewInit{
     if (this.authService.userType === 'admin') {
       this.authService.showMenu = false;
 
+    }
+    RecaptchaComponent.prototype.ngOnDestroy = function () {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
 
     console.log(this.authService.userType);
@@ -98,4 +103,5 @@ export class AppComponent implements AfterViewInit{
     this.router.navigate(["/trade/spot/ETHUSDT"]);
 
   }
+
 }

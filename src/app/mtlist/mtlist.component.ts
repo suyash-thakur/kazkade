@@ -27,9 +27,17 @@ export class MtlistComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.authService.subscription);
-
+    this.authService.subscription = JSON.parse(localStorage.getItem('userSubscription'));
     if (this.authService.subscription === 'null') {
       const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { panelClass: 'mat-dialog-container-o' });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+
+      });
+    }
+    if (this.authService.subscription.subscription_status === false) {
+      console.log('dialog');
+      const dialogRef = this.dialog.open(PaymentDialogComponent);
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed');
 
@@ -147,4 +155,21 @@ export class DialogOverviewExampleDialog {
   }
 
 }
+@Component({
+  selector: 'payment-dialog',
+  templateUrl: 'paymentPending.html',
+  styleUrls: ['./mtlist.component.css']
 
+})
+export class PaymentDialogComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<PaymentDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data, public authService: AuthService, public router: Router, public dialog: MatDialog) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+}

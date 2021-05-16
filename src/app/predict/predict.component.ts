@@ -75,8 +75,14 @@ export class PredictComponent implements OnInit {
      }
   ngOnInit(): void {
     this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
-      this.orderData = res.data;
-      console.log(this.orderData);
+      if (res.data.length > 0 && res.data !== undefined) {
+        this.orderData = res.data.reverse();
+
+      }
+      else {
+        this.orderData = res.data
+
+      }
     });
   }
 
@@ -89,14 +95,27 @@ export class PredictComponent implements OnInit {
   spotOrders() {
     this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
       console.log(res);
-      this.orderData = res.data;
+      if (res.data.length > 0 && res.data !== undefined) {
+        this.orderData = res.data.reverse();
 
+      }
+      else {
+        this.orderData = res.data
+
+      }
     });
   }
   futureOrders() {
     this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
       console.log(res);
-      this.orderData = res.data;
+      if (res.data.length > 0 && res.data !== undefined) {
+        this.orderData = res.data.reverse();
+
+      }
+      else {
+        this.orderData = res.data
+
+      }
 
     });
   }

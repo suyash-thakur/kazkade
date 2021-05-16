@@ -53,9 +53,12 @@
     <div style="display:flex; width:100%; margin: auto;">
       <div style="flex:3">
         <div style="display:flex">
-          <div>
+          <div *ngIf="dataArray.length > 0">
             <ngx-charts-pie-chart [view]='view' [results]="dataArray">
             </ngx-charts-pie-chart>
+          </div>
+          <div *ngIf="dataArray.length === 0" style="align-self: center; justify-self: center; text-align: center; width:100%">
+            <img src="../../assets/0bal.png" style="max-width:550px; margin: auto">
           </div>
           <div style="display:flex; flex-direction: column; justify-content: center; align-items: center; ">
             <div *ngFor="let item of dataArray" style="width:100%; margin-bottom: 15px;">

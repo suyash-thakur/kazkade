@@ -24,6 +24,7 @@ import { DepositComponent } from './deposit/deposit.component';
 import { AdminComponent } from './admin/admin.component';
 import { TermsComponent } from './terms/terms.component';
 import { TradingMarketComponent } from './trading-market/trading-market.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -114,6 +115,9 @@ const routes: Routes = [
   }, {
     path: 'trade/:market/:coin',
     component: TradingMarketComponent
+  }, {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
   }
 ];
 

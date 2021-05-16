@@ -79,8 +79,9 @@
               Hi, {{this.name}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:white; opacity:1;">
-              <a class="dropdown-item" *ngIf="this.authService.isLoggedIn" [routerLink]="'kyc'">
-                <mat-icon>info</mat-icon> Complete Your KYC
+              <a class="dropdown-item" *ngIf="this.authService.isLoggedIn"
+                style="background-color: rgb(230, 230, 230); cursor: text;">
+                <mat-icon>info</mat-icon> Complete Your KYC (coming Soon)
               </a>
               <a class="dropdown-item" *ngIf="this.authService.isLoggedIn" [routerLink]="'dashboard'">
                 <mat-icon>perm_identity</mat-icon> Dashboard
@@ -107,11 +108,13 @@
               <mat-icon style="transform: translateY(2px);">notifications</mat-icon>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown2"
-              style="background-color:white; opacity:1; word-wrap: break-word;transform: translateX(-450px);">
-              <p class="dropdown-item" *ngFor="let item of notification" style="font-size: 14px;">
+              style="background-color:white; opacity:1; word-wrap: break-word;transform: translateX(-250px);">
+              <p class="dropdown-item" *ngFor="let item of notification" style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342)">
                 {{item.msg}}
               </p>
-
+              <p *ngIf="notification.length === 0" style="text-align: center;">
+                No Notification
+              </p>
             </div>
           </li>
           </ul>
@@ -127,28 +130,28 @@
                 <div class="col-md-4 col-xs-6" style="text-align:left">
                   <b style="font-size:20px; color:#ACACAC">Kazkade</b>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    About Kazcade
+                  <a [routerLink]="['/about']" routerLinkActive="router-link-active"> About Kazcade</a>
                   </div>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    Give us feedback
+                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active">Give us feedback</a>
                   </div>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    Support
+                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active">Support</a>
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-6" style="text-align:left;">
                   <b style="font-size:20px; color:#ACACAC">My account</b>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    Dashboard
+                  <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active"> Dashboard</a>
                   </div>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    Account settings
+                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active">Account settings</a>
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-6" style="text-align: left;">
                   <b style="font-size:20px; color:#ACACAC; ">Other</b>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    Terms and Conditions
+                    <a [routerLink]="['/terms']" routerLinkActive="router-link-active">Terms and Conditions</a>
                   </div>
                   <div style="font-size: 20px; margin-top: 10px;">
                     Privacy policy

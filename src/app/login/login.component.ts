@@ -14,7 +14,11 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   a = 0;
   isForgotPass = false;
+  isDisabled = true;
   showMsg = false;
+  emailValidExpe: RegExp = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+  passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+
   emailPassword = '';
   constructor(
     public fb: FormBuilder,
@@ -50,7 +54,7 @@ export class LoginComponent implements OnInit {
   loginUser() {
     // console.log(this.signinForm.value)
     if(this.signinForm.value.mno!=='' && this.signinForm.value.mno!==null &&
-    this.signinForm.value.password!=='' && this.signinForm.value.password!==null)
+      this.signinForm.value.password !== '' && this.signinForm.value.password !== null)
     {
       const t = this.authService.signIn(this.signinForm.value);
       if(!t)
@@ -63,7 +67,7 @@ export class LoginComponent implements OnInit {
     else
     {
       this.signinForm.reset();
-      window.location.reload();
+
       this.a=1;
     }
   }
@@ -74,12 +78,14 @@ export class LoginComponent implements OnInit {
   }
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
+    this.isDisabled = false;
   }
   registerUser() {
-    if(this.signupForm.value.email!=='' && this.signupForm.value.email!==null
-    && this.signupForm.value.password!=='' && this.signupForm.value.password!==null
-    // && this.signupForm.value.password!=this.signupForm.value.password
-    && this.signupForm.value.Email_id!=='' && this.signupForm.value.Email_id!==null)
+    if (this.signupForm.value.email !== '' && this.signupForm.value.email !== null
+      && this.signupForm.value.password !== '' && this.signupForm.value.password !== null
+      // && this.signupForm.value.password!=this.signupForm.value.password
+      && this.signupForm.value.Email_id !== '' && this.signupForm.value.Email_id !== null
+      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signinForm.value.Email_id))
     {
     this.authService.signUp(this.signupForm.value).subscribe((res) => {
       this.signupForm.reset();

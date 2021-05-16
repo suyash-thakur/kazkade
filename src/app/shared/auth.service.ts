@@ -23,6 +23,7 @@ export class AuthService {
   showMenu = true;
   subscription = null;
   email = '';
+  userId = '';
   userType = '';
   constructor(
     private http: HttpClient,
@@ -79,11 +80,12 @@ export class AuthService {
           if (res.user !== undefined) {
             this.userType = res.user.userType;
             this.subscription = res.subscription;
-            localStorage.setItem('userSubscription', this.subscription);
+            localStorage.setItem('userSubscription', JSON.stringify(this.subscription));
             localStorage.setItem('userType', this.userType);
             localStorage.setItem('email', res.user.email);
             localStorage.setItem('mobile', res.user.mno);
-
+            this.userId = res.user._id;
+            localStorage.setItem('userId', res.user._id);
 
             this.email = res.user.email;
 

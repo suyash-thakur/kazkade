@@ -19,7 +19,7 @@ export class MasterUserSettingComponent implements OnInit {
   isDis = true;
   apiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   password = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-
+  securityKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
 
   constructor(public http: HttpClient, public router: Router, public authService: AuthService) {
     if (window.innerWidth > 720) {

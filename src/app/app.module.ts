@@ -64,6 +64,7 @@ import { RecaptchaModule } from "ng-recaptcha";
 import { TradingMarketComponent } from './trading-market/trading-market.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +95,8 @@ import { MatSelectModule } from '@angular/material/select';
     SettingsComponent,
     PilComponent,
     TermsComponent,
-    TradingMarketComponent
+    TradingMarketComponent,
+    ForgotPasswordComponent
 
   ],
 

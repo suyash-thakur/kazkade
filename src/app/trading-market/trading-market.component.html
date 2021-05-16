@@ -135,12 +135,12 @@
             </mat-tab>
             <mat-tab label="OPEN ORDERS">
               <div style="display:flex; justify-content: space-between; "
-                *ngIf="authService.isLoggedIn && Object.keys(openOrders).length !== 0">
+                *ngIf="authService.isLoggedIn && openOrders.length !== 0">
                 <div>
                   <div class="header-orderDetail">
                     PAIR
                   </div>
-                  <div class="order-detailItem" *ngFor="let item of positions">
+                  <div class="order-detailItem" *ngFor="let item of openOrders">
                     {{item.symbol}}
                   </div>
                 </div>
@@ -148,7 +148,7 @@
                   <div class="header-orderDetail">
                     AMOUNT
                   </div>
-                  <div class="order-detailItem" *ngFor="let item of positions">
+                  <div class="order-detailItem" *ngFor="let item of openOrders">
                     {{item.positionAmt}}
                   </div>
                 </div>
@@ -156,19 +156,30 @@
                   <div class="header-orderDetail">
                     PRICE
                   </div>
-                  <div class="order-detailItem" *ngFor="let item of positions">
+                  <div class="order-detailItem" *ngFor="let item of openOrders">
                     {{item.entryPrice}}
                   </div>
                 </div>
-
+                <div style="flex-grow: 1;">
+                  <div class="header-orderDetail">
+                    ACTION
+                  </div>
+                  <div class="order-detailItem" *ngFor="let item of openOrders; let i = index"
+                    (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
+                    CANCEL
+                  </div>
+                </div>
               </div>
               <div style="margin-top:80px; width:100%; text-align: center;"
-                *ngIf="Object.keys(openOrders).length === 0 && authService.isLoggedIn">
+                *ngIf="openOrders.length === 0 && authService.isLoggedIn">
                 No Open Orders
               </div>
-              <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
+              <div style="opacity: 1; font-weight:400; width:100%; display:flex; justify-content: center;"
                 *ngIf="!authService.isLoggedIn">
-                LOGIN
+                <div class="buy_button"
+                  style="background-color:#981B40; max-width: 400px;  padding:10px; padding-left: 15px; padding-right: 15px;"
+                  [routerLink]="['/login']">LOGIN
+                </div>
               </div>
             </mat-tab>
             <mat-tab label="COMPLETED ORDERS">
@@ -206,14 +217,11 @@
                   *ngIf="authService.isLoggedIn && completedOrders.length == 0">
                   No Complete Order
                 </div>
-                <div style="opacity: 1; font-weight:400; width:100%; " *ngIf="!authService.isLoggedIn">
-                  <div class="buy_button" style="background-color:#981B40">LOGIN
+                <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
+                  <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">LOGIN
                   </div>
                 </div>
-                <!-- <div class="buy_button" style="background-color: #981B40; margin-top:80px;" [routerLink]="'/login'"
-                  *ngIf="!authService.isLoggedIn">
-                  LOGIN
-                </div> -->
+
               </div>
             </mat-tab>
           </mat-tab-group>
