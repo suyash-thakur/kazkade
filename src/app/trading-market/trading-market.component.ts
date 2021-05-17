@@ -66,7 +66,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   sellStopLimitValue = 'LIMIT';
   stopPriceSell = 0;
   stopPriceBuy = 0;
-  openOrders = [];
+  openOrders = {};
   completedOrders = [];
   closePercentage = [];
   coinDataList: any = {};
@@ -218,25 +218,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         );
 
         if (this.authService.isLoggedIn === true) {
-          this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
-            res.data.forEach(item => {
-              if (item.entryPrice > 0) {
-                this.positions.push(item);
-                this.closePercentage.push(0.0);
-              }
-            });
 
-            if (res !== {}) {
-              this.openOrders = (res);
-            }
-
-          });
           if (this.isFuture) {
             this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
               if (res !== {}) {
                 this.completedOrders = (res.data);
               }
 
+            });
+            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res) => {
+              if (res !== {}) {
+                this.openOrders = res;
+              }
             });
           } else {
             this.http.get(environment.Route + '/api/action/acount').subscribe((res: any) => {
@@ -373,6 +366,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
         }).subscribe((res: any) => {
+
+
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
             res.data.forEach(item => {
               if (item.entryPrice > 0) {
@@ -381,14 +376,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
             });
 
-
-
-
-          });
-          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
             if (res !== {}) {
-              this.openOrders.push(res.data);
-              console.log(res);
+              this.openOrders = (res);
             }
 
           });
@@ -2240,16 +2229,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     }).subscribe((res) => {
 
-      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
-        console.log("OpenOrders", res);
-        this.openOrders = [];
-        if (res !== {}) {
-          res.data.forEach((item) => {
-            this.openOrders.push(item);
-          })
-        }
 
-      });
       this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
         this.positions = [];
