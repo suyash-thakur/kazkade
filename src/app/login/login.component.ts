@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
       && this.signupForm.value.password !== '' && this.signupForm.value.password !== null
       // && this.signupForm.value.password!=this.signupForm.value.password
       && this.signupForm.value.Email_id !== '' && this.signupForm.value.Email_id !== null
-      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signinForm.value.Email_id))
+      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signupForm.value.Email_id))
     {
     this.authService.signUp(this.signupForm.value).subscribe((res) => {
       this.signupForm.reset();
