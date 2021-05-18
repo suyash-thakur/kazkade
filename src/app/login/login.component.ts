@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   isForgotPass = false;
   isDisabled = true;
   showMsg = false;
+  isSignedUp = false;
+
   emailValidExpe: RegExp = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
   passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
@@ -56,13 +58,9 @@ export class LoginComponent implements OnInit {
     if(this.signinForm.value.mno!=='' && this.signinForm.value.mno!==null &&
       this.signinForm.value.password !== '' && this.signinForm.value.password !== null)
     {
-      const t = this.authService.signIn(this.signinForm.value);
-      if(!t)
-      {
-        this.signinForm.reset();
-        window.location.reload();
-        this.a=1;
-      }
+      this.authService.signIn(this.signinForm.value);
+
+
     }
     else
     {
@@ -89,9 +87,8 @@ export class LoginComponent implements OnInit {
     {
     this.authService.signUp(this.signupForm.value).subscribe((res) => {
       this.signupForm.reset();
-      this.a=1;
-      window.location.reload();
-      this.router.navigate(['\login']);
+      this.a = 1;
+      this.isSignedUp = true;
       });
     }
     else{

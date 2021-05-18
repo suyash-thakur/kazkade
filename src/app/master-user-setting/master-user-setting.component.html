@@ -7,7 +7,11 @@
   <div style="display:flex; justify-content: center; background-color:#F1F1F1">
     <div class="example-sidenav-content">
       <h2>Account Details</h2>
+      <div style="color: green; font-size: 18px;" *ngIf="isUpdate">
+        Update Successful
+      </div>
       <br>
+
       <div class="input_container">
         <div class="label" style="flex:1">
           Name
@@ -32,35 +36,66 @@
               <input class="input_account" type="email" [(ngModel)]="email" [disabled]="isDis">
         </div>
       </div>
-      <div style="" class="input_container">
+      <div style="" class="input_container" *ngIf="!isDis">
         <div class="label" style="flex:1">
-          API key
+          Enter Password
+        </div>
+        <div style="flex:3">
+          <input class="input_account" type="password" [(ngModel)]="confPassword" [disabled]="isDis">
+        </div>
+      </div>
+      <div style=" justify-content: center;" class="input_container">
+        <div
+          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
+          (click)="submitDetails()" *ngIf="!isDis">
+          Save
+        </div>
+        <div
+          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
+          (click)="toggleEdit()" *ngIf="isDis">
+          Edit
+        </div>
+      </div>
+      </div>
+      </div>
+      <br>
+      <div style="display:flex; justify-content: center; background-color:#F1F1F1">
+
+        <div class="example-sidenav-content">
+          <h2>Key Settings</h2>
+          <div style="color: green; font-size: 18px;" *ngIf="isUpdateAPI">
+            Update Successful
           </div>
-          <div style="flex:3">
-            <input class="input_account" [disabled]="isDis" [(ngModel)]="apiKey">
-          </div>
-          </div>
-          <div style="" class="input_container">
-            <div class="label" style="flex:1">
-              Security key
-            </div>
-            <div style="flex:3">
-              <input class="input_account" [disabled]="isDis" [(ngModel)]="securityKey">
-            </div>
-          </div>
-<div style=" justify-content: center;" class="input_container">
-  <div
-    style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
-    (click)="submitDescription()" *ngIf="!isDis">
-    Save Changes
-  </div>
-  <div
-    style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
-    (click)="toggleEdit()" *ngIf="isDis">
-    Edit
-  </div>
-</div>
-</div>
+          <br>
+              <div style="" class="input_container">
+                <div class="label" style="flex:1">
+                  API key
+                </div>
+                <div style="flex:3">
+                  <input class="input_account" [disabled]="isDis" [(ngModel)]="apiKey">
+                </div>
+              </div>
+              <div style="" class="input_container">
+                <div class="label" style="flex:1">
+                  Security key
+                </div>
+                <div style="flex:3">
+                  <input class="input_account" [disabled]="isDis" [(ngModel)]="securityKey">
+                </div>
+              </div>
+              <div style=" justify-content: center;" class="input_container">
+                <div
+                  style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
+                  (click)="submitAPIKey()" *ngIf="!isDis">
+                  Save
+                  </div>
+                  <div
+                    style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
+                    (click)="toggleEdit()" *ngIf="isDis">
+                    Edit
+                  </div>
+                  </div>
+                  </div>
 </div>
 <br>
 <div style="display:flex; justify-content: center; ">
@@ -88,7 +123,7 @@
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
           (click)="submitDescription()" *ngIf="!isDis">
-          Save Changes
+          Save
         </div>
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
@@ -100,6 +135,9 @@
         <div style="flex:1; margin-left:10px; background-color:#F1F1F1; padding: 20px;">
           <h2>Edit about section</h2>
           <p class="label">This section will appear on your profile</p>
+          <div style="color:green; font-size: 18px;" *ngIf="isUpdateDesc">
+            Update Successful
+          </div>
           <br>
           <div style="">
             <div>
@@ -113,7 +151,7 @@
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
           (click)="submitDescription()" *ngIf="!isDis">
-          Save Changes
+          Save
         </div>
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
@@ -153,7 +191,7 @@
               <div
                 style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
                 (click)="submitDescription()" *ngIf="!isDis">
-                Save Changes
+                Save
               </div>
               <div
                 style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"

@@ -27,8 +27,9 @@
                 (click)="loginUser()">Log in</button>
             </div>
 
-            <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
-              <p *ngIf="check()">
+            <div *ngIf="this.a==1 || !this.authService.t || this.authService.isWrongCred"
+              style="color: rgb(255, 0, 0); text-align: center;">
+              <p>
                 Unable to verify your crendentials. Please try again.
               </p>
             </div>
@@ -70,6 +71,9 @@
           <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
             Unable to process the details. <br>Password must contains
             minimum eight characters, at least one letter and one number
+          </div>
+          <div *ngIf="isSignedUp === true" style="color: rgb(9, 255, 0); text-align: center;">
+            User Created <br> Sign In to continue
           </div>
       </mat-tab>
     </mat-tab-group>

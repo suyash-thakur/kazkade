@@ -22,6 +22,8 @@ export class AuthService {
   selectedPlan = '';
   showMenu = true;
   subscription = null;
+  isWrongCred = false;
+
   email = '';
   userId = '';
   userType = '';
@@ -64,7 +66,7 @@ export class AuthService {
     });
   }
   // Sign-in
-  signIn(user: User): boolean {
+  signIn(user: User) {
     var url_to_hit = this.endpoint+'/login'
     console.log(user);
     // tslint:disable-next-line: prefer-const
@@ -111,17 +113,23 @@ export class AuthService {
               this.followers = res;
             });
         }
+        if (this.t === true) {
+          return true;
+        }
+        return false;
       },
       (err: HttpErrorResponse) => {
-        this.t=false;
-        console.log (err.message);
+        console.log(err.message);
+        if (err.status === 400) {
+          this.t = false;
+          this.isWrongCred = true;
+          console.log('400 error', this.isWrongCred);
+
+          return this.t;
+        }
       }
       );
-      if(this.t)
-      {
-        return true;
-      }
-      return false;
+
 
   }
 

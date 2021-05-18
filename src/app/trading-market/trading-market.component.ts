@@ -79,6 +79,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   coinLevrage = 0;
   isFuture = true;
   isIsolated = true;
+  errMsgBuy = '';
 
   width = 0;
   index = 0;
@@ -383,19 +384,19 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           });
           if (res.code === -2010) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
+            this.errMsgBuy = 'Insufficient Fund';
           }
           else if (res.code === -2013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
+            this.errMsgBuy = 'Error Placing Order';
           }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
+            this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsg = res.msg;
+            this.errMsgBuy = res.msg;
           }
         }, (err: HttpErrorResponse) => {
 
@@ -417,15 +418,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else if (res.code === -2013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
+            this.errMsgBuy = 'Error Placing Order';
           }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
+            this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsg = res.msg;
+            this.errMsgBuy = res.msg;
           }
         }, (err: HttpErrorResponse) => {
 
@@ -446,19 +447,19 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }).subscribe((res: any) => {
           if (res.code === -2010) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
+            this.errMsgBuy = 'Insufficient Fund';
           }
           else if (res.code === -2013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
+            this.errMsgBuy = 'Error Placing Order';
           }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
+            this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsg = res.msg;
+            this.errMsgBuy = res.msg;
           }
         }, (err: HttpErrorResponse) => {
 
@@ -479,19 +480,19 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }).subscribe((res: any) => {
           if (res.code === -2010) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
+            this.errMsgBuy = 'Insufficient Fund';
           }
           else if (res.code === -2013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
+            this.errMsgBuy = 'Error Placing Order';
           }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
+            this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsg = res.msg;
+            this.errMsgBuy = res.msg;
           }
         }, (err: HttpErrorResponse) => {
 

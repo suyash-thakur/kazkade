@@ -2,7 +2,7 @@
   <div class="row" *ngIf="this.call">
     <div class="col-md-3 col-xs-12 col-sm-6 hoverStyle" *ngFor="let item of news; let index = index"
       style="margin-top:20px; ">
-      <div style="padding:10px; background-color:white; margin: 5px; height:440px; box-shadow:  20px 20px 60px #bebebe,
+      <div style="padding:10px; background-color:white; margin: 5px; height:490px; box-shadow:  20px 20px 60px #bebebe,
       -20px -20px 60px #ffffff; cursor: pointer;" (click)="openTab(index)">
         <div style="font-weight: bold; margin-bottom: 15px;">
           {{item.title}}
@@ -19,6 +19,12 @@
         </div>
         <div style=" margin-top: 5px; font-weight: bold">
           by-: &nbsp; {{item.author}}
+        </div>
+        <div style="width:100%; display:flex; justify-content:center">
+          <div
+            style="padding: 10px 20px 10px 20px; background-color:#981B40; text-align: center; border-radius:25px; color:white; margin-top:20px;">
+            Read Now
+          </div>
         </div>
       </div>
     </div>
