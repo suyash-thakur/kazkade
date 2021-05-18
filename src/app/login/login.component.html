@@ -72,6 +72,9 @@
             Unable to process the details. <br>Password must contains
             minimum eight characters, at least one letter and one number
           </div>
+          <div *ngIf="isSignupValid" style="color: rgb(255, 0, 0); text-align: center;">
+            Please provide valid credentials
+          </div>
           <div *ngIf="isSignedUp === true" style="color: rgb(9, 255, 0); text-align: center;">
             User Created <br> Sign In to continue
           </div>

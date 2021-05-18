@@ -45,10 +45,7 @@ export class AuthService {
       sso_enabled: user.sso_enabled,
       newsletter: user.newsletter,
       password: user.password
-    })
-      .pipe(
-        catchError(this.handleError)
-      )
+    });
   }
   sendEmail(email) {
     return this.http.post(environment.Route + '/api/user/forget-password', {

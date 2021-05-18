@@ -17,9 +17,10 @@ export class LoginComponent implements OnInit {
   isDisabled = true;
   showMsg = false;
   isSignedUp = false;
+  isSignupValid = false;
 
   emailValidExpe: RegExp = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-  passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+  passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/);
 
   emailPassword = '';
   constructor(
@@ -79,16 +80,26 @@ export class LoginComponent implements OnInit {
     this.isDisabled = false;
   }
   registerUser() {
+    console.log(this.signupForm.value.email, this.signupForm.value.password);
+    console.log(this.passwordValidExpe.test(this.signupForm.value.password));
+    console.log(this.emailValidExpe.test(this.signupForm.value.email));
+
+
     if (this.signupForm.value.email !== '' && this.signupForm.value.email !== null
       && this.signupForm.value.password !== '' && this.signupForm.value.password !== null
       // && this.signupForm.value.password!=this.signupForm.value.password
-      && this.signupForm.value.Email_id !== '' && this.signupForm.value.Email_id !== null
-      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signupForm.value.Email_id))
+
+      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signupForm.value.email))
     {
     this.authService.signUp(this.signupForm.value).subscribe((res) => {
       this.signupForm.reset();
       this.a = 1;
       this.isSignedUp = true;
+    }, (err) => {
+      console.log(err.status);
+      if (err.status === 400) {
+        this.isSignupValid = true;
+      }
       });
     }
     else{
