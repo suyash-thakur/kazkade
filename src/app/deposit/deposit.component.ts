@@ -17,6 +17,7 @@ export class DepositComponent implements OnInit {
   ngOnInit(): void {
   }
   submitPayment() {
+    console.log(this.authService.selectedPlan);
     this.http.post(environment.Route + '/api/subscription/add-Subscription', { subscription: this.authService.selectedPlan, payment_reference_number: this.paymentId }).subscribe((res: any) => {
       this.isSubmit = true;
       this.authService.tokenRefresh();

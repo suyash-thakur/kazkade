@@ -58,7 +58,7 @@ export class AuthService {
       localStorage.setItem('access_token', res.access_token);
       this.subscription = res.subscription;
       this.userType = res.user.userType;
-      localStorage.setItem('userSubscription', this.subscription);
+      localStorage.setItem('userSubscription', JSON.stringify(this.subscription));
       localStorage.setItem('userType', this.userType);
     });
   }

@@ -26,16 +26,17 @@ export class MtlistComponent implements OnInit {
     private actRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.authService.subscription);
+    console.log(localStorage.getItem('userSubscription'));
     this.authService.subscription = JSON.parse(localStorage.getItem('userSubscription'));
-    if (this.authService.subscription === 'null') {
+    console.log(this.authService.subscription);
+
+    if (this.authService.subscription === 'null' || this.authService.subscription === null) {
       const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { panelClass: 'mat-dialog-container-o' });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed');
 
       });
-    }
-    if (this.authService.subscription.subscription_status === false) {
+    } else if (this.authService.subscription.subscription_status === false) {
       console.log('dialog');
       const dialogRef = this.dialog.open(PaymentDialogComponent);
       dialogRef.afterClosed().subscribe(result => {
@@ -45,7 +46,7 @@ export class MtlistComponent implements OnInit {
     }
 
 
-    this.http.get<any>(this.endpoint).subscribe((res: any) => {
+    this.http.get(this.endpoint).subscribe((res: any) => {
       this.arr = res;
       console.log(this.arr);
     },
