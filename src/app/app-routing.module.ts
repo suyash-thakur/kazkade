@@ -25,6 +25,7 @@ import { AdminComponent } from './admin/admin.component';
 import { TermsComponent } from './terms/terms.component';
 import { TradingMarketComponent } from './trading-market/trading-market.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
 
 
 const routes: Routes = [
@@ -118,11 +119,15 @@ const routes: Routes = [
   }, {
     path: 'forgotPassword',
     component: ForgotPasswordComponent
+  },
+  {
+    path: 'enterForgotPassword',
+    component: ForgotPasswordInputComponent
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

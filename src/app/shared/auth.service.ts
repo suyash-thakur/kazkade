@@ -23,6 +23,7 @@ export class AuthService {
   showMenu = true;
   subscription = null;
   isWrongCred = false;
+  selectedMasterTrader;
 
   email = '';
   userId = '';

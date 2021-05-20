@@ -108,7 +108,7 @@
               <mat-icon style="transform: translateY(2px);">notifications</mat-icon>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown2"
-              style="background-color:white; opacity:1; word-wrap: break-word;transform: translateX(-250px);">
+              style="background-color:white; opacity:1; word-wrap: break-word;transform: translateX(-90px); width: 200px;">
               <p class="dropdown-item" *ngFor="let item of notification" style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342)">
                 {{item.msg}}
               </p>
@@ -145,7 +145,8 @@
                   <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active"> Dashboard</a>
                   </div>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active">Account settings</a>
+                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active" *ngIf="this.authService.isLoggedIn">Account
+                      settings</a>
                   </div>
                 </div>
                 <div class="col-md-4 col-xs-6" style="text-align: left;">

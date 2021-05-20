@@ -93,7 +93,8 @@ export class LoginComponent implements OnInit {
     {
     this.authService.signUp(this.signupForm.value).subscribe((res) => {
       this.signupForm.reset();
-      this.a = 1;
+      this.isSignupValid = false;
+
       this.isSignedUp = true;
     }, (err) => {
       console.log(err.status);

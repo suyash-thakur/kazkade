@@ -19,6 +19,7 @@ export class MtlistComponent implements OnInit {
   selectedId = '';
   followerId = [];
   amount: any;
+  followMsg = '';
 
 
   constructor(private httpService: HttpClient,public router: Router,
@@ -56,6 +57,7 @@ export class MtlistComponent implements OnInit {
     );
     this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {
       console.log(res);
+
       let followIds = [];
       res.forEach((item) => {
         followIds.push(item.master_trader_id);
@@ -106,11 +108,14 @@ export class MtlistComponent implements OnInit {
 
       this.http.post(this.endpoint + '/follow', { master_trader_id: this.selectedId, trade_type: this.selectedType }).subscribe((res: any) => {
         console.log(res);
+        this.followMsg = res.msg;
+        console.log(this.followMsg);
         if (res.msg == 'success') {
           let followTemp = this.followerId;
           followTemp.push(this.selectedId);
           this.followerId = followTemp;
         }
+
       });
     } else {
       this.selectedType = 'MANUAL';
@@ -132,6 +137,15 @@ export class MtlistComponent implements OnInit {
   }
   openDialog(): void {
 
+  }
+  viewMasterTrade(data) {
+    console.log(data);
+
+    this.router.navigate(['/userProfile']);
+  }
+  viewMaster(data) {
+    this.authService.selectedMasterTrader = data;
+    this.dialog.open(MasterDataComponent);
   }
 }
 @Component({
@@ -172,5 +186,34 @@ export class PaymentDialogComponent {
     this.dialogRef.close();
   }
 
+
+}
+@Component({
+  selector: 'master-data',
+  templateUrl: 'master-data.html',
+})
+export class MasterDataComponent {
+  userData;
+  pilData = [];
+  assetsData = [];
+
+  constructor(public authService: AuthService) {
+    this.userData = this.authService.selectedMasterTrader;
+    console.log(this.userData);
+    if (this.userData.balance.positions !== undefined) {
+
+      this.userData.balance.positions.forEach(data => {
+        if (data.positionAmt > 0) {
+          this.pilData.push(data);
+        }
+      });
+    }
+    if (this.userData.balance.assets !== undefined) {
+      this.userData.balance.assets.forEach(data => {
+        this.assetsData.push(data)
+      });
+    }
+
+  }
 
 }

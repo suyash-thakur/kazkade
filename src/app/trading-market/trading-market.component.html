@@ -1,11 +1,10 @@
 <div style="background-color: rgb(224, 224, 224);">
+  <br>
   <div style="display:flex;" *ngIf="isLoaded">
     <div>
       <mat-form-field appearance="fill" style="margin-top:105px; margin-right: 5px;" name="coin">
         <mat-label>Coin</mat-label>
-        <input type="text" placeholder="Pick one" aria-label="Number" matInput [matAutocomplete]="auto"
-          [(ngModel)]="coinInput" name="coin">
-        <mat-autocomplete #auto="matAutocomplete" [(ngModel)]="selectedCoin" panelClass="myPanelClass">
+      <mat-select [(ngModel)]="selectedCoin" panelClass="myPanelClass" disableOptionCentering>
 
           <mat-option [value]="coinDataList[item].symbol" (click)="changeCoin(coinDataList[item].symbol)"
             *ngFor="let item of  Object.keys(coinDataList)">
@@ -18,7 +17,7 @@
               coinDataList[item].priceChangePercent }}</span>
 
           </mat-option>
-        </mat-autocomplete>
+        </mat-select>
       </mat-form-field>
     </div>
     <div style="flex-grow: 1">
@@ -173,6 +172,48 @@
                   <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">LOGIN
                   </div>
                 </div>
+
+              </div>
+              </mat-tab>
+              <mat-tab label="OPEN ORDERS">
+                <div style="display: flex; justify-content: center; height: 350px;">
+                  <div style="display:flex; justify-content: space-between; width:100%"
+                    *ngIf="authService.isLoggedIn && Object.keys(limitOpenOrders).length !== 0">
+                    <div>
+                      <div class="header-orderDetail">
+                        PAIR
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                        {{item.symbol}}
+                      </div>
+
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        AMOUNT
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                        {{item.origQty}}
+                      </div>
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        PRICE
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                        {{item.avgPrice | number : '1.2-2'}}
+                      </div>
+                    </div>
+
+                  </div>
+                  <div style="opacity: 0.8; font-weight:400; width:100%;"
+                    *ngIf="authService.isLoggedIn && Object.keys(limitOpenOrders).length == 0">
+                    No Open Order
+                  </div>
+                  <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
+                    <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">LOGIN
+                    </div>
+                  </div>
 
               </div>
             </mat-tab>

@@ -14,8 +14,10 @@ export class MasterUserSettingComponent implements OnInit {
   isUpdate = false;
   isUpdateAPI = false;
   isUpdateDesc = false;
+  isUpdatePass = false;
   opened = false;
   description = '';
+  support = '';
   userName = '';
   email = '';
   mobile = '';
@@ -44,13 +46,30 @@ export class MasterUserSettingComponent implements OnInit {
       this.isUpdateDesc = true;
     });
   }
+  passwordEdit() {
+    this.http.put(environment.Route + '/api/user/update-user', {
+      full_name: this.userName,
+      mno: this.mobile,
+      email: this.email,
+      password: this.password
+    }).subscribe((res: any) => {
+      console.log(res);
+      localStorage.setItem('user_name', res.full_name);
+      localStorage.setItem('email', res.email);
+      localStorage.setItem('mobile', res.mno);
+      this.userName = res.full_name;
+      this.email = res.email;
+      this.mobile = res.mno;
+      this.isUpdatePass = true;
 
+
+    });
+  }
   submitDetails() {
     this.http.put(environment.Route + '/api/user/update-user', {
       full_name: this.userName,
       mno: this.mobile,
       email: this.email,
-      password: this.confPassword
     }).subscribe((res: any) => {
       console.log(res);
       localStorage.setItem('user_name', res.full_name);

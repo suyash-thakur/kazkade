@@ -65,6 +65,7 @@ import { TradingMarketComponent } from './trading-market/trading-market.componen
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +97,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     PilComponent,
     TermsComponent,
     TradingMarketComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ForgotPasswordInputComponent
 
   ],
 

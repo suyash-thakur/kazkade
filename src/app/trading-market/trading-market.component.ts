@@ -5,7 +5,9 @@ import { webSocket } from 'rxjs/webSocket';
 import { AuthService } from '../shared/auth.service';
 import { environment } from 'src/environments/environment';
 import { MatSliderChange } from '@angular/material/slider';
-
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
 export interface CoinInfo {
   symbol: string,
   minPrice: number,
@@ -32,7 +34,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
   selectedCoin: any;
   currentCurrency = 'USDT';
-
+  filteredOptions: Observable<string[]>;
   myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
   temp;
 
@@ -67,6 +69,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   stopPriceSell = 0;
   stopPriceBuy = 0;
   openOrders = {};
+  limitOpenOrders = {};
   completedOrders = [];
   closePercentage = [];
   coinDataList: any = {};
@@ -80,6 +83,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   isFuture = true;
   isIsolated = true;
   errMsgBuy = '';
+  myControl = new FormControl();
 
   width = 0;
   index = 0;
@@ -176,7 +180,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.subscribewebsocket()
 
       this.width = window.innerWidth;
-      this.chartWidth = this.width * 0.5;
+      this.chartWidth = this.width * 0.7;
       this.http.get('https://fapi.binance.com/fapi/v1/exchangeInfo').subscribe((res: any) => {
         let number1 = 0;
         const number2 = 0;
@@ -227,9 +231,14 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
 
             });
-            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res) => {
+            this.http.get(environment.Route + '/api/action/future-positions').subscribe((res) => {
               if (res !== {}) {
                 this.openOrders = res;
+              }
+            });
+            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res) => {
+              if (res !== {}) {
+                this.limitOpenOrders = res;
               }
             });
           } else {
@@ -2175,6 +2184,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnInit(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value;
+    console.log(value);
+    return this.coinDataList.filter(coinDataList => coinDataList.indexOf(filterValue) === 0);
   }
   tradingView(data) {
     this.temp = new TradingView.widget(
@@ -2187,7 +2205,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         theme: 'light',
         style: '1',
         locale: 'in',
-        width: 1300,
+        width: this.chartWidth - 200,
         height: 550,
         toolbar_bg: '#f1f3f6',
         enable_publishing: false,

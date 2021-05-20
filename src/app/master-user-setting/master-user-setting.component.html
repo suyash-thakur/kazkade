@@ -36,14 +36,7 @@
               <input class="input_account" type="email" [(ngModel)]="email" [disabled]="isDis">
         </div>
       </div>
-      <div style="" class="input_container" *ngIf="!isDis">
-        <div class="label" style="flex:1">
-          Enter Password
-        </div>
-        <div style="flex:3">
-          <input class="input_account" type="password" [(ngModel)]="confPassword" [disabled]="isDis">
-        </div>
-      </div>
+
       <div style=" justify-content: center;" class="input_container">
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
@@ -102,27 +95,30 @@
 
   <div style="flex:1; margin-right:10px; background-color:#F1F1F1; padding: 20px;">
     <h2>Password Details</h2>
+    <div *ngIf="isUpdatePass" style="color: green;">
+      Update Successful
+    </div>
     <br>
-      <div style="" class="input_container">
+      <!-- <div style="" class="input_container">
         <div class="label" style="flex:1">
           Old Password
           </div>
           <div style="flex:3">
             <input class="input_account" type="password" [disabled]="isDis" [(ngModel)]="password">
           </div>
-          </div>
+          </div> -->
           <div style="" class="input_container">
             <div class="label" style="flex:1">
           New Password
           </div>
           <div style="flex:3">
-            <input class="input_account" type="password" [disabled]="isDis">
+            <input class="input_account" type="password" [disabled]="isDis" [(ngModel)]="password">
           </div>
           </div>
       <div style=" justify-content: center;" class="input_container">
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
-          (click)="submitDescription()" *ngIf="!isDis">
+          (click)="passwordEdit()" *ngIf="!isDis">
           Save
         </div>
         <div
@@ -184,7 +180,7 @@
             </div>
             <div>
               <textarea class="input_account" type="email" rows="5"
-                style="border-radius: 20px; color:black; padding-top: 5px; width:100%" [(ngModel)]="description"
+                style="border-radius: 20px; color:black; padding-top: 5px; width:100%" [(ngModel)]="support"
                 [disabled]="isDis" placeholder="Enter Query Here"></textarea>
             </div>
             <div style=" justify-content: center;  display: flex;">

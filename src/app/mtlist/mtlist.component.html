@@ -36,12 +36,16 @@
         </div>
       </div>
       <div style="flex: 1; display: flex; justify-content:center;">
-        <div style=" color: #308725; font-size:20px; font-weight:bold;">
-          51.83 %
+        <div style=" color: #308725; font-size:20px; font-weight:bold;" *ngIf="item.balance !== {}">
+          {{item.balance.totalUnrealizedProfit }}
         </div>
-      </div>
+        <div style=" color: #308725; font-size:20px; font-weight:bold;" *ngIf="item.balance.totalUnrealizedProfit == undefined">
+          0.0000000
+        </div>
+        </div>
+
       <div style="flex: 1; display: flex; justify-content:center;">
-        <button mat-raised-button routerLink="/userProfile">View</button>
+        <button mat-raised-button (click)="viewMaster(item)">View</button>
       </div>
       <div style="flex: 1; display: flex; justify-content:center;">
         <button mat-raised-button data-toggle="modal" data-target="#exampleModal" (click)="selectId(item.id)"
@@ -87,7 +91,14 @@
                 <input type="checkbox" placeholder="Automatic" (change)="toggleCheckbox($event)" id="isautomatic">&nbsp;<label
                   for="isautomatic">Automatic</label>
               </div>
+              <div style="color:red" *ngIf="followMsg !== 'success'">
+                {{followMsg}}
+              </div>
+              <div style="color:green" *ngIf="followMsg === 'success'">
+                {{followMsg}}
+              </div>
               <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+
                 <div
                   style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
                   (click)="followmasterTrader()">

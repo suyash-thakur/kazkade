@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   dataArray = [];
   dataArrayTemp = [];
   isloaded = false;
+  isInvalidAPI = false;
   endpoint = environment.Route+'/api/user';
   pieData = [
     {
@@ -54,6 +55,11 @@ export class DashboardComponent implements OnInit {
     console.log(this.authService.userType);
     this.http.get<any>(environment.Route + '/api/action/future-balance').subscribe((res: any) => {
       console.log(res);
+      if (res.data.msg === "API-key format invalid.") {
+        this.isInvalidAPI = true;
+        this.dialog.open(APIKeyComponent, {});
+        return;
+      }
       res.data.forEach((item) => {
         if (Number(item.availableBalance) > 0) {
           var pieDataVa = {
@@ -70,6 +76,7 @@ export class DashboardComponent implements OnInit {
 
       this.http.get<any>(environment.Route + '/api/action/future-account').subscribe((res: any) => {
         console.log(res);
+
         res.data.positions.forEach((data: any) => {
           if (Number(data.entryPrice) > 0) {
             var pieDataVa = {
@@ -209,7 +216,6 @@ export class DashboardComponent implements OnInit {
       this.authService.tokenRefresh();
     });
 
-    this.router.navigate(['/settings']);
 
 
   }
@@ -256,3 +262,16 @@ function res(res: any, any: any) {
   throw new Error('Function not implemented.');
 }
 
+@Component({
+  selector: 'app-api-key',
+  templateUrl: 'apiKeyError.html',
+  styleUrls: ['dashboard.component.css']
+})
+
+export class APIKeyComponent {
+  constructor(public dialogRef: MatDialogRef<APIKeyComponent>, public router: Router) { }
+  buttonClick(): void {
+    this.router.navigate(['/settings']);
+    this.dialogRef.close();
+  }
+}

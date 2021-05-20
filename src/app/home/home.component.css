@@ -122,6 +122,9 @@ color: #981B40;
 .snip1404 .plan .plan-select {
   padding: 30px 20px;
 }
+.carousel-control.left  {
+  margin: 200px 0;
+}
 @media only screen and (max-width: 767px) {
   .snip1404 .plan {
     width: 50%;

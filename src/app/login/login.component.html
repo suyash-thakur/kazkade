@@ -17,7 +17,8 @@
               </div>
               <br>
               <div style="padding-left: 10px; opacity:0.7; cursor:pointer;">
-                <a (click)="togglePassword()">Forgot Password</a>
+                <a [routerLink]="['/enterForgotPassword']" routerLinkActive="router-link-active"
+                  style="text-decoration: inherit; color: inherit;">Forgot Password</a>
               </div>
             </mat-card-content><br>
             <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
@@ -82,17 +83,7 @@
     </mat-tab-group>
     <div *ngIf="isForgotPass">
 
-      <mat-form-field class="example-full-width-2" style="">
-        <mat-label>Enter Email</mat-label>
-        <input matInput placeholder="email" [(ngModel)]="emailPassword">
-      </mat-form-field>
-      <div *ngIf="showMsg">
-        Email Sent
-      </div>
-      <div style="width:100%; display: flex; justify-content:center;">
-        <button mat-stroked-button style="background-color: #981B40; color: white; max-width: 200px; margin: auto;"
-          class="btn-block" (click)="sendmail()">Submit!</button>
-      </div>
+
 
 
     </div>

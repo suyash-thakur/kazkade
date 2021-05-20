@@ -11,7 +11,7 @@
   <br>
   <button [routerLink]="'login'"
     style="text-decoration: none; padding: 20px 30px 20px 30px; background-color: #981B40; margin-top: 20px; color: white; font-size: 20px; border-radius: 25px; font-weight: bold; font-size: 35px;"
-    class="">
+    class="" *ngIf="!this.authService.isLoggedIn">
     SIGN UP NOW
     </button>
 </header>
@@ -54,7 +54,8 @@
 
                 Basic
                 </h4>
-                <div class="plan-cost"><span class="plan-price">$24.99</span><span class="plan-type">/month</span></div>
+                <div class="plan-cost" *ngIf="this.authService.userType !== 'MASTER'"><span class="plan-price">$24.99</span><span
+                    class="plan-type">/month</span></div>
                 </header>
                 <ul class="plan-features">
                   <li><i class="ion-checkmark"> </i>
@@ -67,13 +68,16 @@
                   <li><i class="ion-checkmark"> </i>Exchanges
                     (Binance)
                     Other</li>
-                  <br>
-                  <br>
-                  <br>
-                  <br>
+                  <br *ngIf=" this.authService.userType !== 'MASTER'">
+                  <br *ngIf=" this.authService.userType !== 'MASTER'">
+                  <br *ngIf=" this.authService.userType !== 'MASTER'">
+                  <br *ngIf=" this.authService.userType !== 'MASTER'">
                   <br>
           </ul>
-        <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Basic')">Select Plan</a></div>
+        <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Basic')"
+            *ngIf="this.authService.subscription !== 'Basic'  ">Select Plan</a>
+          <a *ngIf="this.authService.subscription == 'Basic'">Selected</a>
+        </div>
         </div>
         <div class="plan featured">
           <header>
@@ -83,7 +87,8 @@
 
               Intermediate
               </h4>
-              <div class="plan-cost"><span class="plan-price">$34.99</span><span class="plan-type">/month</span></div>
+              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$34.99</span><span
+                  class="plan-type">/month</span></div>
               </header>
               <ul class="plan-features">
                 <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
@@ -104,7 +109,10 @@
                 <br>
                 <br>
           </ul>
-        <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Intermediate')">Select Plan</a></div>
+        <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Intermediate')"
+            *ngIf="this.authService.subscription !== 'Intermediate' && this.authService.userType !== 'MASTER'">Select Plan</a>
+          <a *ngIf="this.authService.subscription == 'Intermediate'">Selected</a>
+        </div>
         </div>
         <div class="plan">
           <header>
@@ -114,7 +122,8 @@
 
               Premium
               </h4>
-              <div class="plan-cost"><span class="plan-price">$49.99</span><span class="plan-type">/month</span></div>
+              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$49.99</span><span
+                  class="plan-type">/month</span></div>
               </header>
               <ul class="plan-features">
                 <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
@@ -135,7 +144,12 @@
                   Other
                 </li>
                 </ul>
-          <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Premium')">Select Plan</a></div>
+          <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'">
+            <a (click)="selectPlan('Premium')" *ngIf="this.authService.subscription !== 'Premium'">Select
+              Plan</a>
+            <a *ngIf="this.authService.subscription == 'Premium'">Selected</a>
+
+          </div>
           </div>
           </div>
       </div>
@@ -160,7 +174,7 @@
       <div class="carousel-item active">
         <div style="display: flex; justify-content: space-evenly;">
           <div
-            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px; margin:10px;">
             <div>
               Kazcade has been helpful because I don’t have to be analysing the charts constantly before taking a
               position. The master traders that I copy do their best to analyse it for you and all you have to do is
@@ -172,7 +186,7 @@
             </div>
           </div>
           <div
-            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;  margin:10px;">
             <div>
               Kazcade has been helpful because I don’t have to be analysing the charts constantly before taking a
               position.
@@ -185,7 +199,7 @@
             </div>
           </div>
           <div
-            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;  margin:10px;">
             <div>
               “Kazcade isn’t just about the copytrading but also the support. Whatever questions I have, the traders that
               I copy are always there to help. They’ve been so supportive and patient when it comes to answering
@@ -202,7 +216,7 @@
       <div class="carousel-item ">
         <div style="display: flex; justify-content: space-evenly;">
           <div
-            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+            style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;  margin:10px;">
             <div>
               “Kazcade isn’t just about the copytrading but also the support. Whatever questions I have, the traders that
               I copy are always there to help. They’ve been so supportive and patient when it comes to answering
@@ -213,7 +227,7 @@
               </div>
               </div>
             <div
-              style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+              style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;  margin:10px;">
               <div>
                 Kazcade has been helpful because I don’t have to be analysing the charts constantly before taking a position. The
                 master traders that I copy do their best to analyse it for you and all you have to do is follow their calls... There
@@ -225,7 +239,7 @@
               </div>
             </div>
             <div
-              style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;">
+              style="background-color: #981B40; color:#FFFFFF;text-align: left; max-width: 500px; padding:45px; font-size: 18px; line-height: 38px;  margin:10px;">
               <div>
                 Kazcade has been helpful because I don’t have to be analysing the charts constantly before taking a position. The
                 master traders that I copy do their best to analyse it for you and all you have to do is follow their calls... There
@@ -251,7 +265,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  <div style="width: 100%;text-align: center; margin-top:20px; margin-bottom: 20px; padding: 64px; font-size: 18px;">
+  <div style="width: 100%;text-align: center; margin-top:20px; margin-bottom: 20px; padding: 64px; font-size: 18px; ">
     NOTE: These reviews have been altered to protect the identities of the reviewers and traders. These reviews are
     provided by feedback given by previous traders to assist you on your intention to sign up to Kazcade. These reviews
     SHOULD NOT be a driving reason to join Kazcade if you don’t have relevant experience or do not feel comfortable with

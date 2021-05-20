@@ -6,6 +6,7 @@
 }
 ::ng-deep .mat-select-panel {
   max-height: 70vh !important;
+  transform: translateY(-500px);
 }
 .btn-block1{
   border-radius: 25px;
@@ -149,3 +150,8 @@ font-weight: bold;
 font-size: 15px;
 cursor: pointer;
 }
+.myPanelClass {
+  transform: translateY(-200px);
+}.cdk-overlay-container .cdk-overlay-pane .myPanelClass{
+  margin-top: 7%;
+  }
