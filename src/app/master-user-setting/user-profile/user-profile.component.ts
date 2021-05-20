@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+import { AuthService } from 'src/app/shared/auth.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -60,9 +61,12 @@ export class UserProfileComponent implements OnInit {
       ]
     }
   ];
-  constructor(public dialog: MatDialog) { }
+  userData;
+  constructor(public dialog: MatDialog, public authService: AuthService) { }
 
   ngOnInit(): void {
+    this.userData = this.authService.selectedMasterTrader;
+    console.log(this.userData);
   }
   public pointColor(point: any): string {
     const summary = point.dataItem.summary;
@@ -83,7 +87,9 @@ export class UserProfileComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
 }
+
 @Component({
   selector: 'copy-info',
   templateUrl: 'copy-info.component.html',
