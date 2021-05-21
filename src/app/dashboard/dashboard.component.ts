@@ -213,6 +213,7 @@ export class DashboardComponent implements OnInit {
     }).subscribe((res) => {
       console.log(res);
       this.authService.userType = "MASTER";
+      this.openDialog();
       this.authService.tokenRefresh();
     });
 

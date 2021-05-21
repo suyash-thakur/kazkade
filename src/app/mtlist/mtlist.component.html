@@ -21,7 +21,13 @@
   <h2>
     Explore Traders:
   </h2>
-  <div style="display:flex; flex-direction: column; align-items: center;">
+  <div style="display:flex; flex-direction: column; align-items: center; min-height: 70vh; width: 100%;"
+    *ngIf="!isLoaded">
+    <div>
+      <mat-spinner class="uploader-status"></mat-spinner>
+    </div>
+  </div>
+  <div style="display:flex; flex-direction: column; align-items: center;" *ngIf="isLoaded">
     <div style="display: flex; max-width:800px; width: 100%; align-items: center; margin-top:15px;"
       *ngFor="let item of arr">
       <div style="flex: 1;">

@@ -178,12 +178,12 @@
               <mat-tab label="OPEN ORDERS">
                 <div style="display: flex; justify-content: center; height: 350px;">
                   <div style="display:flex; justify-content: space-between; width:100%"
-                    *ngIf="authService.isLoggedIn && Object.keys(limitOpenOrders).length !== 0">
+                    *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0">
                     <div>
                       <div class="header-orderDetail">
                         PAIR
                       </div>
-                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
                         {{item.symbol}}
                       </div>
 
@@ -192,7 +192,7 @@
                       <div class="header-orderDetail">
                         AMOUNT
                       </div>
-                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
                         {{item.origQty}}
                       </div>
                     </div>
@@ -200,14 +200,21 @@
                       <div class="header-orderDetail">
                         PRICE
                       </div>
-                      <div class="order-detailItem" *ngFor="let item of Object.keys(limitOpenOrders)">
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
                         {{item.avgPrice | number : '1.2-2'}}
                       </div>
                     </div>
-
+                    <div>
+                      <div class="header-orderDetail">
+                        Action
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)">
+                        CLOSE
+                      </div>
+                    </div>
                   </div>
                   <div style="opacity: 0.8; font-weight:400; width:100%;"
-                    *ngIf="authService.isLoggedIn && Object.keys(limitOpenOrders).length == 0">
+                    *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">
                     No Open Order
                   </div>
                   <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">

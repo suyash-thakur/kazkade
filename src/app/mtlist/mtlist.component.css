@@ -141,6 +141,10 @@ color: #981B40;
 .snip1404 .plan-select a:hover {
   background-color: #981B40;
 }
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #981B40;
+}
+
 .snip1404 .plan:hover {
   margin-top: -10px;
   border-color: #981B40;

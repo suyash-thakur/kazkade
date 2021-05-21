@@ -16,6 +16,8 @@ export class MasterUserSettingComponent implements OnInit {
   isUpdateDesc = false;
   isUpdatePass = false;
   opened = false;
+  isError = false;
+  subject = '';
   description = '';
   support = '';
   userName = '';
@@ -26,6 +28,7 @@ export class MasterUserSettingComponent implements OnInit {
   apiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   password = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   securityKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+  isSupportSend = false;
 
   constructor(public http: HttpClient, public router: Router, public authService: AuthService) {
     if (window.innerWidth > 720) {
@@ -40,7 +43,7 @@ export class MasterUserSettingComponent implements OnInit {
   }
   submitDescription() {
     this.http.post(environment.Route + '/api/master-trader/mt-description', {
-      decription: this.description
+      description: this.description
     }).subscribe((res) => {
       console.log(res);
       this.isUpdateDesc = true;
@@ -72,6 +75,10 @@ export class MasterUserSettingComponent implements OnInit {
       email: this.email,
     }).subscribe((res: any) => {
       console.log(res);
+      if (res.name === 'MongoError') {
+        this.isError = true;
+        return;
+      }
       localStorage.setItem('user_name', res.full_name);
       localStorage.setItem('email', res.email);
       localStorage.setItem('mobile', res.mno);
@@ -92,7 +99,13 @@ export class MasterUserSettingComponent implements OnInit {
       this.isUpdateAPI = true;
     });
   }
-
+  submitSupport() {
+    this.http.post(environment.Route + '/api/admin/support', {
+      subject: this.subject
+    }).subscribe((res: any) => {
+      this.isSupportSend = true;
+    });
+  }
 
   toggleEdit() {
     this.isDis = !this.isDis;

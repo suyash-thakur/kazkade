@@ -10,6 +10,9 @@
       <div style="color: green; font-size: 18px;" *ngIf="isUpdate">
         Update Successful
       </div>
+      <div style="color: red; font-size: 18px;" *ngIf="isError">
+        Email or mobile number already exist
+      </div>
       <br>
 
       <div class="input_container">
@@ -98,6 +101,7 @@
     <div *ngIf="isUpdatePass" style="color: green;">
       Update Successful
     </div>
+
     <br>
       <!-- <div style="" class="input_container">
         <div class="label" style="flex:1">
@@ -128,7 +132,8 @@
         </div>
         </div>
         </div>
-        <div style="flex:1; margin-left:10px; background-color:#F1F1F1; padding: 20px;">
+        <div style="flex:1; margin-left:10px; background-color:#F1F1F1; padding: 20px;"
+          *ngIf="authService.userType === 'MASTER'">
           <h2>Edit about section</h2>
           <p class="label">This section will appear on your profile</p>
           <div style="color:green; font-size: 18px;" *ngIf="isUpdateDesc">
@@ -176,7 +181,7 @@
           </div>
           <div style="flex: 1; align-self: center;">
             <div class="input_container">
-              <input class="input_account" type="text" [disabled]="isDis" placeholder="subject">
+              <input class="input_account" type="text" [disabled]="isDis" placeholder="subject" [(ngModel)]="subject">
             </div>
             <div>
               <textarea class="input_account" type="email" rows="5"
@@ -184,6 +189,9 @@
                 [disabled]="isDis" placeholder="Enter Query Here"></textarea>
             </div>
             <div style=" justify-content: center;  display: flex;">
+              <div *ngIf="isSupportSend" style="color:green;">
+                Support Request Generated. We will get bact to you
+              </div>
               <div
                 style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
                 (click)="submitDescription()" *ngIf="!isDis">

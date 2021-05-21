@@ -69,7 +69,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   stopPriceSell = 0;
   stopPriceBuy = 0;
   openOrders = {};
-  limitOpenOrders = {};
+  limitOpenOrders = [];
   completedOrders = [];
   closePercentage = [];
   coinDataList: any = {};
@@ -231,14 +231,26 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
 
             });
-            this.http.get(environment.Route + '/api/action/future-positions').subscribe((res) => {
+            this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+              console.log(res)
+              res.data.positions.forEach(item => {
+                if (item.entryPrice > 0) {
+                  this.positions.push(item);
+                  this.closePercentage.push(0.0);
+                }
+                if (item.symbol === this.selectedCoin) {
+                  this.marginPrice = item.maintMargin;
+                }
+              });
+
               if (res !== {}) {
-                this.openOrders = res;
+                this.openOrders = (res.data.positions);
               }
+
             });
-            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res) => {
+            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
               if (res !== {}) {
-                this.limitOpenOrders = res;
+                this.limitOpenOrders = res.data;
               }
             });
           } else {
@@ -252,18 +264,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
             });
           }
-          if (this.isFuture) {
-            this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-              if (res !== {}) {
-                res.data.positions.forEach((item) => {
-                  if (item.symbol === this.selectedCoin) {
-                    this.marginPrice = item.maintMargin;
-                  }
-                });
-              }
+          // if (this.isFuture) {
+          //   this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+          //     if (res !== {}) {
+          //       res.data.positions.forEach((item) => {
+          //         if (item.symbol === this.selectedCoin) {
+          //           this.marginPrice = item.maintMargin;
+          //         }
+          //       });
+          //     }
 
-            });
-          }
+          //   });
+          // }
 
         }
 
@@ -295,6 +307,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     }
     this.myWebSocket.subscribe();
 
+  }
+  cancelOrder(i) {
+    this.http.post(environment.Route + '/api/action/future-cancle-order', this.limitOpenOrders[i]).subscribe((res) => {
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
+    });
   }
   toggleLimit() {
     this.isLimit = !this.isLimit;
@@ -378,7 +399,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }).subscribe((res: any) => {
 
 
-          this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+          this.http.get(environment.Route + '/api/action/account').subscribe((res: any) => {
+            console.log(res)
             res.data.forEach(item => {
               if (item.entryPrice > 0) {
                 this.positions.push(item);

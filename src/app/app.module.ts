@@ -41,7 +41,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonModule } from '@angular/common';
 import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { PilComponent } from './follower-list/follower-list.component';
-import { MtlistComponent } from './mtlist/mtlist.component';
+import { MtlistComponent, MasterDataComponent } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -98,7 +98,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     TermsComponent,
     TradingMarketComponent,
     ForgotPasswordComponent,
-    ForgotPasswordInputComponent
+    ForgotPasswordInputComponent,
+    MasterDataComponent
 
   ],
 
@@ -106,7 +107,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     BuycomComponent,
     DialogSell,
     DialogTrade,
-    PilComponent
+    PilComponent,
+    MasterDataComponent
   ],
   imports: [
     MatFormFieldModule,

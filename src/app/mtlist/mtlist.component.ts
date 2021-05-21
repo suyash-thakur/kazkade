@@ -20,6 +20,7 @@ export class MtlistComponent implements OnInit {
   followerId = [];
   amount: any;
   followMsg = '';
+  isLoaded = false;
 
 
   constructor(private httpService: HttpClient,public router: Router,
@@ -49,6 +50,7 @@ export class MtlistComponent implements OnInit {
 
     this.http.get(this.endpoint).subscribe((res: any) => {
       this.arr = res;
+      this.isLoaded = true;
       console.log(this.arr);
     },
     (err: HttpErrorResponse) => {
