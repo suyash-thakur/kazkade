@@ -75,7 +75,7 @@
       <div>
         <div style="background-color:white; height: 400px; margin:5px;">
           <mat-tab-group class="orderDetail" style="max-width: 100%;" class="completedorders">
-            <mat-tab label="OPEN POSITIONS" *ngIf="Object.keys(openOrders).length !== 0">
+            <mat-tab label="OPEN POSITIONS" *ngIf="Object.keys(openOrders).length !== 0 && isFuture">
               <div style="display:flex; justify-content: space-between; ">
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
@@ -204,7 +204,7 @@
                         {{item.avgPrice | number : '1.2-2'}}
                       </div>
                     </div>
-                    <div>
+                    <div *ngIf="isFuture">
                       <div class="header-orderDetail">
                         Action
                       </div>

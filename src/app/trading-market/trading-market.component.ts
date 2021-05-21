@@ -254,14 +254,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
             });
           } else {
-            this.http.get(environment.Route + '/api/action/acount').subscribe((res: any) => {
-              if (res !== {} && res.length > 0) {
-                console.log(res);
-                this.openOrders = (res);
-
-
+            this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
+              console.log(res);
+              if (res !== {}) {
+                this.limitOpenOrders = res.data;
               }
-
             });
           }
           // if (this.isFuture) {
@@ -764,7 +761,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     }
   }
   sell(): void {
-    if (!this.isLImitSell) {
+    if (!this.authService.isLoggedIn) {
       this.router.navigate(['/login']);
       return;
     }
