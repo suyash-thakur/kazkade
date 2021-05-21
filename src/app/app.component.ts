@@ -100,7 +100,7 @@ export class AppComponent implements AfterViewInit{
   }
   spotSelect() {
     this.authService.isFuture = false;
-    this.router.navigate(["/trade/spot/ETHUSDT"]);
+    this.router.navigate(["/trade/spot/BTCUSDT"]);
 
   }
 

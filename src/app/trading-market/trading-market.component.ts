@@ -144,6 +144,88 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
   ];
+  wathcListFuture: Array<any> = [
+    'BINANCE:ETH' + this.currentCurrency,
+    'BINANCE:BNB' + this.currentCurrency,
+    'BINANCE:DOT' + this.currentCurrency,
+    'BINANCE:BTC' + this.currentCurrency,
+    'BINANCE:ADA' + this.currentCurrency,
+    'BINANCE:1INCH' + this.currentCurrency,
+    'BINANCE:ALGO' + this.currentCurrency,
+    'BINANCE:AVAX' + this.currentCurrency,
+    'BINANCE:BZRX' + this.currentCurrency,
+    'BINANCE:CELR' + this.currentCurrency,
+    'BINANCE:CRV' + this.currentCurrency,
+    'BINANCE:EOS' + this.currentCurrency,
+    'BINANCE:FLM' + this.currentCurrency,
+    'BINANCE:KAVA' + this.currentCurrency,
+    'BINANCE:LIT' + this.currentCurrency,
+    'BINANCE:ONE' + this.currentCurrency,
+    'BINANCE:RLC' + this.currentCurrency,
+    'BINANCE:SXP' + this.currentCurrency,
+    'BINANCE:TRX' + this.currentCurrency,
+    'BINANCE:UNI' + this.currentCurrency,
+    'BINANCE:XLM' + this.currentCurrency,
+    'BINANCE:XRP' + this.currentCurrency,
+    'BINANCE:YFI' + this.currentCurrency,
+    'BINANCE:ZRX' + this.currentCurrency,
+    'BINANCE:LINK' + this.currentCurrency,
+
+
+  ];
+  wathlistSpot: Array<any> = [
+
+    "BINANCE:BTC" + this.currentCurrency,
+
+    "BINANCE:ETH" + this.currentCurrency,
+
+    "BINANCE:BNB" + this.currentCurrency,
+
+    "BINANCE:XRP" + this.currentCurrency,
+
+    "BINANCE:DOGE" + this.currentCurrency,
+
+    "BINANCE:ADA" + this.currentCurrency,
+
+    "BINANCE:COCOS" + this.currentCurrency,
+
+    "BINANCE:BCH" + this.currentCurrency,
+
+    "BINANCE:LTC" + this.currentCurrency,
+
+    "BINANCE:LINK" + this.currentCurrency,
+
+    "BINANCE:XLM" + this.currentCurrency,
+
+    "BINANCE:VET" + this.currentCurrency,
+
+    "BINANCE:THETA" + this.currentCurrency,
+
+    "BINANCE:IOTA" + this.currentCurrency,
+
+    "BINANCE:ETC" + this.currentCurrency,
+
+    "BINANCE:FTT" + this.currentCurrency,
+
+    "BINANCE:ATOM" + this.currentCurrency,
+
+    "BINANCE:ALGO" + this.currentCurrency,
+
+    "BINANCE:MKR" + this.currentCurrency,
+
+    "BINANCE:XTZ" + this.currentCurrency,
+
+    "BINANCE:DASH" + this.currentCurrency,
+
+    "BINANCE:XEM" + this.currentCurrency,
+
+    "BINANCE:DREP" + this.currentCurrency,
+
+    "BINANCE:DCR" + this.currentCurrency,
+
+    "BINANCE:MATIC" + this.currentCurrency
+
+  ];
   constructor(private router: Router,
     private route: ActivatedRoute, private cdRef: ChangeDetectorRef,
     public authService: AuthService, public http: HttpClient) {
@@ -156,8 +238,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
       if (params.market === 'future') {
         this.isFuture = true;
+        this.wathcList = this.wathcListFuture;
+
       } else {
         this.isFuture = false;
+        this.wathcList = this.wathlistSpot;
       }
       this.selectedCoinSocket = this.selectedCoin.replace('USDT', '').toLowerCase();
 
