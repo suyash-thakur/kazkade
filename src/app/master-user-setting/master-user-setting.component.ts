@@ -105,8 +105,11 @@ export class MasterUserSettingComponent implements OnInit {
     }).subscribe((res: any) => {
       this.isSupportSend = true;
     });
-  }
 
+  }
+  passChange() {
+    this.router.navigate(['/enterForgotPassword']);
+  }
   toggleEdit() {
     this.isDis = !this.isDis;
     this.apiKey = '';

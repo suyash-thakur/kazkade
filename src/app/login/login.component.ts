@@ -13,11 +13,13 @@ export class LoginComponent implements OnInit {
   signinForm: FormGroup;
   signupForm: FormGroup;
   a = 0;
+  b = 0;
   isForgotPass = false;
   isDisabled = true;
   showMsg = false;
   isSignedUp = false;
   isSignupValid = false;
+  errMsg = '';
 
   emailValidExpe: RegExp = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
   passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/);
@@ -65,9 +67,10 @@ export class LoginComponent implements OnInit {
     }
     else
     {
+
       this.signinForm.reset();
 
-      this.a=1;
+      this.b = 1;
     }
   }
   sendmail() {
@@ -86,27 +89,44 @@ export class LoginComponent implements OnInit {
 
 
     if (this.signupForm.value.email !== '' && this.signupForm.value.email !== null
-      && this.signupForm.value.password !== '' && this.signupForm.value.password !== null
-      // && this.signupForm.value.password!=this.signupForm.value.password
-
-      && this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signupForm.value.email))
+      && this.signupForm.value.password !== '' && this.signupForm.value.password !== null)
     {
-    this.authService.signUp(this.signupForm.value).subscribe((res) => {
-      this.signupForm.reset();
-      this.isSignupValid = false;
+      if (this.passwordValidExpe.test(this.signupForm.value.password) && this.emailValidExpe.test(this.signupForm.value.email)) {
+        this.authService.signUp(this.signupForm.value).subscribe((res) => {
+          console.log("Success", res);
+          this.signupForm.reset();
+          this.isSignupValid = false;
+          this.a = 0;
+          this.isSignedUp = true;
+        }, (err) => {
+          console.log(err.status);
+          if (err.status === 400) {
+            this.signupForm.reset();
+            this.isSignupValid = true;
+            this.isSignedUp = false;
+            this.a = 0;
+            return;
+          }
+        });
+      } else {
+        this.signupForm.reset();
+        this.errMsg = 'Password must contains minimum eight characters, at least one letter and one number';
+        this.a = 1;
+        this.isSignupValid = false;
+        this.isSignedUp = false;
 
-      this.isSignedUp = true;
-    }, (err) => {
-      console.log(err.status);
-      if (err.status === 400) {
-        this.isSignupValid = true;
+
       }
-      });
+
     }
     else{
       this.signupForm.reset();
       // this.router.navigate(['register']);
-      this.a=1;
+      this.errMsg = 'Please provide all the necessary details';
+      this.isSignupValid = false;
+      this.isSignedUp = false;
+
+      this.a = 1;
     }
   }
   check(){

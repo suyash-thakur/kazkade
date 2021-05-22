@@ -4,7 +4,7 @@
   <mat-drawer-container class="example-container" autosize
     style="min-height: 80vh; padding:10%; padding-top: 20PX;    background-color: rgba(206, 200, 200, 0.1);
   ">
-  <div style="display:flex; justify-content: center; background-color:#F1F1F1">
+  <div style="display:flex; justify-content: center; background-color:#F1F1F1" *ngIf="authService.isLoggedIn">
     <div class="example-sidenav-content">
       <h2>Account Details</h2>
       <div style="color: green; font-size: 18px;" *ngIf="isUpdate">
@@ -55,7 +55,7 @@
       </div>
       </div>
       <br>
-      <div style="display:flex; justify-content: center; background-color:#F1F1F1">
+      <div style="display:flex; justify-content: center; background-color:#F1F1F1" *ngIf="authService.isLoggedIn">
 
         <div class="example-sidenav-content">
           <h2>Key Settings</h2>
@@ -94,7 +94,7 @@
                   </div>
 </div>
 <br>
-<div style="display:flex; justify-content: center; ">
+<div style="display:flex; justify-content: center; " *ngIf="authService.isLoggedIn">
 
   <div style="flex:1; margin-right:10px; background-color:#F1F1F1; padding: 20px;">
     <h2>Password Details</h2>
@@ -113,22 +113,18 @@
           </div> -->
           <div style="" class="input_container">
             <div class="label" style="flex:1">
-          New Password
+          Old Password
           </div>
           <div style="flex:3">
             <input class="input_account" type="password" [disabled]="isDis" [(ngModel)]="password">
           </div>
           </div>
       <div style=" justify-content: center;" class="input_container">
+
         <div
-          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
-          (click)="passwordEdit()" *ngIf="!isDis">
-          Save
-        </div>
-        <div
-          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
-          (click)="toggleEdit()" *ngIf="isDis">
-          Edit
+          style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 120px; text-align: center;"
+          (click)="passChange()" >
+          Change
         </div>
         </div>
         </div>

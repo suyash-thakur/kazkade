@@ -41,7 +41,7 @@
                 <div style="display: flex; justify-content:center; align-items: center;">
                   <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                   <div>
-                    <button mat-button color="primary" (click)="submitPayment()">
+                    <button mat-button color="primary" (click)="submitPayment('BTC')">
                       Submit
                     </button>
                   </div>
@@ -76,7 +76,7 @@
                 </mat-card-content>
                 </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="ETH">
+                <mat-tab style="margin: auto; max-width: 800px" label="ETH" (click)="selectCoin('ETH')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -117,7 +117,7 @@
                       <div style="display: flex; justify-content:center; align-items: center;">
                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                         <div>
-                          <button mat-button color="primary" (click)="submitPayment()">
+                          <button mat-button color="primary" (click)="submitPayment('ETH')">
                             Submit
                           </button>
                         </div>
@@ -152,7 +152,7 @@
                     </mat-card-content>
                   </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="USDT">
+                <mat-tab style="margin: auto; max-width: 800px" label="USDT" (click)="selectCoin('USDT')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -216,7 +216,7 @@
                       <div style="display: flex; justify-content:center; align-items: center;">
                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                         <div>
-                          <button mat-button color="primary" (click)="submitPayment()">
+                          <button mat-button color="primary" (click)="submitPayment('USDT')">
                             Submit
                           </button>
                         </div>
@@ -251,7 +251,7 @@
                     </mat-card-content>
                   </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="BNB">
+                <mat-tab style="margin: auto; max-width: 800px" label="BNB" (click)="selectCoin('BNB')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -293,7 +293,7 @@
                       <div style="display: flex; justify-content:center; align-items: center;">
                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                         <div>
-                          <button mat-button color="primary" (click)="submitPayment()">
+                          <button mat-button color="primary" (click)="submitPayment('BNB')">
                             Submit
                           </button>
                         </div>
@@ -328,7 +328,7 @@
                     </mat-card-content>
                   </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="EOS">
+                <mat-tab style="margin: auto; max-width: 800px" label="EOS" (click)="selectCoin('EOS')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -382,7 +382,7 @@
                       <div style="display: flex; justify-content:center; align-items: center;">
                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                         <div>
-                          <button mat-button color="primary" (click)="submitPayment()">
+                          <button mat-button color="primary" (click)="submitPayment('EOS')">
                             Submit
                           </button>
                         </div>
@@ -417,7 +417,7 @@
                     </mat-card-content>
                   </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="LTC">
+                <mat-tab style="margin: auto; max-width: 800px" label="LTC" (click)="selectCoin('LTC')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -459,7 +459,7 @@
                       <div style="display: flex; justify-content:center; align-items: center;">
                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                         <div>
-                          <button mat-button color="primary" (click)="submitPayment()">
+                          <button mat-button color="primary" (click)="submitPayment('LTC')">
                             Submit
                           </button>
                         </div>
@@ -494,7 +494,7 @@
                     </mat-card-content>
                   </mat-card>
                 </mat-tab>
-                <mat-tab style="margin: auto; max-width: 800px" label="XRP">
+                <mat-tab style="margin: auto; max-width: 800px" label="XRP" (click)="selectCoin('XRP')">
                   <mat-card>
                     <mat-card-title>
                       <div style="display:flex;align-items: center;">
@@ -550,7 +550,7 @@
                                                   <div style="display: flex; justify-content:center; align-items: center;">
                                                     <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                                                     <div>
-                                                      <button mat-button color="primary" (click)="submitPayment()">
+                                                      <button mat-button color="primary" (click)="submitPayment('XRP')">
                                                         Submit
                                                       </button>
                                                     </div>
@@ -630,7 +630,7 @@
                                                       <div style="display: flex; justify-content:center; align-items: center;">
                                                         <div><input [(ngModel)]="paymentId" style="border:1px solid gray;" placeholder="Payment Id"></div>
                                                         <div>
-                                                          <button mat-button color="primary" (click)="submitPayment()">
+                                                          <button mat-button color="primary" (click)="submitPayment('TRX')">
                                                             Submit
                                                           </button>
                                                         </div>

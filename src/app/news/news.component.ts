@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./news.component.css']
 })
 export class NewsComponent implements OnInit {
-  call = true;
+  call = false;
   news = [];
   constructor( private http: HttpClient) {
     this.http.get('https://newsapi.org/v2/everything?q=bitcoin&apiKey=2edf6f125baf49c9a1e4224351124306').subscribe((res: any) => {

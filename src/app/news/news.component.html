@@ -30,11 +30,14 @@
     </div>
   </div>
 </div>
-<div *ngIf="!this.call" style="min-height: 100%;">
+<div *ngIf="!this.call"
+  style="min-height: 100%; display: flex; justify-content:center; align-items: center; min-height: 60vh;">
+  <div>
   <span class="centered">
     <h2 style="color: #981B40;">News are being updated... </h2>
     <h2 style="margin-left: 75px;">
       <mat-spinner color="#981B40;" style="color: #981B40;"></mat-spinner>
     </h2>
   </span>
+</div>
 </div>

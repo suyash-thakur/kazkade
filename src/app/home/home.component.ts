@@ -17,14 +17,19 @@ export class HomeComponent implements OnInit {
     console.log(this.authService.subscription);
   }
   selectPlan(plan) {
-    this.authService.selectedPlan = plan;
-    console.log(this.authService.subscription);
-    if (this.authService.subscription === null || this.authService.subscription === undefined || this.authService.subscription.subscription_type == null) {
-      this.router.navigate(['/deposit'])
+    if (this.authService.isLoggedIn === true) {
+      this.authService.selectedPlan = plan;
+      console.log(this.authService.subscription);
+      if (this.authService.subscription === null || this.authService.subscription === undefined || this.authService.subscription.subscription_type == null) {
+        this.router.navigate(['/deposit'])
 
+      } else {
+        this.openDialog();
+      }
     } else {
-      this.openDialog();
+      this.router.navigate(['/login']);
     }
+
 
   }
   openDialog() {

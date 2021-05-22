@@ -148,6 +148,7 @@ export class AuthService {
 
   doLogout() {
     const removeToken = localStorage.removeItem('access_token');
+    localStorage.clear();
     localStorage.setItem('isLoggedIn', 'false');
 
     if (removeToken == null) {

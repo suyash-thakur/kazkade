@@ -187,7 +187,6 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     "BINANCE:ADA" + this.currentCurrency,
 
-    "BINANCE:COCOS" + this.currentCurrency,
 
     "BINANCE:BCH" + this.currentCurrency,
 
@@ -205,7 +204,6 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     "BINANCE:ETC" + this.currentCurrency,
 
-    "BINANCE:FTT" + this.currentCurrency,
 
     "BINANCE:ATOM" + this.currentCurrency,
 
@@ -219,10 +217,6 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     "BINANCE:XEM" + this.currentCurrency,
 
-    "BINANCE:DREP" + this.currentCurrency,
-
-    "BINANCE:DCR" + this.currentCurrency,
-
     "BINANCE:MATIC" + this.currentCurrency
 
   ];
@@ -235,24 +229,22 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       console.log(params.coin);
       this.selectedCoin = params.coin;
       this.myWebSocket.unsubscribe();
-
       if (params.market === 'future') {
         this.isFuture = true;
         this.wathcList = this.wathcListFuture;
+        this.myWebSocket = webSocket('wss://fstream.binance.com/ws');
+
 
       } else {
         this.isFuture = false;
         this.wathcList = this.wathlistSpot;
+        this.myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
+
       }
       this.selectedCoinSocket = this.selectedCoin.replace('USDT', '').toLowerCase();
 
       console.log(this.selectedCoinSocket)
-      if (this.isFuture) {
-        this.myWebSocket = webSocket('wss://fstream.binance.com/ws');
-      } else {
-        this.myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
 
-      }
       this.myWebSocket.next({
         method: 'SUBSCRIBE',
         params: [
@@ -269,8 +261,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.http.get('https://fapi.binance.com/fapi/v1/exchangeInfo').subscribe((res: any) => {
         let number1 = 0;
         const number2 = 0;
+        console.log(res);
+
         res.symbols.forEach(async (item: any, index, array) => {
           if (this.wathcList.indexOf('BINANCE:' + item.symbol) > -1) {
+            console.log(item);
+
             const coinChange: any = await this.http.get('https://api.binance.com/api/v3/ticker/24hr?symbol=' + item.symbol).toPromise();
             const coinData: CoinInfo = {
               symbol: item.symbol,
@@ -294,15 +290,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               res.symbols.forEach((item) => {
                 if (this.wathcList.indexOf('BINANCE:' + item.symbol) > -1) {
                   this.coinDataList[item.symbol].precision = item.quantityPrecision;
+                  console.log(item);
                 }
 
               })
             });
             this.buyAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
             this.sellAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
-
+            console.log("THis is called");
             this.isLoaded = true;
+
           }
+
         }
 
         );
@@ -1042,6 +1041,52 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
               }
               this.coinDataList.ETHUSDT.volume.push(history);
+
+            }
+
+          }
+        }
+        if (message.s === 'BTCUSDT' && this.coinDataList.BTCUSDT !== undefined) {
+          this.coinDataList.BTCUSDT.priceChangePercent = message.P;
+          this.coinDataList.BTCUSDT.priceChange = message.p;
+          if (this.coinDataList.BTCUSDT.volume.length === 12) {
+            if (!this.isFuture) {
+              const history = {
+                buyVolume: message.B,
+                buPrice: message.b,
+                sellVolume: message.A,
+                sellPrice: message.a
+              }
+              this.coinDataList.BTCUSDT.volume.shift();
+              this.coinDataList.BTCUSDT.volume.push(history);
+            } else {
+              const history = {
+                buyVolume: message.Q,
+                buPrice: message.c,
+
+              }
+              this.coinDataList.BTCUSDT.volume.shift();
+              this.coinDataList.BTCUSDT.volume.push(history);
+            }
+
+
+          } else {
+            if (!this.isFuture) {
+              const history = {
+                buyVolume: message.B,
+                buPrice: message.b,
+                sellVolume: message.A,
+                sellPrice: message.a
+              }
+              this.coinDataList.BTCUSDT.volume.push(history);
+
+            } else {
+              const history = {
+                buyVolume: message.Q,
+                buPrice: message.c,
+
+              }
+              this.coinDataList.BTCUSDT.volume.push(history);
 
             }
 
@@ -1813,9 +1858,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }
         if (message.s === 'BNBUSD' && this.coinDataList.BNBUSD !== undefined) {
           this.coinDataList.BNBUSD.priceChangePercent = message.P;
-          this.coinDataList.BZRXUSDT.priceChange = message.p;
+          this.coinDataList.BNBUSD.priceChange = message.p;
 
-          if (this.coinDataList.BZRXUSDT.volume.length === 12) {
+          if (this.coinDataList.BNBUSD.volume.length === 12) {
             if (!this.isFuture) {
               const history = {
                 buyVolume: message.B,
@@ -1823,16 +1868,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 sellVolume: message.A,
                 sellPrice: message.a
               }
-              this.coinDataList.BZRXUSDT.volume.shift();
-              this.coinDataList.BZRXUSDT.volume.push(history);
+              this.coinDataList.BNBUSD.volume.shift();
+              this.coinDataList.BNBUSD.volume.push(history);
             } else {
               const history = {
                 buyVolume: message.Q,
                 buPrice: message.c,
 
               }
-              this.coinDataList.BZRXUSDT.volume.shift();
-              this.coinDataList.BZRXUSDT.volume.push(history);
+              this.coinDataList.BNBUSD.volume.shift();
+              this.coinDataList.BNBUSD.volume.push(history);
             }
 
 
