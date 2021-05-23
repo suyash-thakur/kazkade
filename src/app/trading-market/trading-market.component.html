@@ -124,7 +124,7 @@
                   <div class="header-orderDetail">
                     ACTION
                   </div>
-                  <div class="order-detailItem" *ngFor="let item of positions; let i = index"
+                  <div class="order-detailItem" *ngFor="let item of positions; let i = index" style="cursor: pointer;"
                     (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
                     CLOSE
                   </div>
@@ -146,12 +146,12 @@
                     </div>
 
                   </div>
-                  <div>
+                  <div style="text-align: center;">
                     <div class="header-orderDetail">
                       AMOUNT
                     </div>
                     <div class="order-detailItem" *ngFor="let item of completedOrders">
-                      {{item.origQty}}
+                      <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
                     </div>
                   </div>
                   <div>
@@ -193,7 +193,7 @@
                         AMOUNT
                       </div>
                       <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                        {{item.origQty}}
+                        <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
                       </div>
                     </div>
                     <div>
@@ -201,14 +201,15 @@
                         PRICE
                       </div>
                       <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                        {{item.avgPrice | number : '1.2-2'}}
+                        {{item.price}}
                       </div>
                     </div>
                     <div *ngIf="isFuture">
                       <div class="header-orderDetail">
                         Action
                       </div>
-                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)">
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)"
+                        style="cursor: pointer;">
                         CLOSE
                       </div>
                     </div>
@@ -286,7 +287,7 @@
                 <div>
                   <input type="number" [(ngModel)]="buyAtPriceSpot" [disabled]="!isLimit"
                     [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
-                    style="background-color:transparent; border: none; font-weight: bold;">
+                    style="background-color:transparent; border: none; font-weight: bold;" (ngModelChange)="changeTotalPrice()">
                 </div>
                 <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
                   LOWEST PRICE
@@ -537,7 +538,7 @@
                     style="background-color:transparent; border: none; font-weight: bold;" *ngIf="!isLimit">
                   <input type="number" [(ngModel)]="buyAtPriceLimit" [disabled]="!isLimit"
                     [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
-                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit">
+                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit" (ngModelChange)="changeTotalPrice()">
                 </div>
                 <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
                   LOWEST PRICE
@@ -639,7 +640,7 @@
               <div style="display: flex;">
                 <div>
                   <input type="number" [(ngModel)]="sellAtPriceLimit" step="0.000001" placeholder="PRICE"
-                    style="width:100%; border: none;" *ngIf="isLImitSell">
+                    style="width:100%; border: none;" *ngIf="isLImitSell" (ngModelChange)="changeTotalPriceSell()">
                   <input type="number" [(ngModel)]="sellAtPrice" step="0.000001" placeholder="PRICE"
                     style="width:100%; border: none;" *ngIf="!isLImitSell">
                 </div>

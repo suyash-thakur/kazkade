@@ -55,12 +55,24 @@ export class AppComponent implements AfterViewInit{
       this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
         console.log(res);
         res.forEach((item) => {
-          this.notification.push(JSON.parse(item.notification));
+          if (this.convertJson(item.notification)) {
+            console.log(JSON.parse(item.notification));
+            this.notification.push(JSON.parse(item.notification));
+          }
+
 
         })
       });
     }
 
+  }
+  convertJson(str): boolean {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false
+    }
+    return true
   }
   arr: string [];
   // tslint:disable-next-line: use-lifecycle-interface

@@ -108,14 +108,20 @@
           <li class="nav-item dropdown" *ngIf="this.authService.isLoggedIn"
             style=" padding-left: 15px; padding-right: 15px; border-radius: 15px;">
             <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+              style=" white-space: normal;"
               aria-expanded="false" *ngIf="username()">
               <mat-icon style="transform: translateY(2px);">notifications</mat-icon>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown2"
-              style="background-color:white; opacity:1; word-wrap: break-word;transform: translateX(-90px); width: 200px;">
-              <p class="dropdown-item" *ngFor="let item of notification" style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342)">
+              style="background-color:white; opacity:1; white-space: normal; transform: translateX(-440px);" >
+
+              <div class="dropdown-item" *ngFor="let item of notification " style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  ">
+
+
+
                 {{item.msg}}
-              </p>
+                </div>
+
               <p *ngIf="notification.length === 0" style="text-align: center;">
                 No Notification
               </p>
