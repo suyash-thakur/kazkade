@@ -42,7 +42,12 @@
         </div>
       </div>
       <div style="flex: 1; display: flex; justify-content:center;">
-        <div style=" color: #308725; font-size:20px; font-weight:bold;" *ngIf="item.balance !== {}">
+        <div style=" color: red; font-size:20px; font-weight:bold;"
+          *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') > -1">
+          {{item.balance.totalUnrealizedProfit }}
+        </div>
+        <div style=" color: #308725; font-size:20px; font-weight:bold;"
+          *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') === -1">
           {{item.balance.totalUnrealizedProfit }}
         </div>
         <div style=" color: #308725; font-size:20px; font-weight:bold;" *ngIf="item.balance.totalUnrealizedProfit == undefined">
@@ -110,9 +115,12 @@
                   (click)="followmasterTrader()">
                   Save
                 </div>
+                <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#exampleModal" class="btn btn-default"
+                  data-dismiss="modal">Close</button>
               </div>
             </div>
 
           </div>
         </div>
       </div>
+

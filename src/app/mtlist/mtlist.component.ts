@@ -75,8 +75,14 @@ export class MtlistComponent implements OnInit {
     this.http.post(environment.Route + '/api/master-trader/unfollow', { master_trader_id: id }).subscribe((res: any) => {
       console.log(res);
       let followArray = this.followerId;
+      console.log(this.followerId);
+      console.log(id);
+
       let index = this.followerId.indexOf(id);
-      followArray.slice(index, 1);
+      console.log(index);
+      followArray.splice(index, 1);
+      console.log(followArray);
+
       this.followerId = followArray;
       console.log(this.followerId);
     });
@@ -116,6 +122,12 @@ export class MtlistComponent implements OnInit {
           let followTemp = this.followerId;
           followTemp.push(this.selectedId);
           this.followerId = followTemp;
+          setTimeout(() => {
+            document.getElementById("closeModalButton").click();
+            this.followMsg = '';
+
+          }, 1000);
+
         }
 
       });
@@ -123,10 +135,17 @@ export class MtlistComponent implements OnInit {
       this.selectedType = 'MANUAL';
       this.http.post(this.endpoint + '/follow', { master_trader_id: this.selectedId, trade_type: this.selectedType, ratio: this.amount }).subscribe((res: any) => {
         console.log(res);
+        this.followMsg = res.msg;
+
         if (res.msg == 'success') {
           let followTemp = this.followerId;
           followTemp.push(this.selectedId);
           this.followerId = followTemp;
+          setTimeout(() => {
+            document.getElementById("closeModalButton").click();
+            this.followMsg = '';
+
+          }, 1000);
         }
       });
     }
@@ -198,14 +217,22 @@ export class MasterDataComponent {
   userData;
   pilData = [];
   assetsData = [];
+  winCount = 0;
+  lossCount = 0;
+  totalPnl = "0";
 
   constructor(public authService: AuthService) {
     this.userData = this.authService.selectedMasterTrader;
     console.log(this.userData);
     if (this.userData.balance.positions !== undefined) {
-
+      this.totalPnl = this.userData.balance.totalUnrealizedProfit;
       this.userData.balance.positions.forEach(data => {
         if (data.positionAmt > 0) {
+          if (data.unrealizedProfit.indexOf('-') > -1) {
+            this.lossCount = this.lossCount + 1;
+          } else {
+            this.winCount = this.winCount + 1;
+          }
           this.pilData.push(data);
         }
       });

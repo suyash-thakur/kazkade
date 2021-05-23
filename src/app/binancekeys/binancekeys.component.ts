@@ -13,8 +13,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   })
   export class BinancekeysComponent {
     keys: FormGroup;
-    endpoint = environment.Route+'/api/user';
-  
+  endpoint = environment.Route + '/api/user';
+  pathKey: String = '';
+  pathSecret: String = '';
+
     constructor(
       public dialog: MatDialog,
       public fb: FormBuilder,
@@ -23,22 +25,23 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
       private http: HttpClient,
       private httpService: HttpClient,
       private actRoute: ActivatedRoute) {
-  
+
         let id = this.actRoute.snapshot.paramMap.get('id');
-  
+
         this.keys = this.fb.group({
           path_api_key: [''],
           path_secret_key: ['']
         });
-  
+
       }
-      
-      
+
+
       onSubmit() {
         var t:any;
         console.log(this.keys.value);
-        const url_to_hit = this.endpoint+'/user-key';
-        this.httpService.post(url_to_hit,this.keys.value,{observe: 'response'})
+        const url_to_hit = this.endpoint + '/user-key';
+
+        this.httpService.post(url_to_hit, { path_api_key: this.pathKey, path_secret_key: this.pathSecret }, { observe: 'response' })
         .subscribe((response: any) => {
             // localStorage.setItem('access_token', res.access_token);
             t=response.status;
@@ -53,8 +56,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
           this.dialog.open(DialogDataExampleDialog, {});
         }
         );
-        
+
       }
+
+
   }
 
 

@@ -37,7 +37,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   filteredOptions: Observable<string[]>;
   myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
   temp;
-
+  buyAtPriceSpot: number;
   buyAtPriceLimit: number;
   sellAtPriceLimit: number;
   isLimit = false;
@@ -236,6 +236,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
       } else {
+        this.currentLeverage = 1;
         this.isFuture = false;
         this.wathcList = this.wathlistSpot;
         this.myWebSocket = webSocket('wss://stream.binance.com:9443/ws');
@@ -431,11 +432,22 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   changeTotalPrice() {
     if (this.marketType !== 'Future') {
-      this.buyTotalPrice = this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice;
+      if (this.isLimit === false) {
+        this.buyTotalPrice = this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice;
+
+      } else {
+        this.buyTotalPrice = this.buyAmount * this.buyAtPriceSpot;
+
+      }
 
     } else {
-      this.buyTotalPrice = (this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice) / this.currentLeverage;
+      if (this.isLimit === true) {
+        console.log(this.buyAtPriceLimit);
+        this.buyTotalPrice = (this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice) / this.currentLeverage;
+      } else {
+        this.buyTotalPrice = (this.buyAmount * this.buyAtPriceLimit) / this.currentLeverage;
 
+      }
     }
   }
   changeSellAmount() {
@@ -775,19 +787,19 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         if (res.code === -2010) {
           this.isInsufficientFund = true;
-          this.errMsg = 'Insufficient Fund';
+          this.errMsgBuy = 'Insufficient Fund';
         }
         else if (res.code === -2013) {
           this.isInsufficientFund = true;
-          this.errMsg = 'Error Placing Order';
+          this.errMsgBuy = res.msg;
         }
         else if (res.code === -1013) {
           this.isInsufficientFund = true;
-          this.errMsg = 'Amount Lower Than Minimun Limit';
+          this.errMsgBuy = res.msg;
         }
         else {
           this.isInsufficientFund = true;
-          this.errMsg = res.msg;
+          this.errMsgBuy = res.msg;
         }
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -800,7 +812,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.http.post(environment.Route + '/api/action/buy-limit', {
         symbol: this.selectedCoin,
         quantity: this.buyAmount,
-        price: this.stopPriceBuy,
+        price: this.buyAtPriceSpot,
 
       }).subscribe((res: any) => {
 
@@ -2354,7 +2366,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         theme: 'light',
         style: '1',
         locale: 'in',
-        width: this.chartWidth - 200,
+        width: this.chartWidth - 100,
         height: 550,
         toolbar_bg: '#f1f3f6',
         enable_publishing: false,

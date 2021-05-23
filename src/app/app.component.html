@@ -96,6 +96,10 @@
                 [routerLink]="'followerList'">
                 <mat-icon>people</mat-icon>Following
               </a>
+              <a class="dropdown-item" *ngIf="this.authService.isLoggedIn && authService.userType === 'MASTER'"
+                [routerLink]="'followerList'">
+                <mat-icon>people</mat-icon>Followers
+              </a>
               <a class="dropdown-item" *ngIf="this.authService.isLoggedIn" (click)="logout()">
                 <mat-icon>exit_to_app</mat-icon> Logout
               </a>
