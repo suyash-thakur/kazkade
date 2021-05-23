@@ -695,12 +695,12 @@
           </mat-tab>
         </mat-tab-group>
         <br>
-        <div style="padding:10px;">
+        <div style="padding:10px; display:flex;">
           <div>
             <b style="font-size: 16px;"> Margin Ratio</b>
-          </div>
+          </div> &nbsp;
           <div>
-            <b style="opacity:0.7; font-size: 16px;">0.00%</b>
+            <b style="opacity:0.7; font-size: 16px;">{{marginRatio}}</b>
           </div>
         </div>
         <div style="padding:10px; display:flex;">
@@ -716,7 +716,7 @@
             <b style="font-size: 16px;"> Maintenance Balance</b>
           </div> &nbsp;
           <div>
-            <b style="opacity:0.7; font-size: 16px;">0.00 USDT</b>
+            <b style="opacity:0.7; font-size: 16px;">{{ marginBalace }}</b>
           </div>
         </div>
       </div>

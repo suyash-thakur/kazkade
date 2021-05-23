@@ -40,6 +40,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   buyAtPriceSpot: number;
   buyAtPriceLimit: number;
   sellAtPriceLimit: number;
+  marginBalace: number = 0;
+  marginRatio: number = 0;
   isLimit = false;
   isLImitSell = false;
   currentLeverage = 1;
@@ -319,6 +321,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 console.log(res);
 
                 this.completedOrders = (res.data);
+                this.completedOrders.reverse();
               }
 
             });
@@ -327,10 +330,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               res.data.positions.forEach(item => {
                 if (item.entryPrice > 0) {
                   this.positions.push(item);
+                  this.positions.reverse();
                   this.closePercentage.push(0.0);
+                  this.closePercentage.reverse();
                 }
+                this.marginBalace = res.data.totalMarginBalance;
+
                 if (item.symbol === this.selectedCoin) {
                   this.marginPrice = item.maintMargin;
+                  this.marginRatio = this.marginPrice / this.marginBalace
                   console.log(item);
                 }
               });
@@ -946,7 +954,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       console.log('sell');
       const symbol = this.getstockName(this.wathcList[this.index]);
       this.http.post(environment.Route + '/api/action/sell', {
-        symbol,
+        symbol: this.selectedCoin,
         quantity: this.sellAmount
       }).subscribe((res: any) => {
 
@@ -967,7 +975,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       console.log('sell');
       const symbol = this.getstockName(this.wathcList[this.index]);
       this.http.post(environment.Route + '/api/action/sell-limit', {
-        symbol,
+        symbol: this.selectedCoin,
         quantity: this.sellAmount,
         price: this.stopPriceSell
       }).subscribe((res: any) => {
