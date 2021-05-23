@@ -291,7 +291,6 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               res.symbols.forEach((item) => {
                 if (this.wathcList.indexOf('BINANCE:' + item.symbol) > -1) {
                   this.coinDataList[item.symbol].precision = item.quantityPrecision;
-                  console.log(item);
                 }
 
               })
@@ -320,11 +319,13 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               console.log(res)
               res.data.positions.forEach(item => {
                 if (item.entryPrice > 0) {
+                  console.log(item);
                   this.positions.push(item);
                   this.closePercentage.push(0.0);
                 }
                 if (item.symbol === this.selectedCoin) {
                   this.marginPrice = item.maintMargin;
+                  console.log(item);
                 }
               });
 
