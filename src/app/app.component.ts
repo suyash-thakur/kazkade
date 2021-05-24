@@ -55,11 +55,13 @@ export class AppComponent implements AfterViewInit{
       });
       this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
         console.log(res);
-        res.forEach((item) => {
-          if (this.convertJson(item.notification)) {
+        res.forEach((item, index) => {
+          if (this.convertJson(item.notification) && index < 10) {
             console.log(JSON.parse(item.notification));
             this.notification.push(JSON.parse(item.notification));
             this.timestamp.push(item.updatedAt);
+            this.notification.reverse();
+            this.timestamp.reverse();
           }
 
 

@@ -549,7 +549,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsgBuy = res.msg;
+            this.errMsgBuy = 'Order Placed';
           }
         }, (err: HttpErrorResponse) => {
 
@@ -585,7 +585,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsgBuy = res.msg;
+            this.errMsgBuy = 'Order Placed';
           }
         }, (err: HttpErrorResponse) => {
 
@@ -636,7 +636,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsgBuy = res.msg;
+            this.errMsgBuy = 'Order Placed';
           }
         }, (err: HttpErrorResponse) => {
 
@@ -698,7 +698,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsgBuy = "Order Completed";
+            this.errMsgBuy = 'Order Placed';
           }
         }, (err: HttpErrorResponse) => {
 
