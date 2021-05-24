@@ -22,7 +22,10 @@ export class ProfitLossComponent implements OnInit {
       console.log(res);
       this.pnlData = res;
       this.pnlData.data.positions.forEach((item) => {
-        if (Number(item.positionAmt) > 0) {
+        if (item.symbol === 'EOSUSDT') {
+          console.log(item);
+        }
+        if (Number(item.positionAmt) !== 0) {
           this.coinData.push(item);
         }
       });

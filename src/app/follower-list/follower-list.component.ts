@@ -56,6 +56,8 @@ export class PilComponent {
     public dialogRef: MatDialogRef<PilComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
     this.item = data;
+    this.lossCount = 0;
+    this.winCount = 0;
     data.balance.positions.forEach(data => {
       if (data.positionAmt !== 0) {
         this.pilData.push(data);
