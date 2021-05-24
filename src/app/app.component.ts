@@ -16,6 +16,7 @@ export class AppComponent implements AfterViewInit{
   title = 'Kazkade';
   indeterminate = 'indeterminate';
   notification = [];
+  timestamp = [];
   name:string;
   loading;
   constructor(private titleService: Title, private httpService: HttpClient, private http: HttpClient, public authService: AuthService, public router: Router) {
@@ -58,6 +59,7 @@ export class AppComponent implements AfterViewInit{
           if (this.convertJson(item.notification)) {
             console.log(JSON.parse(item.notification));
             this.notification.push(JSON.parse(item.notification));
+            this.timestamp.push(item.updatedAt);
           }
 
 

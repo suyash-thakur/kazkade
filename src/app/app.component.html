@@ -105,21 +105,22 @@
               </a>
             </div>
           </li>
-          <li class="nav-item dropdown" *ngIf="this.authService.isLoggedIn"
+          <li class="nav-item dropdown " *ngIf="this.authService.isLoggedIn"
             style=" padding-left: 15px; padding-right: 15px; border-radius: 15px;">
             <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
               style=" white-space: normal;"
               aria-expanded="false" *ngIf="username()">
               <mat-icon style="transform: translateY(2px);">notifications</mat-icon>
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown2"
-              style="background-color:white; opacity:1; white-space: normal; transform: translateX(-440px);" >
+            <div class="dropdown-menu notify-drop" aria-labelledby="navbarDropdown2"
+              style="background-color:white; opacity:1; white-space: normal; transform: translateX(-90px);">
 
-              <div class="dropdown-item" *ngFor="let item of notification " style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  ">
+              <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
+                style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  ">
 
 
-
-                {{item.msg}}
+                <b>{{item.msg}}</b> <br>
+                {{timestamp[i]| date:'medium'}}
                 </div>
 
               <p *ngIf="notification.length === 0" style="text-align: center;">

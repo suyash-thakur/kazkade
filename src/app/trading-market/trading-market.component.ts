@@ -698,7 +698,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }
           else {
             this.isInsufficientFund = true;
-            this.errMsgBuy = res.msg;
+            this.errMsgBuy = "Order Completed";
           }
         }, (err: HttpErrorResponse) => {
 
@@ -898,7 +898,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }
         else {
           this.isInsufficientFund = true;
-          this.errMsgBuy = res.msg;
+          this.errMsgBuy = 'Order Placed';
         }
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
