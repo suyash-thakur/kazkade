@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
         if (Number(item.availableBalance) > 0) {
           var pieDataVa = {
             "name": item.asset,
-            "value": Number(item.availableBalance)
+            "value": Math.abs(Number(item.availableBalance))
 
 
           }
@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
           if (Number(data.entryPrice) > 0) {
             var pieDataVa = {
               "name": data.symbol,
-              "value": Number(data.positionAmt)
+              "value": Math.abs(Number(data.positionAmt))
 
 
             }

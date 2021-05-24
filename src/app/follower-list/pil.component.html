@@ -1,16 +1,40 @@
 <h3 style="color:#981B40;
 font-size: 30px;">Performance</h3>
+<div style="color:green; font-weight: bold; font-size:18px">
+  Total Win Count: &nbsp; {{winCount}}
+</div>
+<div style="color:red; font-weight: bold;font-size:18px">
+  Total Loss Count: &nbsp; {{lossCount}}
 
+</div>
+<hr>
+
+<div style="flex: 1; display: flex; justify-content:start;">
+
+  <div style=" color: red; font-size:20px; font-weight:bold;"
+    *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') > -1">
+    Total PNL: &nbsp; {{item.balance.totalUnrealizedProfit }}
+  </div>
+  <div style=" color: #308725; font-size:20px; font-weight:bold;"
+    *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') === -1">
+    Total PNL: &nbsp; {{item.balance.totalUnrealizedProfit }}
+  </div>
+  <div style=" color: #308725; font-size:20px; font-weight:bold;"
+    *ngIf="item.balance.totalUnrealizedProfit == undefined">
+    Total PNL: &nbsp; 0
+  </div>
+</div>
+<br>
 <div style="display:flex; justify-content: center; align-items: center; flex-direction:column; min-width:500px;"
   *ngIf="pilData.length > 0">
   <div
-    style="display:flex; margin-top: 55px; padding-bottom: 15px; font-size:20px; width:100%;   border-bottom: 2px solid rgba(128, 128, 128, 0.295);" *ngFor="let item of pilData">
+    style="display:flex; margin-top: 55px; padding-bottom: 15px; font-size:20px; width:100%;   border-bottom: 2px solid rgba(128, 128, 128, 0.295);" *ngFor="let pos of pilData">
     <div style="flex: 1;">
-      <b>{{item.symbol}}</b> <br>
+      <b>{{pos.symbol}}</b> <br>
 
     </div>
     <div style="flex: 1; text-align: right; opacity: 0.8;">
-      {{item.unrealizedProfit}}
+      {{pos.unrealizedProfit}}
     </div>
   </div>
 

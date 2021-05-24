@@ -19,6 +19,7 @@ export class ProfitLossComponent implements OnInit {
   ngOnInit(): void {
 
     this.http.get<any>(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+      console.log(res);
       this.pnlData = res;
       this.pnlData.data.positions.forEach((item) => {
         if (Number(item.positionAmt) > 0) {

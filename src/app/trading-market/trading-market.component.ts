@@ -565,6 +565,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           side: 'BUY'
 
         }).subscribe((res: any) => {
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
+            }
+          });
           if (res.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsg = 'Insufficient Fund';
@@ -607,7 +613,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
           }).subscribe((res: any) => {
-
+            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+              console.log(res);
+              if (res !== {}) {
+                this.limitOpenOrders = res.data;
+              }
+            });
           }, (err: HttpErrorResponse) => {
 
           });

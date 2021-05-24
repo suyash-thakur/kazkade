@@ -35,7 +35,7 @@ export class FollowerListComponent implements OnInit {
   openDialog(index) {
     const dialogRef = this.dialog.open(PilComponent, {
       width: '550px',
-      data: this.followerList[index].balance.positions
+      data: this.followerList[index]
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -49,12 +49,23 @@ export class FollowerListComponent implements OnInit {
 })
 export class PilComponent {
   pilData = [];
+  item;
+  lossCount: any = 0;
+  winCount: any = 0;
   constructor(
     public dialogRef: MatDialogRef<PilComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
-    data.forEach(data => {
-      if (data.positionAmt > 0) {
+    this.item = data;
+    data.balance.positions.forEach(data => {
+      if (data.positionAmt !== 0) {
         this.pilData.push(data);
+      }
+      if (data.positionAmt > 0) {
+        if (data.unrealizedProfit.indexOf('-') > -1) {
+          this.lossCount = this.lossCount + 1;
+        } else {
+          this.winCount = this.winCount + 1;
+        }
       }
     });
   }
