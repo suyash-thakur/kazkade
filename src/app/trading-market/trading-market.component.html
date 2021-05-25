@@ -311,7 +311,7 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss  || isMarket || isLimit">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -326,6 +326,23 @@
               </div>
 
             </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="isStopLoss && !isMarket && !isLimit">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" (ngModelChange)="changeBuyAmount()"
+                  [(ngModel)]="stopPriceTotal">
+              </div>
+
+          </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
@@ -415,7 +432,7 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -430,6 +447,23 @@
               </div>
 
             </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="((isStopLossSell && !isMarketSell && !isLImitSell))">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" [(ngModel)]="stopPriceTotal" disabled step="0.000001" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeSellAmount()">
+              </div>
+
+          </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund2">
                 <b> {{ errMsg2 }}</b>
@@ -563,7 +597,7 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="isStopLoss && !isMarket && !isLimit">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -574,10 +608,24 @@
               </div>
               <div style="flex-grow: 1;">
                 <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
-                  (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
+                   [(ngModel)]="stopPriceTotal" disabled>
               </div>
             </div>
-
+            <div class="buy_input"
+            style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss  || isMarket || isLimit">
+            <div class="info" style="padding-right: 10px; padding-left: 5px;">
+              <div>
+                TOTAL
+              </div>
+              <div style="font-weight: bold;">
+                {{currentCurrency}}
+              </div>
+            </div>
+            <div style="flex-grow: 1;">
+              <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
+                (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
+            </div>
+          </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
@@ -613,7 +661,7 @@
 
             <div class="buy_input"
               style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
-              *ngIf="sellStopLimitValue === 'STOP LIMIT'">
+              *ngIf="isStopLossSell">
               <div class="info">
                 <div>
                   STOP PRICE
@@ -669,7 +717,7 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -681,6 +729,22 @@
               <div style="flex-grow: 1;">
                 <input type="number" [(ngModel)]="sellTotalPrice" step="0.000001" placeholder="PRICE" style="width:100%"
                   (ngModelChange)="changeSellAmount()">
+              </div>
+
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="((isStopLossSell && !isMarketSell && !isLImitSell))">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" [(ngModel)]="stopPriceTotal" step="0.000001" placeholder="PRICE" style="width:100%" disabled>
               </div>
 
             </div>

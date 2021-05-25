@@ -51,6 +51,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   lowPrice = 0;
   volCoin = 0;
   volUsdt = 0;
+  stopPriceTotal = 0;
   coinInput;
   marketType = 'Future';
   status = [];
@@ -415,6 +416,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   toggleMarketSell() {
     this.isMarketSell = !this.isMarketSell;
+    console.log(this.isMarketSell)
+
   }
   toggleLimit() {
     this.isLimit = !this.isLimit;
@@ -460,13 +463,20 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     } else {
       if (this.isLimit === true) {
-        console.log(this.buyAtPriceSpot);
-        this.buyTotalPrice = (this.buyAmount * this.buyAtPriceSpot) / this.currentLeverage;
+        console.log(this.buyAtPriceLimit);
+        this.buyTotalPrice = (this.buyAmount * this.buyAtPriceLimit) / this.currentLeverage;
       } else {
         this.buyTotalPrice = (this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice) / this.currentLeverage;
 
       }
     }
+    this.changeStopPriceTotalBuy();
+  }
+  changeStopPriceTotalBuy() {
+    this.stopPriceTotal = this.stopPriceBuy * this.buyAmount;
+  }
+  changeStopPriceTotalSell() {
+    this.stopPriceTotal = this.stopPriceSell * this.sellAmount;
   }
   changeSellAmount() {
     let amountDec = this.sellTotalPrice / this.coinDataList[this.selectedCoin].lastPrice;
@@ -494,6 +504,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
       }
     }
+    this.changeStopPriceTotalSell();
 
   }
   buyLeverage(): void {
@@ -507,6 +518,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     if (this.currentLeverage <= 0) {
       this.currentLeverage = 1;
     }
+
+
     this.http.post(environment.Route + '/api/action/future-leverage', {
       symbol: this.selectedCoin,
       leverage: this.currentLeverage,
