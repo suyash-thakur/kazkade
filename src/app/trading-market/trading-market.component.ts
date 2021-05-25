@@ -44,6 +44,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   marginRatio: number = 0;
   isLimit = false;
   isLImitSell = false;
+  isMarket = true;
+  isMarketSell = true;
   currentLeverage = 1;
   highPrice = 0;
   lowPrice = 0;
@@ -408,6 +410,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       });
     });
   }
+  toggleMarket() {
+    this.isMarket = !this.isMarket;
+  }
+  toggleMarketSell() {
+    this.isMarketSell = !this.isMarketSell;
+  }
   toggleLimit() {
     this.isLimit = !this.isLimit;
     console.log(this.isLimit)
@@ -503,7 +511,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       symbol: this.selectedCoin,
       leverage: this.currentLeverage,
     }).subscribe((res: any) => {
-      if (!this.isLimit && !this.isStopLoss) {
+      if (!this.isLimit && !this.isStopLoss && this.isMarket) {
 
         this.http.post(environment.Route + '/api/action/future-buy', {
           symbol: this.selectedCoin,
@@ -574,7 +582,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         });
       }
-      else if (this.isLimit && !this.isStopLoss) {
+      else if (this.isLimit && !this.isStopLoss && !this.isMarket) {
         this.http.post(environment.Route + '/api/action/future-limit', {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
@@ -649,20 +657,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         });
       }
-      else if (this.isLimit && this.isStopLoss) {
-        this.http.post(environment.Route + '/api/action/future-limit', {
-          symbol: this.selectedCoin,
-          quantity: this.buyAmount,
-          price: this.buyAtPriceLimit,
-          leverage: this.currentLeverage,
-          quantityPrecision: this.coinDataList[this.selectedCoin].precision,
-          side: 'BUY'
-
-        }).subscribe((res: any) => {
+      else if (!this.isLimit && this.isStopLoss && !this.isMarket) {
           this.http.post(environment.Route + '/api/action/future-stop-loss', {
             symbol: this.selectedCoin,
             quantity: this.buyAmount,
-            price: this.buyAtPriceLimit,
             stopPrice: this.stopPriceBuy,
             leverage: this.currentLeverage,
             quantityPrecision: this.coinDataList[this.selectedCoin].precision,
@@ -712,12 +710,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order Placed';
           }
-        }, (err: HttpErrorResponse) => {
 
-        });
 
       }
-      else if (!this.isLimit && this.isStopLoss) {
+      else if (!this.isLimit && this.isStopLoss && this.isMarket) {
         this.http.post(environment.Route + '/api/action/future-buy', {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
@@ -811,7 +807,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
               else {
                 this.isInsufficientFund = true;
-                this.errMsgBuy = res.msg;
+                this.errMsgBuy = 'Order Placed';
               }
             }, (err: HttpErrorResponse) => {
 
@@ -821,6 +817,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         });
 
+      } else {
+        this.isInsufficientFund = true;
+        this.errMsgBuy = 'Incorrect Combination';
       }
     });
 
@@ -848,54 +847,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
     }).subscribe((res: any) => {
-      if (this.isStopLossSell && this.isLImitSell) {
-        this.http.post(environment.Route + '/api/action/future-limit', {
-          symbol: this.selectedCoin,
-          quantity: this.sellAmount,
-          price: this.sellAtPriceLimit,
-          leverage: this.currentLeverage,
-          quantityPrecision: this.coinDataList[this.selectedCoin].precision,
-          side: 'SELL'
-
-
-        }).subscribe((res: any) => {
-          this.http.post(environment.Route + '/api/action/future-stop-loss', {
-            symbol: this.selectedCoin,
-            quantity: this.sellAmount,
-            price: this.sellAtPriceLimit,
-            stopPrice: this.stopPriceSell,
-            leverage: this.currentLeverage,
-            quantityPrecision: this.coinDataList[this.selectedCoin].precision,
-            ratio: 100,
-            side: 'SELL'
-
-
-          }).subscribe((res: any) => {
-
-          }, (err: HttpErrorResponse) => {
-
-          });
-          if (res.code === -2010) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
-          }
-          else if (res.code === -2013) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
-          }
-          else if (res.code === -1013) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
-          }
-          else {
-            this.isInsufficientFund = true;
-            this.errMsg = res.msg;
-          }
-        }, (err: HttpErrorResponse) => {
-
-        });
-
-      } else if (!this.isStopLossSell && this.isLImitSell) {
+      if (!this.isStopLossSell && this.isLImitSell && !this.isMarketSell) {
         this.http.post(environment.Route + '/api/action/future-limit', {
           symbol: this.selectedCoin,
           quantity: this.sellAmount,
@@ -941,7 +893,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }, (err: HttpErrorResponse) => {
 
         });
-      } else if (this.isStopLossSell && !this.isLImitSell) {
+      } else if (this.isStopLossSell && !this.isLImitSell && this.isMarketSell) {
         this.http.post(environment.Route + '/api/action/future-sell', {
           symbol: this.selectedCoin,
           quantity: this.sellAmount,
@@ -957,7 +909,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             leverage: this.currentLeverage,
             quantityPrecision: this.coinDataList[this.selectedCoin].precision,
             ratio: 100,
-            side: 'SELL'
+            side: 'BUY'
 
 
           }).subscribe((res: any) => {
@@ -996,7 +948,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.errMsg2 = 'Order Placed';
           }
         });
-      } else if (!this.isStopLossSell && !this.isLImitSell) {
+      } else if (!this.isStopLossSell && !this.isLImitSell && this.isMarketSell) {
         this.http.post(environment.Route + '/api/action/future-sell', {
           symbol: this.selectedCoin,
           quantity: this.sellAmount,
@@ -1030,6 +982,55 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.errMsg2 = 'Order Placed';
           }
         });
+      } else if (this.isStopLossSell && !this.isLImitSell && !this.isMarketSell) {
+        this.http.post(environment.Route + '/api/action/future-stop-loss', {
+          symbol: this.selectedCoin,
+          quantity: this.sellAmount,
+          stopPrice: this.stopPriceSell,
+          leverage: this.currentLeverage,
+          quantityPrecision: this.coinDataList[this.selectedCoin].precision,
+          ratio: 100,
+          side: 'BUY'
+
+
+        }).subscribe((res: any) => {
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            console.log(res)
+            if (res.code === -2010) {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = 'Insufficient Fund';
+
+            } else {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = 'Order Placed';
+            }
+            res.data.positions.forEach(item => {
+              if (item.entryPrice > 0) {
+                this.positions.push(item);
+                this.positions.reverse();
+                this.closePercentage.push(0.0);
+                this.closePercentage.reverse();
+              }
+              this.marginBalace = res.data.totalMarginBalance;
+
+              if (item.symbol === this.selectedCoin) {
+                this.marginPrice = item.maintMargin;
+                this.marginRatio = this.marginPrice / this.marginBalace
+                console.log(item);
+              }
+            });
+
+            if (res !== {}) {
+              this.openOrders = (res.data.positions);
+            }
+
+          });
+        }, (err: HttpErrorResponse) => {
+
+        });
+      } else {
+        this.isInsufficientFund2 = true;
+        this.errMsg2 = 'Incorrect Combination';
       }
 
     }, (err: HttpErrorResponse) => {
@@ -1045,7 +1046,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/login']);
       return;
     }
-    if (!this.isLimit) {
+    if (!this.isLimit && this.isMarket && !this.isStopLoss) {
       console.log(this.buyAmount);
       this.isInsufficientFund = false;
       const symbol = this.getstockName(this.wathcList[this.index]);
@@ -1074,7 +1075,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
-    } else if (this.isLimit) {
+    } else if (this.isLimit && !this.isMarket && !this.isStopLoss) {
       console.log(this.buyAmount);
       this.isInsufficientFund = false;
       const symbol = this.getstockName(this.wathcList[this.index]);
@@ -1105,6 +1106,75 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
+    } else if (!this.isLimit && this.isMarket && this.isStopLoss) {
+      console.log(this.buyAmount);
+      this.isInsufficientFund = false;
+      const symbol = this.getstockName(this.wathcList[this.index]);
+      console.log(symbol);
+      this.http.post(environment.Route + '/api/action/buy', {
+        symbol: this.selectedCoin,
+        quantity: this.buyAmount
+      }).subscribe((res: any) => {
+
+        if (res.code === -2010) {
+
+        }
+        else if (res.code === -2013) {
+
+        }
+        else if (res.code === -1013) {
+
+        }
+        else {
+          this.http.post(environment.Route + '/api/action/stop-loss', {
+            symbol: this.selectedCoin,
+            quantity: this.buyAmount,
+            stopPrice: this.stopPriceBuy,
+            side: 'SELL'
+          }).subscribe((res: any) => {
+            if (res.code === -2010) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Insufficient Fund';
+            }
+            else if (res.code === -2013) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = res.msg;
+            }
+            else if (res.code === -1013) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = res.msg;
+            } else {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Order Placed';
+            }
+          });
+        }
+      }, (err: HttpErrorResponse) => {
+        console.log(err.message);
+      });
+    } else if (!this.isLimit && !this.isMarket && this.isStopLoss) {
+      this.http.post(environment.Route + '/api/action/stop-loss', {
+        symbol: this.selectedCoin,
+        quantity: this.buyAmount,
+        stopPrice: this.stopPriceBuy,
+        side: 'SELL'
+      }).subscribe((res: any) => {
+        if (res.code === -2010) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = 'Insufficient Fund';
+        }
+        else if (res.code === -2013) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg;
+        }
+        else if (res.code === -1013) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg;
+        } else {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = 'Order Placed';
+        }
+      });
     }
 
   }
@@ -1131,7 +1201,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/login']);
       return;
     }
-    if (this.sellStopLimitValue === 'LIMIT') {
+    if (!this.isLImitSell && this.isMarketSell && !this.isStopLossSell) {
 
       console.log('sell');
       const symbol = this.getstockName(this.wathcList[this.index]);
@@ -1152,14 +1222,14 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
-    } else if (this.isLImitSell) {
+    } else if (this.isLImitSell && !this.isMarketSell && !this.isStopLossSell) {
 
       console.log('sell');
       const symbol = this.getstockName(this.wathcList[this.index]);
       this.http.post(environment.Route + '/api/action/sell-limit', {
         symbol: this.selectedCoin,
         quantity: this.sellAmount,
-        price: this.stopPriceSell
+        price: this.sellAtPriceLimit
       }).subscribe((res: any) => {
 
         if (res.code === -2010) {
@@ -1174,6 +1244,72 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
+    } else if (!this.isLImitSell && this.isMarketSell && this.isStopLossSell) {
+      console.log('sell');
+      const symbol = this.getstockName(this.wathcList[this.index]);
+      this.http.post(environment.Route + '/api/action/sell', {
+        symbol: this.selectedCoin,
+        quantity: this.sellAmount
+      }).subscribe((res: any) => {
+
+        if (res.code === -2010) {
+          this.isInsufficientFund2 = true;
+          this.errMsg2 = 'Insufficient Fund';
+
+        } else {
+          this.http.post(environment.Route + '/api/action/stop-loss', {
+            symbol: this.selectedCoin,
+            quantity: this.buyAmount,
+            stopPrice: this.stopPriceBuy,
+            side: 'BUY'
+          }).subscribe((res: any) => {
+            if (res.code === -2010) {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = 'Insufficient Fund';
+            }
+            else if (res.code === -2013) {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = res.msg;
+            }
+            else if (res.code === -1013) {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = res.msg;
+            } else {
+              this.isInsufficientFund2 = true;
+              this.errMsg2 = 'Order Placed';
+            }
+          });
+        }
+
+      }, (err: HttpErrorResponse) => {
+        console.log(err.message);
+      });
+    } else if (!this.isLImitSell && !this.isMarketSell && this.isStopLossSell) {
+      this.http.post(environment.Route + '/api/action/stop-loss', {
+        symbol: this.selectedCoin,
+        quantity: this.buyAmount,
+        stopPrice: this.stopPriceBuy,
+        side: 'BUY'
+      }).subscribe((res: any) => {
+        if (res.code === -2010) {
+          this.isInsufficientFund2 = true;
+          this.errMsg2 = 'Insufficient Fund';
+        }
+        else if (res.code === -2013) {
+          this.isInsufficientFund2 = true;
+          this.errMsg2 = res.msg;
+        }
+        else if (res.code === -1013) {
+          this.isInsufficientFund2 = true;
+          this.errMsg2 = res.msg;
+        } else {
+          this.isInsufficientFund2 = true;
+          this.errMsg2 = 'Order Placed';
+        }
+      });
+    } else {
+      this.isInsufficientFund2 = true;
+      this.errMsg2 = 'Invalid Combination';
     }
 
   }

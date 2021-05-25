@@ -238,9 +238,9 @@
             <div
               style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
               <div
-                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                [ngStyle]="!isMarket  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
                 style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
-                (click)="toggleLimit()">
+                (click)="toggleMarket()">
                 MARKET
               </div>
               <div
@@ -274,7 +274,7 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss || isMarket || isLimit">
               <div class="info">
                 <div>
                   AT PRICE
@@ -339,9 +339,9 @@
             <div
               style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
               <div
-                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                [ngStyle]="!isMarketSell  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
                 style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
-                (click)="toggleLimit()">
+                (click)="toggleMarketSell()">
                 MARKET
               </div>
               <div
@@ -360,7 +360,7 @@
 
             <div class="buy_input"
               style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
-              *ngIf="sellStopLimitValue === 'STOP LIMIT'">
+              *ngIf="isStopLossSell">
               <div class="info">
                 <div>
                   STOP PRICE
@@ -375,7 +375,7 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
               <div class="info">
                 <div>
                   AT PRICE
@@ -486,9 +486,9 @@
             <div
               style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
               <div
-                [ngStyle]="isLimit  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                [ngStyle]="!isMarket  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
                 style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
-                (click)="toggleLimit()">
+                (click)="toggleMarket()">
                 MARKET
               </div>
               <div
@@ -522,7 +522,7 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss || isMarket || isLimit">
               <div class="info">
                 <div>
                   AT PRICE
@@ -592,9 +592,9 @@
             <div
               style="display: flex; justify-content:space-between; margin-right: 10px;margin-left: 10px; margin-top: 10px;">
               <div
-                [ngStyle]="isLImitSell  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
+                [ngStyle]="!isMarketSell  ? {'background-color': '#f1f1f1', 'color': 'black'} : {'background-color': '#2ecc71', 'color': 'white'}"
                 style="padding:5px; cursor: pointer; flex:1; text-align:center; border-radius: 25px; margin-right: 5px;"
-                (click)="toggleLimitSell()">
+                (click)="toggleMarketSell()">
                 MARKET
               </div>
               <div
@@ -628,7 +628,7 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
               <div class="info">
                 <div>
                   AT PRICE
