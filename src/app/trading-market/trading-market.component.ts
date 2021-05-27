@@ -2879,10 +2879,29 @@ export class CloseOrderComponent {
     public dialogRef: MatDialogRef<CloseOrderComponent>, @Inject(MAT_DIALOG_DATA) public data, public http: HttpClient, public authService: AuthService, public router: Router, public dialog: MatDialog) {
     this.item = data;
   }
-  closOrder() {
+
+  limitOrder() {
+    this.http.post(environment.Route + '/api/action/future-limit', {
+      symbol: this.item.symbol,
+      quantity: this.sellAmount,
+      price: this.sellAtPrice,
+      leverage: this.item.leverage,
+      quantityPrecision: this.item.precision,
+      side: 'SELL'
+
+
+    }).subscribe((res: any) => {
+      console.log(res);
+      this.dialogRef.close();
+
+    });
+  }
+  closePos() {
+    console.log('Called');
     let Side = '';
+    console.log(this.item);
     let div = this.ratio / 100;
-    if (this.item.substring(0, 1) === '-') {
+    if (this.item.quatity.substring(0, 1) === '-') {
       Side = 'BUY'
     } else {
       Side = 'SELL'
@@ -2900,22 +2919,6 @@ export class CloseOrderComponent {
       quantityPrecision: this.item.precision
 
     }).subscribe((res) => {
-      console.log(res);
-      this.dialogRef.close();
-
-    });
-  }
-  limitOrder() {
-    this.http.post(environment.Route + '/api/action/future-limit', {
-      symbol: this.item.symbol,
-      quantity: this.sellAmount,
-      price: this.sellAtPrice,
-      leverage: this.item.leverage,
-      quantityPrecision: this.item.precision,
-      side: 'SELL'
-
-
-    }).subscribe((res: any) => {
       console.log(res);
       this.dialogRef.close();
 
