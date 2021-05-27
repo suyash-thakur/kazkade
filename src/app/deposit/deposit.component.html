@@ -155,18 +155,35 @@
                 <mat-tab style="margin: auto; max-width: 800px" label="USDT" (click)="selectCoin('USDT')">
                   <mat-card>
                     <mat-card-title>
-                      <div style="display:flex;align-items: center;">
+                      <div style="display:flex;align-items: center; justify-content:space-between;">
+                        <div style="display: flex;">
                         <div>
                           Deposit Money &nbsp;
                         </div>
                         <div>
                           <mat-icon>info</mat-icon>
                         </div>
-                      </div>
+                        </div>
+                        <div>
+                          <div>
+                            <mat-form-field appearance="fill" style="font-size: 14px;">
+                              <mat-label>Currency</mat-label>
+                              <mat-select [(ngModel)]="selectedIndex">
+                                <mat-option [value]="arr[0]" selected (click)="toggleSelected(0)">
+                                  ETH
+                                </mat-option>
+                                <mat-option [value]="arr[1]" (click)="toggleSelected(1)">
+                                  TRX
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        </div>
                       <hr>
                     </mat-card-title>
                     <mat-card-content>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 0">
                         <div style="text-align:center;">
                           <div style="font-size: 15px; font-weight: bold;">
                             Network Name: Ethereum (ETH)
@@ -179,7 +196,7 @@
                           <img src="../../assets/download (2).png" style="max-width:300px;">
                         </div>
                       </div>
-                      <div style="display: flex; justify-content:center; align-items: center;">
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 0">
                         <div><input id="clipboard-example-textarea" value="0xf596c81946a2bfa67590ddb11a3861819617b13c"
                             style="border:1px solid gray;" disabled>
                         </div>
@@ -190,7 +207,7 @@
                         </div>
                       </div>
                       <br>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 1">
                         <div style="text-align:center;">
                           <div style="font-size: 15px; font-weight: bold;">
                             Network Name: Tron (TRX)
@@ -203,7 +220,7 @@
                           <img src="../../assets/download (3).png" style="max-width:300px;">
                         </div>
                       </div>
-                      <div style="display: flex; justify-content:center; align-items: center;">
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 1">
                         <div><input id="clipboard-example-textarea" value="TTmANDiNmJU8GA9qhnT7vuvB38dE5JJma5"
                             style="border:1px solid gray;" disabled>
                         </div>
@@ -331,18 +348,35 @@
                 <mat-tab style="margin: auto; max-width: 800px" label="EOS" (click)="selectCoin('EOS')">
                   <mat-card>
                     <mat-card-title>
-                      <div style="display:flex;align-items: center;">
+                      <div style="display:flex;align-items: center; justify-content:space-between;">
+                        <div style="display: flex;">
                         <div>
                           Deposit Money &nbsp;
                         </div>
                         <div>
                           <mat-icon>info</mat-icon>
                         </div>
-                      </div>
+                        </div>
+                        <div>
+                          <div>
+                            <mat-form-field appearance="fill" style="font-size: 14px;">
+                              <mat-label>Currency</mat-label>
+                              <mat-select [(ngModel)]="selectedIndex">
+                                <mat-option [value]="arr[0]" selected (click)="toggleSelected(0)">
+                                  A
+                                </mat-option>
+                                <mat-option [value]="arr[1]" (click)="toggleSelected(1)">
+                                  B
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        </div>
                       <hr>
                     </mat-card-title>
                     <mat-card-content>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 0">
                         <div style="text-align:center;">
                           <div style="font-size: 15px; font-weight: bold;">
                             Average arrival time: 1 minutes
@@ -352,7 +386,7 @@
                           <img src="../../assets/bsc.png" style="max-width:300px;">
                         </div>
                       </div>
-                      <div style="display: flex; justify-content:center; align-items: center;">
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 0">
                         <div><input id="clipboard-example-textarea" value="binancecleos" style="border:1px solid gray;" disabled>
                         </div>
                         <div>
@@ -362,14 +396,14 @@
                         </div>
                       </div>
                       <br>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 1">
                         <div style="text-align:center;">
 
                           <br>
                           <img src="../../assets/memo.png" style="max-width:300px;">
                         </div>
                       </div>
-                      <div style="display: flex; justify-content:center; align-items: center;">
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 1">
                         <div><input id="clipboard-example-textarea" value="104781259" style="border:1px solid gray;" disabled>
                         </div>
                         <div>
@@ -497,18 +531,35 @@
                 <mat-tab style="margin: auto; max-width: 800px" label="XRP" (click)="selectCoin('XRP')">
                   <mat-card>
                     <mat-card-title>
-                      <div style="display:flex;align-items: center;">
+                      <div style="display:flex;align-items: center; justify-content:space-between;">
+                        <div style="display: flex;">
                         <div>
                           Deposit Money &nbsp;
                         </div>
                         <div>
                           <mat-icon>info</mat-icon>
                         </div>
-                      </div>
+                        </div>
+                        <div>
+                          <div>
+                            <mat-form-field appearance="fill" style="font-size: 14px;">
+                              <mat-label>Currency</mat-label>
+                              <mat-select [(ngModel)]="selectedIndex">
+                                <mat-option [value]="arr[0]" selected (click)="toggleSelected(0)">
+                                  A
+                                </mat-option>
+                                <mat-option [value]="arr[1]" (click)="toggleSelected(1)">
+                                  B
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        </div>
                       <hr>
                     </mat-card-title>
                     <mat-card-content>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 0">
                         <div style="text-align:center;">
                           <div style="font-size: 15px; font-weight: bold;">
                             Average arrival time: 1 minutes
@@ -518,7 +569,7 @@
                           <img src="../../assets/download (7).png" style="max-width:300px;">
                         </div>
                       </div>
-                      <div style="display: flex; justify-content:center; align-items: center;">
+                      <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 0">
                         <div><input id="clipboard-example-textarea" value="rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh"
                             style="border:1px solid gray;" disabled>
                         </div>
@@ -529,7 +580,7 @@
                         </div>
                       </div>
                       <br>
-                      <div style="display:flex; justify-content:center; padding: 35px;">
+                      <div style="display:flex; justify-content:center; padding: 35px;" *ngIf="selectedIndex === 1">
                         <div style="text-align:center;">
 
 
@@ -537,7 +588,7 @@
                                                     <img src="../../assets/download (8).png" style="max-width:300px;">
                                                     </div>
                                                     </div>
-                                                    <div style="display: flex; justify-content:center; align-items: center;">
+                                                    <div style="display: flex; justify-content:center; align-items: center;" *ngIf="selectedIndex === 1">
                                                   <div><input id="clipboard-example-textarea" value="101394954" style="border:1px solid gray;" disabled>
                                                   </div>
                                                   <div>

@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { webSocket } from 'rxjs/webSocket';
 import { AuthService } from '../shared/auth.service';
@@ -8,6 +8,8 @@ import { MatSliderChange } from '@angular/material/slider';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 export interface CoinInfo {
   symbol: string,
   minPrice: number,
@@ -77,6 +79,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   limitOpenOrders = [];
   completedOrders = [];
   closePercentage = [];
+  limitPricePosition = [];
+  limitQuantityPosition = [];
+
   coinDataList: any = {};
   selectedCoinSocket: any;
   marginPrice = 0.00;
@@ -227,7 +232,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   ];
   constructor(private router: Router,
     private route: ActivatedRoute, private cdRef: ChangeDetectorRef,
-    public authService: AuthService, public http: HttpClient) {
+    public authService: AuthService, public http: HttpClient, public dialog: MatDialog) {
 
     this.route.params.subscribe((params) => {
 
@@ -331,14 +336,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
             });
             this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-              console.log(res)
+              console.log(res);
               res.data.positions.forEach(item => {
-                if (item.entryPrice > 0) {
-                  this.positions.push(item);
-                  this.positions.reverse();
-                  this.closePercentage.push(0.0);
-                  this.closePercentage.reverse();
-                }
+
                 this.marginBalace = res.data.totalMarginBalance;
 
                 if (item.symbol === this.selectedCoin) {
@@ -353,6 +353,20 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
 
             });
+            this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+              console.log(res);
+              res.data.forEach(item => {
+                if (item.entryPrice > 0) {
+                  this.positions.push(item);
+                  this.positions.reverse();
+                  this.closePercentage.push(0.0);
+                  this.closePercentage.reverse();
+                  this.limitPricePosition.push(0.0);
+                  this.limitQuantityPosition.push(0.0);
+                }
+              });
+            })
+
             this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
               console.log(res);
               if (res !== {}) {
@@ -535,12 +549,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         }).subscribe((res: any) => {
 
-
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            this.limitOpenOrders = [];
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
+            }
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
             res.data.forEach(item => {
-              if (item.entryPrice !== 0) {
+              if (item.entryPrice > 0) {
                 this.positions.push(item);
                 this.closePercentage.push(0.0);
               }
@@ -549,29 +569,6 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
             if (res !== {}) {
               this.openOrders = (res);
-            }
-
-          });
-          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-            console.log(res)
-            res.data.positions.forEach(item => {
-              if (item.entryPrice > 0) {
-                this.positions.push(item);
-                this.positions.reverse();
-                this.closePercentage.push(0.0);
-                this.closePercentage.reverse();
-              }
-              this.marginBalace = res.data.totalMarginBalance;
-
-              if (item.symbol === this.selectedCoin) {
-                this.marginPrice = item.maintMargin;
-                this.marginRatio = this.marginPrice / this.marginBalace
-                console.log(item);
-              }
-            });
-
-            if (res !== {}) {
-              this.openOrders = (res.data.positions);
             }
 
           });
@@ -611,22 +608,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
-          this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
-            this.positions = [];
-            res.data.forEach(item => {
-              if (item.entryPrice > 0) {
-                this.positions.push(item);
-                this.closePercentage.push(0.0);
-              }
-            });
-            console.log(this.positions);
-
-            if (res !== {}) {
-              this.openOrders = (res);
-            }
-
-          });
           if (res.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsg = 'Insufficient Fund';
@@ -646,26 +628,19 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }, (err: HttpErrorResponse) => {
 
         });
-        this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-          console.log(res)
-          res.data.positions.forEach(item => {
+        this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+          this.positions = [];
+          res.data.forEach(item => {
             if (item.entryPrice > 0) {
               this.positions.push(item);
-              this.positions.reverse();
               this.closePercentage.push(0.0);
-              this.closePercentage.reverse();
-            }
-            this.marginBalace = res.data.totalMarginBalance;
-
-            if (item.symbol === this.selectedCoin) {
-              this.marginPrice = item.maintMargin;
-              this.marginRatio = this.marginPrice / this.marginBalace
-              console.log(item);
             }
           });
+          console.log(this.positions);
 
           if (res !== {}) {
-            this.openOrders = (res.data.positions);
+            this.openOrders = (res);
           }
 
         });
@@ -683,6 +658,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
           }).subscribe((res: any) => {
             this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+              this.limitOpenOrders = [];
               console.log(res);
               if (res !== {}) {
                 this.limitOpenOrders = res.data;
@@ -739,10 +715,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
           console.log(res)
-          res.data.forEach(item => {
-            if (item.entryPrice !== 0) {
-              this.positions.push(item);
-              this.closePercentage.push(0.0);
+
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            this.limitOpenOrders = [];
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
             }
           });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
@@ -790,6 +768,13 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
             }).subscribe((res: any) => {
+              this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+                this.limitOpenOrders = [];
+                console.log(res);
+                if (res !== {}) {
+                  this.limitOpenOrders = res.data;
+                }
+              });
               this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
                 this.positions = [];
@@ -842,6 +827,40 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.changeTotalPrice();
     this.changeTotalPriceSell();
   }
+  sellPosition(symbol, sellAmount, sellAtPrice, leverage) {
+    const dialogRef = this.dialog.open(CloseOrderComponent, {
+      width: '550px',
+      data: { flag: 1, precision: this.coinDataList[symbol].precision, symbol: symbol, leverage: leverage }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+        this.positions = [];
+        res.data.forEach(item => {
+          if (item.entryPrice > 0) {
+            this.positions.push(item);
+            this.closePercentage.push(0.0);
+          }
+        });
+        console.log(this.positions);
+
+        if (res !== {}) {
+          this.openOrders = (res);
+        }
+
+      });
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        this.limitOpenOrders = [];
+        console.log(res);
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
+    });
+
+
+  }
   sellLeverage() {
     if (this.currentLeverage > this.maxLev[this.selectedCoin]) {
       this.currentLeverage = this.maxLev[this.selectedCoin];
@@ -871,6 +890,13 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
         }).subscribe((res: any) => {
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            this.limitOpenOrders = [];
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
+            }
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -926,26 +952,26 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
           }).subscribe((res: any) => {
-            this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-              console.log(res)
-              res.data.positions.forEach(item => {
+            this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+              this.limitOpenOrders = [];
+              console.log(res);
+              if (res !== {}) {
+                this.limitOpenOrders = res.data;
+              }
+            });
+            this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+              this.positions = [];
+              res.data.forEach(item => {
                 if (item.entryPrice > 0) {
                   this.positions.push(item);
-                  this.positions.reverse();
                   this.closePercentage.push(0.0);
-                  this.closePercentage.reverse();
-                }
-                this.marginBalace = res.data.totalMarginBalance;
-
-                if (item.symbol === this.selectedCoin) {
-                  this.marginPrice = item.maintMargin;
-                  this.marginRatio = this.marginPrice / this.marginBalace
-                  console.log(item);
                 }
               });
+              console.log(this.positions);
 
               if (res !== {}) {
-                this.openOrders = (res.data.positions);
+                this.openOrders = (res);
               }
 
             });
@@ -969,6 +995,13 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           quantityPrecision: this.coinDataList[this.selectedCoin].precision
 
         }).subscribe((res: any) => {
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            this.limitOpenOrders = [];
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
+            }
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -1007,34 +1040,26 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
         }).subscribe((res: any) => {
-          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
-            console.log(res)
-            if (res.code === -2010) {
-              this.isInsufficientFund2 = true;
-              this.errMsg2 = 'Insufficient Fund';
-
-            } else {
-              this.isInsufficientFund2 = true;
-              this.errMsg2 = 'Order Placed';
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+            this.limitOpenOrders = [];
+            console.log(res);
+            if (res !== {}) {
+              this.limitOpenOrders = res.data;
             }
-            res.data.positions.forEach(item => {
+          });
+          this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+            this.positions = [];
+            res.data.forEach(item => {
               if (item.entryPrice > 0) {
                 this.positions.push(item);
-                this.positions.reverse();
                 this.closePercentage.push(0.0);
-                this.closePercentage.reverse();
-              }
-              this.marginBalace = res.data.totalMarginBalance;
-
-              if (item.symbol === this.selectedCoin) {
-                this.marginPrice = item.maintMargin;
-                this.marginRatio = this.marginPrice / this.marginBalace
-                console.log(item);
               }
             });
+            console.log(this.positions);
 
             if (res !== {}) {
-              this.openOrders = (res.data.positions);
+              this.openOrders = (res);
             }
 
           });
@@ -2801,34 +2826,12 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     // qTot = Math.abs(qTot);
     // qSell = Math.abs(qSell);
     // const ratio = Math.round(qTot / qSell) * 100;
-    console.log(this.coinDataList, this.selectedCoin);
-    let precision = this.coinDataList[symbol].precision;
-    console.log('PRecision', precision);
-    let Side = '';
-    let div = ratio / 100;
-    if (quantityTotal.substring(0, 1) === '-') {
-      Side = 'BUY'
-    } else {
-      Side = 'SELL'
-
-    }
-    let amountDec = quantityTotal * div;
-
-    let quantity = Number(amountDec.toFixed(this.coinDataList[symbol].precision));
-    console.log(quantity);
-
-    console.log(this.coinDataList[symbol].precision);
-
-    this.http.post(environment.Route + '/api/action/future-close-position', {
-      symbol: symbol,
-      quantity: Math.abs(quantity),
-      side: Side,
-      ratio: ratio,
-      quantityPrecision: this.coinDataList[symbol].precision
-
-    }).subscribe((res) => {
-
-
+    const dialogRef = this.dialog.open(CloseOrderComponent, {
+      width: '550px',
+      data: { flag: 0, symbol: symbol, ratio: ratio, quatity: quantityTotal, precision: this.coinDataList[symbol].precision }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
       this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
         this.positions = [];
@@ -2845,12 +2848,77 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }
 
       });
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        this.limitOpenOrders = [];
+        console.log(res);
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
     });
+
+
 
   }
   ngAfterViewInit(): void {
     this.tradingView(this.selectedCoin);
 
     this.cdRef.detectChanges();
+  }
+}
+@Component({
+  selector: 'close-order',
+  templateUrl: 'closeOrder.html',
+})
+export class CloseOrderComponent {
+  item: any;
+  ratio: any;
+  sellAmount: any;
+  sellAtPrice: any;
+  constructor(
+    public dialogRef: MatDialogRef<CloseOrderComponent>, @Inject(MAT_DIALOG_DATA) public data, public http: HttpClient, public authService: AuthService, public router: Router, public dialog: MatDialog) {
+    this.item = data;
+  }
+  closOrder() {
+    let Side = '';
+    let div = this.ratio / 100;
+    if (this.item.substring(0, 1) === '-') {
+      Side = 'BUY'
+    } else {
+      Side = 'SELL'
+
+    }
+    let amountDec = this.item.quatity * div;
+
+    let quantity = Number(amountDec.toFixed(this.item.precision));
+    console.log(quantity);
+    this.http.post(environment.Route + '/api/action/future-close-position', {
+      symbol: this.item.symbol,
+      quantity: Math.abs(quantity),
+      side: Side,
+      ratio: this.ratio,
+      quantityPrecision: this.item.precision
+
+    }).subscribe((res) => {
+      console.log(res);
+      this.dialogRef.close();
+
+    });
+  }
+  limitOrder() {
+    this.http.post(environment.Route + '/api/action/future-limit', {
+      symbol: this.item.symbol,
+      quantity: this.sellAmount,
+      price: this.sellAtPrice,
+      leverage: this.item.leverage,
+      quantityPrecision: this.item.precision,
+      side: 'SELL'
+
+
+    }).subscribe((res: any) => {
+      console.log(res);
+      this.dialogRef.close();
+
+    });
   }
 }

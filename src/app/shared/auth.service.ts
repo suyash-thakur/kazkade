@@ -150,6 +150,7 @@ export class AuthService {
     const removeToken = localStorage.removeItem('access_token');
     localStorage.clear();
     localStorage.setItem('isLoggedIn', 'false');
+    this.userType = null;
 
     if (removeToken == null) {
       this.router.navigate(['']);

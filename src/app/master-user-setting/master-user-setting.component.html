@@ -39,7 +39,18 @@
               <input class="input_account" type="email" [(ngModel)]="email" [disabled]="isDis">
         </div>
       </div>
-
+      <div style="" class="input_container">
+        <div class="label" style="flex:1">
+          Upload Image
+        </div>
+        <br>
+        <div>
+          <img src="../../assets/image 42.png" style="max-width: 120px;">
+        </div>
+        <div style="flex:3; margin-top: 15px;">
+          <input type="file" [(ngModel)]="securityKey">
+        </div>
+      </div>
       <div style=" justify-content: center;" class="input_container">
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
@@ -79,6 +90,7 @@
                   <input class="input_account" [disabled]="isDis" [(ngModel)]="securityKey">
                 </div>
               </div>
+
               <div style=" justify-content: center;" class="input_container">
                 <div
                   style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"

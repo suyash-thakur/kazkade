@@ -4,7 +4,7 @@
     <div>
       <mat-form-field appearance="fill" style="margin-top:105px; margin-right: 5px;" name="coin">
         <mat-label>Coin</mat-label>
-      <mat-select [(ngModel)]="selectedCoin" panelClass="myPanelClass" disableOptionCentering>
+        <mat-select [(ngModel)]="selectedCoin" panelClass="myPanelClass" disableOptionCentering>
 
           <mat-option [value]="coinDataList[item].symbol" (click)="changeCoin(coinDataList[item].symbol)"
             *ngFor="let item of  Object.keys(coinDataList)">
@@ -105,31 +105,54 @@
                 </div>
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
+                    LIQ PRICE
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of positions">
+                      {{item.liquidationPrice}}
+                    </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <div class="header-orderDetail">
                     PNL
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions">
-                    {{item.unrealizedProfit}}
+                    {{item.unRealizedProfit}}
                   </div>
                 </div>
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
-                    PERCENTAGE
+                    Leverage
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions; let i = index">
-                    <input type="number" step="0.1" min="0.0" [(ngModel)]="closePercentage[i]" style="max-width: 55px;">
+                    {{item.leverage}} &nbsp; <span>{{item.marginType}}</span>
                   </div>
                 </div>
 
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
-                    ACTION
-                  </div>
-                  <div class="order-detailItem" *ngFor="let item of positions; let i = index" style="cursor: pointer;"
-                    (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
                     CLOSE
                   </div>
-                </div>
-              </div>
+                  <div class="order-detailItem" *ngFor="let item of positions; let i = index">
+                    <div style="display: flex;">
+                      <div>
+                        <button mat-raised-button style="cursor: pointer;background-color:#981B40; color:white; font-size: 12px;"
+                          (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
+                          Market
+                          </button>
+                          </div>
+                      <div>
+                        <button mat-raised-button style="cursor: pointer;background-color:#981B40; color:white"
+                          (click)="sellPosition(item.symbol, limitQuantityPosition[i], limitPricePosition[i],  item.leverage)">
+                          Limit
+                        </button>
+                      </div>
+                      </div>
+
+                  </div>
+
+                  </div>
+
+                  </div>
 
             </mat-tab>
 
@@ -169,58 +192,59 @@
                   No Complete Order
                 </div>
                 <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
-                  <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">LOGIN
+                  <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">
+                    LOGIN
                   </div>
                 </div>
 
               </div>
-              </mat-tab>
-              <mat-tab label="OPEN ORDERS">
-                <div style="display: flex; justify-content: center; height: 350px;">
-                  <div style="display:flex; justify-content: space-between; width:100%"
-                    *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0">
-                    <div>
-                      <div class="header-orderDetail">
-                        PAIR
-                      </div>
-                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                        {{item.symbol}}
-                      </div>
+            </mat-tab>
+            <mat-tab label="OPEN ORDERS">
+              <div style="display: flex; justify-content: center; height: 350px;">
+                <div style="display:flex; justify-content: space-between; width:100%"
+                  *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0">
+                  <div>
+                    <div class="header-orderDetail">
+                      PAIR
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
+                      {{item.symbol}}
+                    </div>
 
+                  </div>
+                  <div>
+                    <div class="header-orderDetail">
+                      AMOUNT
                     </div>
-                    <div>
-                      <div class="header-orderDetail">
-                        AMOUNT
-                      </div>
-                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                        <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
-                      </div>
-                    </div>
-                    <div>
-                      <div class="header-orderDetail">
-                        PRICE
-                      </div>
-                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                        {{item.price}}
-                      </div>
-                    </div>
-                    <div *ngIf="isFuture">
-                      <div class="header-orderDetail">
-                        Action
-                      </div>
-                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)"
-                        style="cursor: pointer;">
-                        CLOSE
-                      </div>
+                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
+                      <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
                     </div>
                   </div>
-                  <div style="opacity: 0.8; font-weight:400; width:100%;"
-                    *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">
-                    No Open Order
-                  </div>
-                  <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
-                    <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">LOGIN
+                  <div>
+                    <div class="header-orderDetail">
+                      PRICE
                     </div>
+                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
+                      {{item.price}}
+                    </div>
+                  </div>
+                  <div *ngIf="isFuture">
+                    <div class="header-orderDetail">
+                      Action
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)"
+                      style="cursor: pointer;">
+                      CLOSE
+                    </div>
+                    </div>
+                    </div>
+                    <div style="opacity: 0.8; font-weight:400; width:100%;" *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">
+                      No Open Order
+                    </div>
+                    <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
+                  <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">
+                    LOGIN
+                  </div>
                   </div>
 
               </div>
@@ -274,7 +298,8 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss || isMarket || isLimit">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLoss || isMarket || isLimit">
               <div class="info">
                 <div>
                   AT PRICE
@@ -287,7 +312,8 @@
                 <div>
                   <input type="number" [(ngModel)]="buyAtPriceSpot" [disabled]="!isLimit"
                     [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
-                    style="background-color:transparent; border: none; font-weight: bold;" (ngModelChange)="changeTotalPrice()">
+                    style="background-color:transparent; border: none; font-weight: bold;"
+                    (ngModelChange)="changeTotalPrice()">
                 </div>
                 <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
                   LOWEST PRICE
@@ -311,7 +337,8 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss  || isMarket || isLimit">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLoss  || isMarket || isLimit">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -342,7 +369,7 @@
                   [(ngModel)]="stopPriceTotal">
               </div>
 
-          </div>
+            </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
@@ -392,7 +419,8 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
               <div class="info">
                 <div>
                   AT PRICE
@@ -432,7 +460,8 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -463,7 +492,7 @@
                   (ngModelChange)="changeSellAmount()">
               </div>
 
-          </div>
+            </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund2">
                 <b> {{ errMsg2 }}</b>
@@ -556,7 +585,8 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss || isMarket || isLimit">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLoss || isMarket || isLimit">
               <div class="info">
                 <div>
                   AT PRICE
@@ -572,7 +602,8 @@
                     style="background-color:transparent; border: none; font-weight: bold;" *ngIf="!isLimit">
                   <input type="number" [(ngModel)]="buyAtPriceLimit" [disabled]="!isLimit"
                     [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
-                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit" (ngModelChange)="changeTotalPrice()">
+                    style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit"
+                    (ngModelChange)="changeTotalPrice()">
                 </div>
                 <div style="font-weight:bold; color:#2ecc71; cursor: pointer;" (click)="clickLowestPrice()">
                   LOWEST PRICE
@@ -597,7 +628,23 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="isStopLoss && !isMarket && !isLimit">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="isStopLoss && !isMarket && !isLimit">
+              <div class="info" style="padding-right: 10px; padding-left: 5px;">
+                <div>
+                  TOTAL
+                </div>
+                <div style="font-weight: bold;">
+                  {{currentCurrency}}
+                </div>
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="stopPriceTotal" disabled>
+              </div>
+            </div>
+            <div class="buy_input"
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLoss  || isMarket || isLimit">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL
@@ -608,24 +655,9 @@
               </div>
               <div style="flex-grow: 1;">
                 <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
-                   [(ngModel)]="stopPriceTotal" disabled>
+                  (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
               </div>
             </div>
-            <div class="buy_input"
-            style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLoss  || isMarket || isLimit">
-            <div class="info" style="padding-right: 10px; padding-left: 5px;">
-              <div>
-                TOTAL
-              </div>
-              <div style="font-weight: bold;">
-                {{currentCurrency}}
-              </div>
-            </div>
-            <div style="flex-grow: 1;">
-              <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
-                (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
-            </div>
-          </div>
             <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
@@ -676,7 +708,8 @@
               </div>
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLossSell || isMarketSell || isLImitSell">
               <div class="info">
                 <div>
                   AT PRICE
@@ -717,7 +750,8 @@
 
             </div>
             <div class="buy_input"
-              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;" *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
+              style="border: 2px solid rgba(206, 200, 200, 0.8); margin-right: 10px; padding: 5px; border-radius: 10px; margin-top: 20px;"
+              *ngIf="!isStopLossSell || (isMarketSell || isLImitSell)">
               <div class="info" style="padding-right: 10px; padding-left: 5px;">
                 <div>
                   TOTAL

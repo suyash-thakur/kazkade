@@ -13,7 +13,9 @@ export class DepositComponent implements OnInit {
   paymentId = '';
   isSubmit = false;
   coin = 'BTC';
+  selectedIndex = 0;
 
+  arr = [0, 1, 2];
   constructor(private http: HttpClient, public authService: AuthService) { }
 
   ngOnInit(): void {
@@ -21,6 +23,7 @@ export class DepositComponent implements OnInit {
   selectCoin(data) {
     console.log(data);
     this.selectCoin = data;
+    this.selectedIndex = 0;
   }
   submitPayment(data) {
     console.log(this.authService.selectedPlan.toUpperCase());
@@ -29,5 +32,9 @@ export class DepositComponent implements OnInit {
       this.isSubmit = true;
       this.authService.tokenRefresh();
     });
+  }
+
+  toggleSelected(i) {
+    this.selectedIndex = i;
   }
 }

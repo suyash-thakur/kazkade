@@ -26,10 +26,15 @@
         <button (click)="verify(item.id)">VERIFY</button>
       </div>
       <div *ngIf="item.subscription.length > 0 && item.subscription[0].subscription_status" style="flex:1">
-        VERIFIED
+        <button (click)="unVerify(item.id)">UN-VERIFY</button>
+
       </div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
         NILL
+      </div>
+      <div>
+        <button (click)="unVerify(item.id)">DELETE</button>
+
       </div>
     </div>
 

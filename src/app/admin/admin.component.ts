@@ -37,4 +37,8 @@ export class AdminComponent implements OnInit {
     });
 
   }
+
+  unVerify(id) {
+    console.log(id);
+  }
 }

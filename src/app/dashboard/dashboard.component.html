@@ -54,7 +54,7 @@
       <div style="flex:3">
         <div style="display:flex">
           <div *ngIf="dataArray.length > 0">
-            <ngx-charts-pie-chart [view]='view' [results]="dataArray">
+            <ngx-charts-pie-chart [view]='view' [results]="dataArray" scheme="picnic">
             </ngx-charts-pie-chart>
           </div>
           <div *ngIf="dataArray.length === 0" style="align-self: center; justify-self: center; text-align: center; width:100%">

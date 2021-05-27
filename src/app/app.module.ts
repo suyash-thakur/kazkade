@@ -61,7 +61,7 @@ import { AdminComponent } from './admin/admin.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TermsComponent } from './terms/terms.component';
 import { RecaptchaModule } from "ng-recaptcha";
-import { TradingMarketComponent } from './trading-market/trading-market.component';
+import { TradingMarketComponent, CloseOrderComponent } from './trading-market/trading-market.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -99,7 +99,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     TradingMarketComponent,
     ForgotPasswordComponent,
     ForgotPasswordInputComponent,
-    MasterDataComponent
+    MasterDataComponent,
+    CloseOrderComponent
 
   ],
 
@@ -108,7 +109,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     DialogSell,
     DialogTrade,
     PilComponent,
-    MasterDataComponent
+    MasterDataComponent,
+    CloseOrderComponent
   ],
   imports: [
     MatFormFieldModule,

@@ -1,0 +1,45 @@
+<div *ngIf="item.flag === 1">
+  <div style="display: flex; justify-content: center;">
+    <div style="font-size:24px; font-weight:bold;">
+      Amount
+    </div>
+    <div style="margin-left: 25px;">
+      <input type="number" [(ngModel)]="sellAmount">
+    </div>
+  </div>
+  <br>
+  <div style="display: flex; justify-content: center;">
+    <div style="font-size:24px; font-weight:bold;">
+      Price
+    </div>
+    <div style="margin-left: 25px;">
+      <input type="number" [(ngModel)]="sellAtPrice">
+    </div>
+  </div>
+  <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+    <div
+      style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
+      (click)="limitOrder()">
+      Close
+    </div>
+  </div>
+</div>
+<div *ngIf="item.flag === 0">
+  <div style="display: flex; justify-content: center;">
+    <div style="font-size:24px; font-weight:bold;">
+      Percentage
+    </div>
+    <div style="margin-left: 25px;">
+      <input type="number" [(ngModel)]="ratio">
+    </div>
+  </div>
+  <br>
+
+  <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+    <div
+      style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
+      (Click)="closOrder()">
+      Close
+    </div>
+  </div>
+</div>
