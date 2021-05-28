@@ -2820,6 +2820,31 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         container_id: 'tradingview_b0bf0'
       });
   }
+  isolateMargin(symbol) {
+    const dialogRef = this.dialog.open(IsolatedMargin, {
+      width: '550px',
+      data: { symbol: symbol, }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+        this.positions = [];
+        res.data.forEach(item => {
+          if (item.entryPrice > 0) {
+            this.positions.push(item);
+            this.closePercentage.push(0.0);
+          }
+        });
+        console.log(this.positions);
+
+        if (res !== {}) {
+          this.openOrders = (res);
+        }
+
+      })
+    });
+  }
   closeOrder(symbol, ratio, quantityTotal) {
     // let qSell = Number(quantitySell);
     // let qTot = Number(quantityTotal);
@@ -2866,6 +2891,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.cdRef.detectChanges();
   }
 }
+
+
 @Component({
   selector: 'close-order',
   templateUrl: 'closeOrder.html',
@@ -2922,6 +2949,45 @@ export class CloseOrderComponent {
       console.log(res);
       this.dialogRef.close();
 
+    });
+  }
+}
+@Component({
+  selector: 'isolated-margin',
+  templateUrl: 'isolatedMargin.html',
+})
+export class IsolatedMargin {
+  item: any;
+  marginPrice = 0;
+  marginBalace = 0; s
+  balance = 0
+  amount = 0;
+  constructor(
+    public dialogRef: MatDialogRef<IsolatedMargin>, @Inject(MAT_DIALOG_DATA) public data, public http: HttpClient, public authService: AuthService, public router: Router, public dialog: MatDialog) {
+    this.item = data;
+    this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+      console.log(res);
+      this.balance = res.data.availableBalance;
+      this.marginBalace = res.data.totalMarginBalance;
+      res.data.positions.forEach(res => {
+
+
+        if (res.symbol === this.item.symbol) {
+          this.marginPrice = res.maintMargin;
+          console.log(res);
+        }
+      });
+
+
+    });
+  }
+  marginData(i) {
+    this.http.post(environment.Route + '/api/action/future-position-margin', {
+      "symbol": this.item.symbol,
+      "amount": this.amount,
+      "type": i
+    }).subscribe((res) => {
+      this.dialogRef.close();
     });
   }
 }

@@ -112,13 +112,14 @@
               aria-expanded="false" *ngIf="username()">
               <mat-icon style="transform: translateY(2px);">notifications</mat-icon>
             </a>
-            <div class="dropdown-menu notify-drop" aria-labelledby="navbarDropdown2"
-              style="background-color:white; opacity:1; white-space: normal; transform: translateX(-90px);">
+            <div class="dropdown-menu notify-drop text-muted" aria-labelledby="navbarDropdown2"
+              style="background-color:white; min-width: 391px;opacity:1; white-space: normal; transform: translateX(-300px);  ">
 
               <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
-                style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  ">
-                <div>
-                  <b>{{item.msg}}</b> <br>
+                style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
+                white-space:noraml; ">
+                <div style="" class="mb-0">
+                  <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
             </div>
             <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">
               <div>

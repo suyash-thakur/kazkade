@@ -1,0 +1,72 @@
+<mat-tab-group>
+  <mat-tab label="BUY">
+    <div style="display: flex; justify-content: center;">
+      <div style="font-size:24px; font-weight:bold;">
+        Amount
+      </div>
+      <div style="margin-left: 25px;">
+        <input type="number" [(ngModel)]="amount">
+      </div>
+    </div>
+    <br>
+
+    <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+      <div
+        style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
+        (click)="marginData(1)">
+        BUY
+      </div>
+    </div>
+    <div style="display:flex; justify-content: flex-start; margin-top:40px;" class="input_container">
+      <div style="font-weight:bold">
+        Margin Balance
+      </div>
+      <div>
+        &nbsp; {{balance}}
+      </div>
+    </div>
+    <div style="display:flex; justify-content: flex-start; margin-top:40px;" class="input_container">
+      <div style="font-weight:bold">
+        Maintainable Margin
+      </div>
+      <div>
+        &nbsp; {{marginPrice}}
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="SELL">
+    <div style="display: flex; justify-content: center;">
+      <div style="font-size:24px; font-weight:bold;">
+        Amount
+      </div>
+      <div style="margin-left: 25px;">
+        <input type="number" [(ngModel)]="amount">
+      </div>
+    </div>
+    <br>
+
+    <div style="display:flex; justify-content: center; margin-top:40px;" class="input_container">
+      <div
+        style="background-color: #981B40; width:fit-content; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; "
+        (click)="marginData(2)">
+        SELL
+      </div>
+    </div>
+    <div style="display:flex; justify-content: flex-start; margin-top:40px;" class="input_container">
+      <div style="font-weight:bold">
+        Margin Balance
+      </div>
+      <div>
+        &nbsp; {{balance}}
+      </div>
+    </div>
+    <div style="display:flex; justify-content: flex-start; margin-top:40px;" class="input_container">
+      <div style="font-weight:bold">
+        Maintainable Margin
+      </div>
+      <div>
+        &nbsp; {{marginPrice}}
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

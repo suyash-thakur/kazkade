@@ -124,7 +124,9 @@
                     Leverage
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions; let i = index">
-                    {{item.leverage}} &nbsp; <span>{{item.marginType}}</span>
+                    {{item.leverage}} &nbsp; <span>{{item.marginType}}</span> &nbsp; <span
+                      style="font-weight:bold; cursor:pointer; color:white; background-color: #981B40; padding:5px"
+                      *ngIf="item.marginType === 'isolated'" (click)="isolateMargin(item.symbol)">+</span>
                   </div>
                 </div>
 
@@ -135,16 +137,16 @@
                   <div class="order-detailItem" *ngFor="let item of positions; let i = index">
                     <div style="display: flex;">
                       <div>
-                        <button mat-raised-button style="cursor: pointer;background-color:#981B40; color:white; font-size: 12px;"
+                        <div style="cursor: pointer;color:981B40; font-size: 12px;"
                           (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
                           Market
-                          </button>
+                      </div>
                           </div>
                       <div>
-                        <button mat-raised-button style="cursor: pointer;background-color:#981B40; color:white"
+                        <div style="cursor: pointer;color:981B40; font-size: 12px;"
                           (click)="sellPosition(item.symbol, limitQuantityPosition[i], limitPricePosition[i],  item.leverage)">
                           Limit
-                        </button>
+                      </div>
                       </div>
                       </div>
 

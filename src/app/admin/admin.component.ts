@@ -39,6 +39,19 @@ export class AdminComponent implements OnInit {
   }
 
   unVerify(id) {
-    console.log(id);
+    // console.log(id);
+    // this.http.delete(environment.Route + '/api/admin/delete-payment', {
+    //   id:this.id
+    // })
+    this.http.post(environment.Route + '/api/admin/undo-verify', {
+      id: id
+    }).subscribe((res: any) => {
+
+      this.http.get(environment.Route + '/api/admin/all-copy-traders').subscribe((res: any) => {
+        this.users = res;
+        console.log(res);
+        this.show = true;
+      });
+    });
   }
 }
