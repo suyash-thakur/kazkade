@@ -137,13 +137,14 @@
                   <div class="order-detailItem" *ngFor="let item of positions; let i = index">
                     <div style="display: flex;">
                       <div>
-                        <div style="cursor: pointer;color:981B40; font-size: 12px;"
+                        <div style="cursor: pointer;color:#981B40; font-size: 12px;"
                           (click)="closeOrder(item.symbol, closePercentage[i], item.positionAmt)">
                           Market
                       </div>
                           </div>
+                          &nbsp;
                       <div>
-                        <div style="cursor: pointer;color:981B40; font-size: 12px;"
+                        <div style="cursor: pointer;color:#981B40; font-size: 12px;"
                           (click)="sellPosition(item.symbol, limitQuantityPosition[i], limitPricePosition[i],  item.leverage)">
                           Limit
                       </div>
@@ -296,7 +297,7 @@
               </div>
               <div style="">
                 <input type="number" [(ngModel)]="stopPriceBuy" [step]="coinDataList[selectedCoin].stepSize"
-                  placeholder="STEP PRICE" style="width:100%">
+                  placeholder="STOP PRICE" style="width:100%">
               </div>
             </div>
             <div class="buy_input"

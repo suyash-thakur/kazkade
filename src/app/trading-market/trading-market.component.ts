@@ -326,6 +326,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         if (this.authService.isLoggedIn === true) {
 
           if (this.isFuture) {
+            this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: "ISOLATED" }).subscribe((res) => {
+              console.log(res);
+            });
             this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
               if (res !== {}) {
                 console.log(res);
@@ -758,14 +761,14 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           else {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order Placed';
-            this.http.post(environment.Route + '/api/action/future-limit', {
+            this.http.post(environment.Route + '/api/action/future-stop-loss', {
               symbol: this.selectedCoin,
-              quantity: this.sellAmount,
-              price: this.stopPriceBuy,
+              quantity: this.buyAmount,
+              stopPrice: this.stopPriceBuy,
               leverage: this.currentLeverage,
               quantityPrecision: this.coinDataList[this.selectedCoin].precision,
+              ratio: 100,
               side: 'SELL'
-
 
             }).subscribe((res: any) => {
               this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
