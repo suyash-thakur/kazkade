@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   endpoint = environment.Route + '/api/user';
   pathKey: String = '';
   pathSecret: String = '';
+  invalid = false;
 
     constructor(
       public dialog: MatDialog,
@@ -44,9 +45,21 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
         this.httpService.post(url_to_hit, { path_api_key: this.pathKey, path_secret_key: this.pathSecret }, { observe: 'response' })
         .subscribe((response: any) => {
             // localStorage.setItem('access_token', res.access_token);
+          if (response.msg = "Invalid API keys") {
+            this.authService.isInvalidAPI = true;
+            localStorage.setItem('isInvalidAPI', 'true');
+            localStorage.setItem('binance_user', 'true');
+            this.router.navigate(['/dashboard']);
+
+          } else {
+            this.authService.isInvalidAPI = false;
+            localStorage.setItem('isInvalidAPI', 'false');
+
             t=response.status;
             localStorage.setItem('binance_user','true');
             this.router.navigate(['/dashboard']);
+          }
+
         },
         (err: HttpErrorResponse) => {
           // this.t=false;

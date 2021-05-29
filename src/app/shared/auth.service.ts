@@ -25,6 +25,7 @@ export class AuthService {
   subscription = null;
   isWrongCred = false;
   selectedMasterTrader;
+  isInvalidAPI = false;
 
   email = '';
   userId = '';

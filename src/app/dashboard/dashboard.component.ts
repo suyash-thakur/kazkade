@@ -53,12 +53,20 @@ export class DashboardComponent implements OnInit {
     }
   ngOnInit(): void {
     // this.openDialog();
+    let isVarify = localStorage.getItem('isInvalidAPI');
+    if (isVarify === 'true') {
+      this.dialog.open(APIKeyComponent, {});
+
+    } else {
+
+    }
+
     console.log(this.authService.userType);
     this.http.get<any>(environment.Route + '/api/action/future-balance').subscribe((res: any) => {
       console.log(res);
       if (res.data.msg === "API-key format invalid.") {
         this.isInvalidAPI = true;
-        this.dialog.open(APIKeyComponent, {});
+
         return;
       }
       res.data.forEach((item) => {

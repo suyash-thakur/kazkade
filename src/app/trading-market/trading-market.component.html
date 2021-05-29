@@ -274,6 +274,14 @@
                       {{item.price}}
                     </div>
                   </div>
+                  <div *ngIf="!isFuture">
+                    <div class="header-orderDetail">
+                      TIME
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index">
+                      {{item.time | date:'medium'}}
+                    </div>
+                  </div>
                   <div *ngIf="isFuture">
                     <div class="header-orderDetail">
                       Action
@@ -282,6 +290,15 @@
                       style="cursor: pointer;">
                       CLOSE
                     </div>
+                    </div>
+                    <div *ngIf="!isFuture">
+                      <div class="header-orderDetail">
+                        Action
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrderLimit(i)"
+                        style="cursor: pointer;">
+                        CLOSE
+                      </div>
                     </div>
                     </div>
                     <div style="opacity: 0.8; font-weight:400; width:100%;" *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">

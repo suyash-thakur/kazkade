@@ -55,7 +55,7 @@ export class AdminComponent implements OnInit {
     });
   }
   deleteUser(id) {
-    this.http.post(environment.Route + '/api/admin/all-copy-traders', {
+    this.http.post(environment.Route + '/api/admin/delete-payment', {
       id: id
     }).subscribe((res: any) => {
       this.http.get(environment.Route + '/api/admin/all-copy-traders').subscribe((res: any) => {

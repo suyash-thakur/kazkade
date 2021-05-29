@@ -431,6 +431,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.myWebSocket.subscribe();
 
   }
+  cancelOrderLimit(i) {
+    this.http.post(environment.Route + '/api/action/cancle-order', this.limitOpenOrders[i]).subscribe((res) => {
+      this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
+        console.log(res);
+        if (res !== {}) {
+          this.limitOpenOrders = [];
+          this.limitOpenOrders = res.data;
+
+        }
+      });
+    });
+  }
   cancelOrder(i) {
     this.http.post(environment.Route + '/api/action/future-cancle-order', this.limitOpenOrders[i]).subscribe((res) => {
       this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
@@ -492,8 +504,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     } else {
       if (this.isLimit === true) {
-        console.log(this.buyAtPriceSpot);
-        this.buyTotalPrice = (this.buyAmount * this.buyAtPriceSpot) / this.currentLeverage;
+        console.log(this.buyAtPriceLimit);
+        this.buyTotalPrice = (this.buyAmount * this.buyAtPriceLimit) / this.currentLeverage;
       } else {
         this.buyTotalPrice = (this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice) / this.currentLeverage;
 
