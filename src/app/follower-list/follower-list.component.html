@@ -32,12 +32,18 @@
       </div>
     </div>
   </div>
-  <div *ngIf="followerList.length === 0 && this.authservice.userType !== 'COPY'"
+  <div *ngIf="followerList.length === 0 && this.authservice.userType !== 'COPY' && isLoading === true"
     style="width:100%; text-align: center; font-size: 20px; font-weight:bold">
     No Followers
   </div>
-  <div *ngIf="followerList.length === 0 && this.authservice.userType === 'COPY'"
+  <div *ngIf="followerList.length === 0 && this.authservice.userType === 'COPY' && isLoading === true"
     style="width:100%; text-align: center; font-size: 20px; font-weight:bold">
     You are following no one
+  </div>
+  <div style="display:flex;  flex-direction: column; align-items: center; min-height: 70vh; width: 100%;"
+    *ngIf="!isLoading">
+    <div>
+      <mat-spinner class="uploader-status"></mat-spinner>
+    </div>
   </div>
 </div>

@@ -92,6 +92,11 @@
           <br>
 
         </div>
+        <div *ngIf="dualSidePosition === true">
+          <div style="font-size:33px; text-align: center; line-height: 32px; padding-left: 15px;">
+            <b>Your hedge mode is on please switch it off to enable copy trades</b>
+          </div>
+        </div>
         <div style="text-align:center" *ngIf="!this.authService.binanceuser">
           <button mat-stroked-button [routerLink]="'/keys'"
             style="background-color: #981B40; color: white; font-size: larger;" class="btn-block">Connect to

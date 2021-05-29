@@ -59,6 +59,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   status = [];
   isStopLoss = false;
   isStopLossSell = false;
+  isLImitLoaded = false;
   buyTotalPrice = 0;
   sellTotalPrice = 0;
   isLoggedIn = false;
@@ -242,6 +243,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.limitOpenOrders = [];
       this.positions = [];
       this.openOrders = {};
+      this.isLoaded = false;
+
 
       this.myWebSocket.unsubscribe();
       if (params.market === 'future') {
@@ -374,6 +377,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               console.log(res);
               if (res !== {}) {
                 this.limitOpenOrders = res.data;
+
               }
             });
           } else {
@@ -381,7 +385,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               console.log(res);
               console.log("Open orders", res);
               if (res !== {}) {
-                this.limitOpenOrders = res.data;
+                this.completedOrders = res;
+
               }
             });
 
@@ -1039,7 +1044,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           leverage: this.currentLeverage,
           quantityPrecision: this.coinDataList[this.selectedCoin].precision,
           ratio: 100,
-          side: 'BUY'
+          side: 'SELL'
 
 
         }).subscribe((res: any) => {

@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   dataArrayTemp = [];
   isloaded = false;
   isInvalidAPI = false;
+  dualSidePosition = false;
   endpoint = environment.Route+'/api/user';
   pieData = [
     {
@@ -72,6 +73,12 @@ export class DashboardComponent implements OnInit {
         }
       });
     });
+
+    this.http.get(environment.Route + '/api/action/future-position-side').subscribe((res: any) => {
+      console.log(res);
+      this.dualSidePosition = res.data.dualSidePosition;
+    });
+
     if (this.authService.userType !== undefined) {
 
       this.http.get<any>(environment.Route + '/api/action/future-account').subscribe((res: any) => {

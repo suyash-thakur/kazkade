@@ -11,6 +11,7 @@ import { AuthService } from '../shared/auth.service';
 })
 export class FollowerListComponent implements OnInit {
   followerList = [];
+  isLoading = false;
 
   constructor(public dialog: MatDialog, private http: HttpClient, public authservice: AuthService) { }
 
@@ -22,11 +23,14 @@ export class FollowerListComponent implements OnInit {
       this.http.get(environment.Route + '/api/master-trader/followers').subscribe((res: any) => {
         console.log(res);
         this.followerList = res;
+        this.isLoading = true;
       });
     } else {
       this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {
         console.log(res);
         this.followerList = res;
+        this.isLoading = true;
+
       });
     }
 
