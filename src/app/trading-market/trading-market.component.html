@@ -205,7 +205,7 @@
             <mat-tab label="OPEN ORDERS">
               <div style="display: flex; justify-content: center; height: 350px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
-                  *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0">
+                  *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0 && limitOpenOrders !== undefined">
                   <div>
                     <div class="header-orderDetail">
                       PAIR
