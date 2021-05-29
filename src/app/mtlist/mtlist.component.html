@@ -31,7 +31,9 @@
     <div style="display: flex; max-width:800px; width: 100%; align-items: center; margin-top:15px;"
       *ngFor="let item of arr">
       <div style="flex: 1;">
-        <img src="../../assets/image 42.png" style="max-width:70px;">
+        <img src="../../assets/image 42.png" style="max-width:70px;" *ngIf="item.user[0].image_url === undefined">
+        <img [src]="item.user[0].image_url" style="max-width:70px;" *ngIf="item.user[0].image_url !== undefined">
+
       </div>
       <div style="font-size:20px; font-weight:bold; margin-left: 20px; flex: 1;">
         {{item.user[0].full_name}}

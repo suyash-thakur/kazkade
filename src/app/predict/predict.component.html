@@ -17,7 +17,7 @@
   </mat-form-field>
 </div>
 </div>
-    <table class="table" *ngIf="arr" >
+    <table class="table" *ngIf="arr && !isLoading">
         <!-- ADD HEADERS -->
         <thead>
         <tr>
@@ -30,7 +30,9 @@
       <tbody>
         <tr *ngFor="let pred of orderData; trackBy: trackById;">
           <td><br>{{pred.symbol}}</td>
-          <td><br>{{pred.executedQty}}</td>
+          <td *ngIf="isFuture"><br>{{pred.executedQty}}</td>
+          <td *ngIf="!isFuture"><br>{{pred.quoteQty}}</td>
+
             <td><br>
               <!-- <p *ngIf="check(pred.cur_price,pred.pr_price)" style="color: green; font-size: xx-small;">
                 <span style="color: black; font-size: 14px;">${{(pred.pr_price)}} </span>
@@ -38,10 +40,13 @@
                 (+{{((pred.pr_price-pred.cur_price)*100/pred.cur_price).toFixed(2)}}%)
               </p> -->
               <p style="color: red; font-size: xx-small;">
-                <span style="color: black; font-size: 14px;">{{pred.avgPrice}} </span>
+                <span style="color: black; font-size: 14px;" *ngIf="isFuture">{{pred.avgPrice}} </span>
+                <span style="color: black; font-size: 14px;" *ngIf="!isFuture">{{pred.price}} </span>
+
               </p>
             </td>
 <td>{{pred.time | date : 'medium'}}</td>
+
         </tr>
       </tbody>
     </table>

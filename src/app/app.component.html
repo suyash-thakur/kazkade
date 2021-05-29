@@ -118,7 +118,7 @@
               <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
                 style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
                 white-space:noraml; ">
-                <div style="" class="mb-0">
+                <div style="" class="mb-0" *ngIf="item.msg !== undefined">
                   <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
             </div>
             <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">

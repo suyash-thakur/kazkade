@@ -16,6 +16,8 @@ import { BuycomComponent } from '../buycom/buycom.component';
 export class PredictComponent implements OnInit {
   // arr: string [];
   market = 'trending_up';
+  isFuture = true;
+  isLoading = false;
   arr = [
     {
       curr: "BTC",
@@ -93,19 +95,27 @@ export class PredictComponent implements OnInit {
     });
   }
   spotOrders() {
-    this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
+    this.isFuture = false;
+    this.isLoading = true
+    this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
       console.log(res);
-      if (res.data.length > 0 && res.data !== undefined) {
-        this.orderData = res.data.reverse();
+
+      if (res.length > 0) {
+        this.orderData = res.reverse();
 
       }
       else {
         this.orderData = res.data
 
       }
+      this.isLoading = false
+
     });
   }
   futureOrders() {
+    this.isFuture = true;
+    this.isLoading = true;
+
     this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
       console.log(res);
       if (res.data.length > 0 && res.data !== undefined) {
@@ -116,6 +126,8 @@ export class PredictComponent implements OnInit {
         this.orderData = res.data
 
       }
+      this.isLoading = false
+
 
     });
   }

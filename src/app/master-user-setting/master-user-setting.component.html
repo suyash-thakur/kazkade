@@ -45,10 +45,10 @@
         </div>
         <br>
         <div>
-          <img src="../../assets/image 42.png" style="max-width: 120px;">
+          <img [src]="src" style="max-width: 120px;">
         </div>
         <div style="flex:3; margin-top: 15px;">
-          <input type="file" [(ngModel)]="securityKey">
+          <input type="file" (change)="onSelectFile($event.target.files)" name="file" id="file">
         </div>
       </div>
       <div style=" justify-content: center;" class="input_container">

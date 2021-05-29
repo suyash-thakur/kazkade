@@ -16,7 +16,9 @@ export class MasterUserSettingComponent implements OnInit {
   isUpdateDesc = false;
   isUpdatePass = false;
   opened = false;
+  src = '../../assets/image 42.png';
   isError = false;
+  files: any;
   subject = '';
   description = '';
   support = '';
@@ -40,6 +42,12 @@ export class MasterUserSettingComponent implements OnInit {
     this.userName = localStorage.getItem('user_name');
     this.email = localStorage.getItem('email');
     this.mobile = localStorage.getItem('mobile');
+    let temp = localStorage.getItem('imgUrl');
+    console.log(temp);
+    if (temp !== null && temp !== 'undefined') {
+      this.src = localStorage.getItem('imgUrl');
+
+    }
   }
   submitDescription() {
     this.http.post(environment.Route + '/api/master-trader/mt-description', {
@@ -47,6 +55,7 @@ export class MasterUserSettingComponent implements OnInit {
     }).subscribe((res) => {
       console.log(res);
       this.isUpdateDesc = true;
+
     });
   }
   passwordEdit() {
@@ -66,6 +75,22 @@ export class MasterUserSettingComponent implements OnInit {
       this.isUpdatePass = true;
 
 
+    });
+  }
+  onSelectFile(event: FileList) {
+
+    let filesToUpload = event.item(0);
+    console.log(filesToUpload);
+    const formData = new FormData();
+    formData.append('image', filesToUpload, filesToUpload.name);
+    let headers = new Headers();
+
+    this.http.post(environment.Route + '/api/user/image-upload', formData).subscribe((x: any) => {
+      console.log(x);
+      this.src = x.url;
+      if (x.url !== undefined) {
+        localStorage.setItem('imgUrl', x.url);
+      }
     });
   }
   submitDetails() {

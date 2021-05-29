@@ -1,5 +1,6 @@
 <div style="padding:15px; padding-top: 50px; min-height:80vh">
   <br>
+  <br>
   <h2 *ngIf="this.authservice.userType !== 'COPY'">
     Followers:
   </h2>
@@ -11,7 +12,8 @@
     *ngFor="let item of followerList; let i = index">
     <div style="display: flex; max-width:800px; width: 100%; align-items: center;  margin-top: 15px;">
       <div>
-        <img src="../../assets/image 42.png" style="max-width:70px;">
+        <img src="../../assets/image 42.png" style="max-width:70px;" *ngIf="item.user[0].image_url === undefined">
+        <img [src]="item.user[0].image_url" style="max-width:70px;" *ngIf="item.user[0].image_url !== undefined">
       </div>
       <div style="font-size:20px; font-weight:bold; margin-left: 20px;">
         {{item.user[0].full_name}}
@@ -43,7 +45,7 @@
   <div style="display:flex;  flex-direction: column; align-items: center; min-height: 70vh; width: 100%;"
     *ngIf="!isLoading">
     <div>
-      <mat-spinner class="uploader-status"></mat-spinner>
+      <mat-spinner class="uploader-status2"></mat-spinner>
     </div>
   </div>
 </div>

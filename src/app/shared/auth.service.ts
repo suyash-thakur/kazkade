@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router, UrlSegment } from '@angular/router';
@@ -12,6 +12,7 @@ import { LoggedInUser } from '../shared/user';
 })
 
 export class AuthService {
+  private subject = new Subject<any>();
   t=true;
   endpoint = environment.Route+'/api/user';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -28,6 +29,7 @@ export class AuthService {
   email = '';
   userId = '';
   userType = '';
+  imgUrl = '';
   constructor(
     private http: HttpClient,
     public router: Router
@@ -80,6 +82,8 @@ export class AuthService {
           if (res.user !== undefined) {
             this.userType = res.user.userType;
             this.subscription = res.subscription;
+            this.imgUrl = res.user.image_url;
+            localStorage.setItem('imgUrl', this.imgUrl);
             localStorage.setItem('userSubscription', JSON.stringify(this.subscription));
             localStorage.setItem('userType', this.userType);
             localStorage.setItem('email', res.user.email);
@@ -167,5 +171,11 @@ export class AuthService {
       msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(msg);
+  }
+  sendClickEvent() {
+    this.subject.next();
+  }
+  getClickEvent(): Observable<any> {
+    return this.subject.asObservable();
   }
 }

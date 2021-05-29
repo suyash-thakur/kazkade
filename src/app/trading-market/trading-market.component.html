@@ -159,7 +159,7 @@
 
             </mat-tab>
 
-            <mat-tab label="COMPLETED ORDERS">
+            <mat-tab label="COMPLETED ORDERS" *ngIf="isFuture">
               <div style="display: flex; justify-content: center; height: 350px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
                   *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
@@ -199,6 +199,49 @@
                     LOGIN
                   </div>
                 </div>
+
+              </div>
+              </mat-tab>
+              <mat-tab label="COMPLETED ORDERS" *ngIf="!isFuture">
+                <div style="display: flex; justify-content: center; height: 350px;">
+                  <div style="display:flex; justify-content: space-between; width:100%"
+                    *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
+                    <div>
+                      <div class="header-orderDetail">
+                        PAIR
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of completedOrders">
+                        {{item.symbol}}
+                      </div>
+
+                    </div>
+                    <div style="text-align: center;">
+                      <div class="header-orderDetail">
+                        AMOUNT
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of completedOrders">
+                        <span *ngIf="item.side === 'SELL'">-</span>{{item.qty | number : '1.2-2'}}
+                      </div>
+                    </div>
+                    <div>
+                      <div class="header-orderDetail">
+                        PRICE
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of completedOrders">
+                        {{item.price | number : '1.2-2'}}
+                      </div>
+                    </div>
+
+                  </div>
+                  <div style="opacity: 0.8; font-weight:400; width:100%;"
+                    *ngIf="authService.isLoggedIn && completedOrders.length == 0">
+                    No Complete Order
+                  </div>
+                  <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
+                    <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">
+                      LOGIN
+                    </div>
+                  </div>
 
               </div>
             </mat-tab>

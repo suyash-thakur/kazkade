@@ -7,6 +7,12 @@
 .uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #981B40;
 }
+.uploader-status2 ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #981B40 !important;
+}
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #981B40;
+  }
 .login,
 .image {
   min-height: 100vh;

@@ -28,6 +28,22 @@ export class AppComponent implements AfterViewInit{
       this.authService.showMenu = false;
 
     }
+    this.authService.getClickEvent().subscribe(() => {
+      this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
+        console.log(res);
+        res = res.results.reverse();
+        res.forEach((item, index) => {
+          if (this.convertJson(item.notification) && index < 10) {
+            console.log(JSON.parse(item.notification));
+            this.notification.push(JSON.parse(item.notification));
+            this.timestamp.push(item.updatedAt);
+
+          }
+
+
+        })
+      });
+    })
     RecaptchaComponent.prototype.ngOnDestroy = function () {
       if (this.subscription) {
         this.subscription.unsubscribe();
@@ -70,6 +86,7 @@ export class AppComponent implements AfterViewInit{
     }
 
   }
+
   convertJson(str): boolean {
     try {
       JSON.parse(str);
