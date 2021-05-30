@@ -29,6 +29,7 @@ export class AppComponent implements AfterViewInit{
 
     }
     this.authService.getClickEvent().subscribe(() => {
+      this.notification = [];
       this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {
         console.log(res);
         res = res.results;

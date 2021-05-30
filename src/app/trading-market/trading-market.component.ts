@@ -400,7 +400,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             });
             this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
               console.log(res);
-
+              this.limitAsset = [];
               res.forEach((data: any) => {
                 this.limitAsset.push({
                   name: data.asset,
@@ -1147,6 +1147,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         symbol: this.selectedCoin,
         quantity: this.buyAmount
       }).subscribe((res: any) => {
+        this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+          console.log(res);
+          this.limitAsset = [];
+          res.forEach((data: any) => {
+            this.limitAsset.push({
+              name: data.asset,
+              value: Math.abs(Number(data.free))
+            });
+            console.log(this.limitAsset);
+
+          });
+        });
         this.authService.sendClickEvent();
 
         if (res.code === -2010) {
@@ -1190,6 +1202,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.isInsufficientFund = false;
       const symbol = this.getstockName(this.wathcList[this.index]);
       console.log(symbol);
+      this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+        console.log(res);
+        this.limitAsset = [];
+        res.forEach((data: any) => {
+          this.limitAsset.push({
+            name: data.asset,
+            value: Math.abs(Number(data.free))
+          });
+          console.log(this.limitAsset);
+
+        });
+      });
       this.http.post(environment.Route + '/api/action/buy-limit', {
         symbol: this.selectedCoin,
         quantity: this.buyAmount,
@@ -1221,6 +1245,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.completedOrders = res;
 
             }
+          });
+          this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+            console.log(res);
+            this.limitAsset = [];
+            res.forEach((data: any) => {
+              this.limitAsset.push({
+                name: data.asset,
+                value: Math.abs(Number(data.free))
+              });
+              console.log(this.limitAsset);
+
+            });
           });
           this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
             console.log(res);
@@ -1285,6 +1321,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
                 }
               });
+              this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+                console.log(res);
+                this.limitAsset = [];
+                res.forEach((data: any) => {
+                  this.limitAsset.push({
+                    name: data.asset,
+                    value: Math.abs(Number(data.free))
+                  });
+                  console.log(this.limitAsset);
+
+                });
+              });
               this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
                 console.log(res);
                 if (res !== {}) {
@@ -1330,6 +1378,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.completedOrders = res;
 
             }
+          });
+          this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+            console.log(res);
+            this.limitAsset = [];
+            res.forEach((data: any) => {
+              this.limitAsset.push({
+                name: data.asset,
+                value: Math.abs(Number(data.free))
+              });
+              console.log(this.limitAsset);
+
+            });
           });
           this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
             console.log(res);
@@ -1393,6 +1453,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
             }
           });
+          this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+            console.log(res);
+            this.limitAsset = [];
+            res.forEach((data: any) => {
+              this.limitAsset.push({
+                name: data.asset,
+                value: Math.abs(Number(data.free))
+              });
+              console.log(this.limitAsset);
+
+            });
+          });
           this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
             console.log(res);
             if (res !== {}) {
@@ -1433,6 +1505,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.completedOrders = res;
 
             }
+          });
+          this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+            console.log(res);
+            this.limitAsset = [];
+            res.forEach((data: any) => {
+              this.limitAsset.push({
+                name: data.asset,
+                value: Math.abs(Number(data.free))
+              });
+              console.log(this.limitAsset);
+
+            });
           });
           this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
             console.log(res);
@@ -1501,6 +1585,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
                 }
               });
+              this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+                console.log(res);
+                this.limitAsset = [];
+                res.forEach((data: any) => {
+                  this.limitAsset.push({
+                    name: data.asset,
+                    value: Math.abs(Number(data.free))
+                  });
+                  console.log(this.limitAsset);
+
+                });
+              });
             }
           });
         }
@@ -1540,6 +1636,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.completedOrders = res;
 
             }
+          });
+          this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+            console.log(res);
+            this.limitAsset = [];
+            res.forEach((data: any) => {
+              this.limitAsset.push({
+                name: data.asset,
+                value: Math.abs(Number(data.free))
+              });
+              console.log(this.limitAsset);
+
+            });
           });
           this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
             console.log(res);

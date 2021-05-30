@@ -121,7 +121,7 @@ export class MasterUserSettingComponent implements OnInit {
       path_api_key: this.apiKey
     }).subscribe((res: any) => {
       console.log(res);
-      if (res.msg = "Invalid API keys") {
+      if (res.msg === "Invalid API keys") {
         this.authService.isInvalidAPI = true;
         localStorage.setItem('isInvalidAPI', 'true');
       } else {
