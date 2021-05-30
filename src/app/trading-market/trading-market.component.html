@@ -158,7 +158,40 @@
                   </div>
 
             </mat-tab>
+            <mat-tab label="ASSETS" *ngIf="!isFuture">
+              <div style="display: flex; justify-content: center; height: 350px;">
+                <div style="display:flex; justify-content: flex-start; width:100%"
+                  *ngIf="authService.isLoggedIn && limitAsset.length !== 0">
+                  <div>
+                    <div class="header-orderDetail">
+                      PAIR
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of limitAsset">
+                      {{item.name}}
+                    </div>
 
+                  </div>
+                  <div style="text-align: center; margin-left: 20px;">
+                    <div class="header-orderDetail">
+                      AMOUNT
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of limitAsset">
+                      <span *ngIf="item.side === 'SELL'">-</span>{{item.value | number : '1.2-2'}}
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+                <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
+                  <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">
+                    LOGIN
+                  </div>
+                </div>
+
+                </div>
+                </mat-tab>
             <mat-tab label="COMPLETED ORDERS" *ngIf="isFuture">
               <div style="display: flex; justify-content: center; height: 350px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
@@ -202,6 +235,7 @@
 
               </div>
               </mat-tab>
+
               <mat-tab label="COMPLETED ORDERS" *ngIf="!isFuture">
                 <div style="display: flex; justify-content: center; height: 350px;">
                   <div style="display:flex; justify-content: space-between; width:100%"
@@ -221,6 +255,14 @@
                       </div>
                       <div class="order-detailItem" *ngFor="let item of completedOrders">
                         <span *ngIf="item.side === 'SELL'">-</span>{{item.qty | number : '1.2-2'}}
+                      </div>
+                    </div>
+                    <div *ngIf="!isFuture">
+                      <div class="header-orderDetail">
+                        TIME
+                      </div>
+                      <div class="order-detailItem" *ngFor="let item of completedOrders; let i = index">
+                        {{item.time | date:'medium'}}
                       </div>
                     </div>
                     <div>
@@ -274,14 +316,7 @@
                       {{item.price}}
                     </div>
                   </div>
-                  <div *ngIf="!isFuture">
-                    <div class="header-orderDetail">
-                      TIME
-                    </div>
-                    <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index">
-                      {{item.time | date:'medium'}}
-                    </div>
-                  </div>
+
                   <div *ngIf="isFuture">
                     <div class="header-orderDetail">
                       Action

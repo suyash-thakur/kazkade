@@ -83,6 +83,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   closePercentage = [];
   limitPricePosition = [];
   limitQuantityPosition = [];
+  limitAsset = [];
 
   coinDataList: any = {};
   selectedCoinSocket: any;
@@ -396,6 +397,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.limitOpenOrders = res.data;
 
               }
+            });
+            this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+              console.log(res);
+
+              res.forEach((data: any) => {
+                this.limitAsset.push({
+                  name: data.asset,
+                  value: Math.abs(Number(data.free))
+                });
+                console.log(this.limitAsset);
+
+              });
             });
           }
 

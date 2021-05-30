@@ -29,11 +29,11 @@ export class AppComponent implements AfterViewInit{
 
     }
     this.authService.getClickEvent().subscribe(() => {
-      this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
+      this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {
         console.log(res);
-        res = res.results.reverse();
+        res = res.results;
         res.forEach((item, index) => {
-          if (this.convertJson(item.notification) && index < 10) {
+          if (this.convertJson(item.notification)) {
             console.log(JSON.parse(item.notification));
             this.notification.push(JSON.parse(item.notification));
             this.timestamp.push(item.updatedAt);
@@ -69,11 +69,11 @@ export class AppComponent implements AfterViewInit{
         console.log(res);
         this.authService.followers = res;
       });
-      this.http.get(environment.Route + '/api/user/notification').subscribe((res: any) => {
+      this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {
         console.log(res);
-        res = res.results.reverse();
+        res = res.results;
         res.forEach((item, index) => {
-          if (this.convertJson(item.notification) && index < 10) {
+          if (this.convertJson(item.notification)) {
             console.log(JSON.parse(item.notification));
             this.notification.push(JSON.parse(item.notification));
             this.timestamp.push(item.updatedAt);
