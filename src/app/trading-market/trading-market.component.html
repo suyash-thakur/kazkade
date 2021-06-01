@@ -75,7 +75,8 @@
       <div>
         <div style="background-color:white; height: 400px; margin:5px;">
           <mat-tab-group class="orderDetail" style="max-width: 100%;" class="completedorders">
-            <mat-tab label="OPEN POSITIONS" *ngIf="Object.keys(openOrders).length !== 0 && isFuture">
+            <mat-tab [label]="'OPEN POSITIONS' + '(' +  positions.length + ')'"
+              *ngIf="Object.keys(openOrders).length !== 0 && isFuture">
               <div style="display:flex; justify-content: space-between; ">
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
@@ -92,12 +93,17 @@
                     AMOUNT
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions">
-                    {{item.positionAmt}}
-                  </div>
+                    <div *ngIf="!item.positionAmt.includes('-')" style="color: #2ecc71">
+                      {{item.positionAmt}}
+                      </div>
+                    <div *ngIf="item.positionAmt.includes('-')" style="color: #e74c3c">
+                      {{item.positionAmt}}
+                    </div>
+                    </div>
                 </div>
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
-                    PRICE
+                    ENTRY PRICE
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions">
                     {{item.entryPrice}}
@@ -105,6 +111,14 @@
                 </div>
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
+                    MARK PRICE
+                    </div>
+                    <div class="order-detailItem" *ngFor="let item of positions">
+                      {{item.markPrice}}
+                    </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                      <div class="header-orderDetail">
                     LIQ PRICE
                     </div>
                     <div class="order-detailItem" *ngFor="let item of positions">
@@ -176,7 +190,7 @@
                       AMOUNT
                     </div>
                     <div class="order-detailItem" *ngFor="let item of limitAsset">
-                      <span *ngIf="item.side === 'SELL'">-</span>{{item.value | number : '1.2-2'}}
+                      <span *ngIf="item.side === 'SELL'">-</span>{{item.value}}
                     </div>
                   </div>
 
@@ -192,7 +206,7 @@
 
                 </div>
                 </mat-tab>
-            <mat-tab label="COMPLETED ORDERS" *ngIf="isFuture">
+            <mat-tab [label]="'COMPLETED ORDERS' + ' ' + '(' +  completedOrders.length + ')'" *ngIf="isFuture">
               <div style="display: flex; justify-content: center; height: 350px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
                   *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
@@ -210,7 +224,11 @@
                       AMOUNT
                     </div>
                     <div class="order-detailItem" *ngFor="let item of completedOrders">
-                      <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
+                      <div *ngIf="item.side === 'SELL'" style="color: #e74c3c"><span *ngIf="item.side === 'SELL'"
+                          style="color: #e74c3c">-</span>{{item.origQty}}</div>
+                      <div *ngIf="item.side !== 'SELL'" style="color: #2ecc71"><span *ngIf="item.side === 'SELL'"
+                          style="color: #2ecc71">-</span>{{item.origQty}}</div>
+
                     </div>
                   </div>
                   <div>
@@ -236,7 +254,7 @@
               </div>
               </mat-tab>
 
-              <mat-tab label="COMPLETED ORDERS" *ngIf="!isFuture">
+              <mat-tab [label]="'COMPLETED ORDERS' + ' ' + '(' +  completedOrders.length + ')'" *ngIf="!isFuture">
                 <div style="display: flex; justify-content: center; height: 350px;">
                   <div style="display:flex; justify-content: space-between; width:100%"
                     *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
@@ -253,8 +271,13 @@
                       <div class="header-orderDetail">
                         AMOUNT
                       </div>
+
                       <div class="order-detailItem" *ngFor="let item of completedOrders">
-                        <span *ngIf="item.side === 'SELL'">-</span>{{item.qty | number : '1.2-2'}}
+                        <div>{{item.qty }}</div>
+                        <!-- <div *ngIf="item.side === 'SELL'" style="color: #e74c3c"><span *ngIf="item.side === 'SELL'"
+                                                    style="color: #e74c3c">-</span>{{item.qty }}</div>
+                                                <div *ngIf="item.side !== 'SELL'" style="color: #2ecc71"><span *ngIf="item.side === 'SELL'"
+                                                    style="color: #2ecc71">-</span>{{item.qty | number : '1.2-2'}}</div> -->
                       </div>
                     </div>
                     <div *ngIf="!isFuture">
@@ -287,10 +310,10 @@
 
               </div>
             </mat-tab>
-            <mat-tab label="OPEN ORDERS">
+            <mat-tab [label]="'OPEN ORDERS' + ' ' + '(' +  limitOpenOrders.length + ')'">
               <div style="display: flex; justify-content: center; height: 350px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
-                  *ngIf="authService.isLoggedIn && limitOpenOrders.length !== 0 && limitOpenOrders !== undefined">
+                  *ngIf="authService.isLoggedIn  && limitOpenOrders !== undefined">
                   <div>
                     <div class="header-orderDetail">
                       PAIR
@@ -305,11 +328,23 @@
                       AMOUNT
                     </div>
                     <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
-                      <span *ngIf="item.side === 'SELL'">-</span>{{item.origQty}}
-                    </div>
-                  </div>
-                  <div>
-                    <div class="header-orderDetail">
+                      <div *ngIf="item.side === 'SELL'" style="color: #e74c3c"><span *ngIf="item.side === 'SELL'"
+                          style="color: #e74c3c">-</span>{{item.origQty | number : '1.2-2'}}</div>
+                      <div *ngIf="item.side !== 'SELL'" style="color: #2ecc71"><span *ngIf="item.side === 'SELL'"
+                          style="color: #2ecc71">-</span>{{item.origQty | number : '1.2-2'}}</div>
+
+                      </div>
+                      </div>
+                      <div>
+                        <div class="header-orderDetail">
+                          TYPE
+                        </div>
+                        <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
+                          <span *ngIf="item.side === 'SELL'">-</span>{{item.type}}
+                        </div>
+                      </div>
+                      <div>
+                        <div class="header-orderDetail">
                       PRICE
                     </div>
                     <div class="order-detailItem" *ngFor="let item of limitOpenOrders">
@@ -322,8 +357,8 @@
                       Action
                     </div>
                     <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrder(i)"
-                      style="cursor: pointer;">
-                      CLOSE
+                    style="cursor: pointer;color:#981B40; font-size: 12px;">
+                      CANCEL
                     </div>
                     </div>
                     <div *ngIf="!isFuture">
@@ -331,14 +366,14 @@
                         Action
                       </div>
                       <div class="order-detailItem" *ngFor="let item of limitOpenOrders; let i = index" (click)="cancelOrderLimit(i)"
-                        style="cursor: pointer;">
-                        CLOSE
+                      style="cursor: pointer;color:#981B40; font-size: 12px;">
+                        CANCEL
                       </div>
                     </div>
                     </div>
-                    <div style="opacity: 0.8; font-weight:400; width:100%;" *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">
+                    <!-- <div style="opacity: 0.8; font-weight:400; width:100%;" *ngIf="authService.isLoggedIn && limitOpenOrders.length == 0">
                       No Open Order
-                    </div>
+                    </div> -->
                     <div style="opacity: 1; font-weight:400; width:100%; max-width: 400px;" *ngIf="!authService.isLoggedIn">
                   <div class="buy_button" style="background-color:#981B40; max-width: 100px;" [routerLink]="['/login']">
                     LOGIN

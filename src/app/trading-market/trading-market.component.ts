@@ -387,7 +387,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               console.log(res);
               console.log("Open orders", res);
               if (res !== {}) {
-                this.completedOrders = res;
+                this.completedOrders = res.reverse();
 
               }
             });
@@ -1181,7 +1181,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             console.log("Open orders", res);
             if (res !== {}) {
               this.completedOrders = [];
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });
@@ -1242,7 +1242,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             console.log("Open orders", res);
             if (res !== {}) {
               this.completedOrders = [];
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });
@@ -1317,7 +1317,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 console.log("Open orders", res);
                 if (res !== {}) {
                   this.completedOrders = [];
-                  this.completedOrders = res;
+                  this.completedOrders = res.reverse();
 
                 }
               });
@@ -1375,7 +1375,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             console.log("Open orders", res);
             if (res !== {}) {
               this.completedOrders = [];
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });
@@ -1449,7 +1449,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             console.log("Open orders", res);
             if (res !== {}) {
               this.completedOrders = [];
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });
@@ -1502,7 +1502,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             console.log("Open orders", res);
             if (res !== {}) {
               this.completedOrders = [];
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });
@@ -1572,7 +1572,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 console.log("Open orders", res);
                 if (res !== {}) {
                   this.completedOrders = [];
-                  this.completedOrders = res;
+                  this.completedOrders = res.reverse();
 
                 }
               });
@@ -1633,7 +1633,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             if (res !== {}) {
               this.completedOrders = [];
 
-              this.completedOrders = res;
+              this.completedOrders = res.reverse();
 
             }
           });

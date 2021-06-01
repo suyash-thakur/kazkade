@@ -45,7 +45,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
         this.httpService.post(url_to_hit, { path_api_key: this.pathKey, path_secret_key: this.pathSecret }, { observe: 'response' })
         .subscribe((response: any) => {
             // localStorage.setItem('access_token', res.access_token);
-          if (response.msg = "Invalid API keys") {
+          if (response.msg === "Invalid API keys") {
             this.authService.isInvalidAPI = true;
             localStorage.setItem('isInvalidAPI', 'true');
             localStorage.setItem('binance_user', 'true');
