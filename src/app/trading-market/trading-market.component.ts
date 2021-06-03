@@ -485,10 +485,20 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         }
       });
-      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+      this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
         console.log(res);
-        this.availableBalance = res.data.availableBalance;
+        this.limitAsset = [];
+        if (res.asset === 'USDT') {
+          this.availableBalance = Math.abs(Number(res.free));
+        }
+        res.forEach((data: any) => {
+          this.limitAsset.push({
+            name: data.asset,
+            value: Math.abs(Number(data.free))
+          });
+          console.log(this.limitAsset);
 
+        });
       });
     });
   }
@@ -547,7 +557,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.buyAmount = amountDec.toFixed(this.coinDataList[this.selectedCoin].precision);
   }
   changeTotalPrice() {
-    if (this.marketType !== 'Future') {
+    if (!this.isFuture) {
       if (this.isLimit === false) {
         this.buyTotalPrice = this.buyAmount * this.coinDataList[this.selectedCoin].lastPrice;
 
@@ -1540,6 +1550,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           });
         }
       });
+    } else {
+      const dialogRef = this.dialog.open(InvalidMessage, {
+        width: '550px'
+      });
     }
 
   }
@@ -1804,8 +1818,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-      this.isInsufficientFund2 = true;
-      this.errMsg2 = 'Invalid Combination';
+      const dialogRef = this.dialog.open(InvalidMessage, {
+        width: '550px'
+      });
     }
 
   }
@@ -3387,32 +3402,32 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.tradingView(this.selectedCoin);
-    // setInterval(() => {
-    //   this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
-    //     this.limitOpenOrders = [];
+    setInterval(() => {
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        this.limitOpenOrders = [];
 
-    //     if (res !== {}) {
-    //       this.limitOpenOrders = res.data;
-    //     }
-    //   });
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
 
-    //   this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
-    //     this.positions = [];
-    //     res.data.forEach(item => {
-    //       if (item.entryPrice > 0) {
-    //         this.positions.push(item);
-    //         this.closePercentage.push(0.0);
-    //       }
-    //     });
-    //     console.log(this.positions);
+        this.positions = [];
+        res.data.forEach(item => {
+          if (item.entryPrice > 0) {
+            this.positions.push(item);
+            this.closePercentage.push(0.0);
+          }
+        });
+        console.log(this.positions);
 
-    //     if (res !== {}) {
-    //       this.openOrders = (res);
-    //     }
+        if (res !== {}) {
+          this.openOrders = (res);
+        }
 
-    //   });
-    // }, 5000)
+      });
+    }, 5000)
 
     this.cdRef.detectChanges();
   }

@@ -97,6 +97,7 @@ export class AuthService {
             localStorage.setItem('binance_user', String(res.is_binance_user));
             localStorage.setItem('user_name', res.user.full_name);
             localStorage.setItem('isLoggedIn', 'true');
+            this.sendClickEvent();
           this.router.navigate(['/dashboard']);
             this.id = res.user._id;
           LoggedInUser.full_name = res.user.full_name;
