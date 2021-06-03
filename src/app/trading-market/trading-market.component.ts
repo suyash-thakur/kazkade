@@ -45,6 +45,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   sellAtPriceLimit: number;
   marginBalace: number = 0;
   marginRatio: number = 0;
+  availableBalance: any;
+  isReduceOnly = false;
   isLimit = false;
   isLImitSell = false;
   isMarket = true;
@@ -233,6 +235,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     "BINANCE:MATIC" + this.currentCurrency
 
   ];
+  sortedData: any[];
   constructor(private router: Router,
     private route: ActivatedRoute, private cdRef: ChangeDetectorRef,
     public authService: AuthService, public http: HttpClient, public dialog: MatDialog) {
@@ -320,6 +323,13 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.sellAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
             this.sellAtPriceLimit = this.coinDataList[this.selectedCoin].lastPrice;
             console.log("THis is called");
+            const sortedKeys = Object.keys(this.coinDataList).sort();
+            let temp = {};
+            sortedKeys.forEach(elem => {
+              console.log(elem);
+              temp[elem] = this.coinDataList[elem]; // yuo should see sorted output: A, B, C
+            });
+            this.coinDataList = temp;
             this.isLoaded = true;
 
           }
@@ -345,14 +355,29 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             });
             this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
               console.log(res);
+              this.availableBalance = res.data.availableBalance;
               res.data.positions.forEach(item => {
 
-                this.marginBalace = res.data.totalMarginBalance;
+
 
                 if (item.symbol === this.selectedCoin) {
-                  this.marginPrice = item.maintMargin;
-                  this.marginRatio = this.marginPrice / this.marginBalace
-                  console.log(item);
+                  if (item.isolated) {
+                    this.marginBalace = Number((Number(item.isolatedWallet) + Number(item.unrealizedProfit)).toFixed(3));
+
+                  } else {
+                    this.marginBalace = Number((Number(res.data.totalCrossWalletBalance) + Number(item.unrealizedProfit)).toFixed(3));
+
+                  }
+
+                  this.marginPrice = Number(Number(item.maintMargin).toFixed(3));
+                  if (Number(this.marginBalace) !== 0) {
+                    console.log(this.marginBalace);
+                    console.log(Number(this.marginBalace));
+
+                    this.marginRatio = Number(((this.marginPrice / this.marginBalace) * 100).toFixed(3));
+                  } else {
+                    this.marginRatio = 0;
+                  }
                 }
               });
 
@@ -402,6 +427,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               console.log(res);
               this.limitAsset = [];
               res.forEach((data: any) => {
+                if (data.asset === 'USDT') {
+                  this.availableBalance = Math.abs(Number(data.free));
+                }
                 this.limitAsset.push({
                   name: data.asset,
                   value: Math.abs(Number(data.free))
@@ -417,6 +445,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
       });
     });
+  }
+  toggleReduceOnly() {
+    this.isReduceOnly = !this.isReduceOnly;
   }
   changeSpot() {
     this.isFuture = false;
@@ -454,6 +485,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         }
       });
+      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        console.log(res);
+        this.availableBalance = res.data.availableBalance;
+
+      });
     });
   }
   cancelOrder(i) {
@@ -462,6 +498,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         if (res !== {}) {
           this.limitOpenOrders = res.data;
         }
+      });
+      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        console.log(res);
+        this.availableBalance = res.data.availableBalance;
+
       });
     });
   }
@@ -584,8 +625,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
           leverage: this.currentLeverage,
-          quantityPrecision: this.coinDataList[this.selectedCoin].precision
-
+          quantityPrecision: this.coinDataList[this.selectedCoin].precision,
+          reduceOnly: this.isReduceOnly
 
         }).subscribe((res: any) => {
           this.authService.sendClickEvent();
@@ -597,6 +638,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -607,23 +651,28 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               }
             });
             console.log(this.positions);
+            this.positions.reverse();
+
 
             if (res !== {}) {
               this.openOrders = (res);
             }
 
           });
-          if (res.code === -2010) {
+          if (res.data.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Insufficient Fund';
           }
-          else if (res.code === -2013) {
+          else if (res.data.code === -2013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Error Placing Order';
           }
-          else if (res.code === -1013) {
+          else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
+          } else if (res.data.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
           else {
             this.isInsufficientFund = true;
@@ -639,6 +688,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           quantity: this.buyAmount,
           price: this.buyAtPriceLimit,
           leverage: this.currentLeverage,
+          reduceOnly: this.isReduceOnly,
           quantityPrecision: this.coinDataList[this.selectedCoin].precision,
           side: 'BUY'
 
@@ -651,16 +701,21 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
-
-          if (res.code === -2010) {
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
+          if (res.data.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsg = 'Insufficient Fund';
           }
-          else if (res.code === -2013) {
+          else if (res.data.code === -2013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Error Placing Order';
+          } else if (res.data.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
-          else if (res.code === -1013) {
+          else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
@@ -679,6 +734,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.positions.push(item);
               this.closePercentage.push(0.0);
             }
+            this.positions.reverse();
           });
           console.log(this.positions);
 
@@ -694,6 +750,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             quantity: this.buyAmount,
             stopPrice: this.stopPriceBuy,
             leverage: this.currentLeverage,
+            reduceOnly: this.isReduceOnly,
             quantityPrecision: this.coinDataList[this.selectedCoin].precision,
             ratio: 100,
             side: 'BUY'
@@ -709,6 +766,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.limitOpenOrders = res.data;
               }
             });
+            this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+              this.availableBalance = res.data.availableBalance;
+            });
             this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
               this.positions = [];
@@ -718,6 +778,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                   this.closePercentage.push(0.0);
                 }
               });
+              this.positions.reverse();
+
               console.log(this.positions);
 
               if (res !== {}) {
@@ -728,17 +790,20 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }, (err: HttpErrorResponse) => {
 
           });
-          if (res.code === -2010) {
+        if (res.data.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsg = 'Insufficient Fund';
           }
-          else if (res.code === -2013) {
+        else if (res.data.code === -2013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Error Placing Order';
           }
-          else if (res.code === -1013) {
+        else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
+        } else if (res.data.code === -4164) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
           else {
             this.isInsufficientFund = true;
@@ -752,6 +817,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           symbol: this.selectedCoin,
           quantity: this.buyAmount,
           leverage: this.currentLeverage,
+          reduceOnly: this.isReduceOnly,
+
           quantityPrecision: this.coinDataList[this.selectedCoin].precision
 
 
@@ -769,6 +836,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -778,6 +848,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.closePercentage.push(0.0);
               }
             });
+            this.positions.reverse();
+
             console.log(this.positions);
 
             if (res !== {}) {
@@ -789,15 +861,18 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.openOrders = (res);
           }
 
-          if (res.code === -2010) {
+          if (res.data.code === -2010) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Insufficient Fund';
           }
-          else if (res.code === -2013) {
+          else if (res.data.code === -2013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Error Placing Order';
+          } else if (res.data.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
-          else if (res.code === -1013) {
+          else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
           }
@@ -809,6 +884,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               quantity: this.buyAmount,
               stopPrice: this.stopPriceBuy,
               leverage: this.currentLeverage,
+              reduceOnly: this.isReduceOnly,
+
               quantityPrecision: this.coinDataList[this.selectedCoin].precision,
               ratio: 100,
               side: 'SELL'
@@ -823,6 +900,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                   this.limitOpenOrders = res.data;
                 }
               });
+              this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+                this.availableBalance = res.data.availableBalance;
+              });
               this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
                 this.positions = [];
@@ -832,6 +912,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                     this.closePercentage.push(0.0);
                   }
                 });
+                this.positions.reverse();
+
                 console.log(this.positions);
 
                 if (res !== {}) {
@@ -839,15 +921,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 }
 
               });
-              if (res.code === -2010) {
+              if (res.data.code === -2010) {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Insufficient Fund';
               }
-              else if (res.code === -2013) {
+              else if (res.data.code === -2013) {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Error Placing Order';
               }
-              else if (res.code === -1013) {
+              else if (res.data.code === -1013) {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Amount Lower Than Minimun Limit';
               }
@@ -864,8 +946,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         });
 
       } else {
-        this.isInsufficientFund = true;
-        this.errMsgBuy = 'Incorrect Combination';
+        const dialogRef = this.dialog.open(InvalidMessage, {
+          width: '550px'
+        });
       }
     });
 
@@ -875,10 +958,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.changeTotalPrice();
     this.changeTotalPriceSell();
   }
-  sellPosition(symbol, sellAmount, sellAtPrice, leverage) {
+  sellPosition(symbol, sellAmount, sellAtPrice, leverage, amount) {
+    console.log("amount", amount);
     const dialogRef = this.dialog.open(CloseOrderComponent, {
       width: '550px',
-      data: { flag: 1, precision: this.coinDataList[symbol].precision, symbol: symbol, leverage: leverage }
+      data: { flag: 1, precision: this.coinDataList[symbol].precision, symbol: symbol, leverage: leverage, quatity: sellAmount, amount: amount }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -891,6 +975,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.closePercentage.push(0.0);
           }
         });
+        this.positions.reverse();
+
         console.log(this.positions);
 
         if (res !== {}) {
@@ -904,6 +990,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         if (res !== {}) {
           this.limitOpenOrders = res.data;
         }
+      });
+      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        this.availableBalance = res.data.availableBalance;
       });
     });
 
@@ -933,13 +1022,17 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           quantity: this.sellAmount,
           price: this.sellAtPriceLimit,
           leverage: this.currentLeverage,
+          reduceOnly: this.isReduceOnly,
+
           quantityPrecision: this.coinDataList[this.selectedCoin].precision,
           side: 'SELL'
 
 
         }).subscribe((res: any) => {
           this.authService.sendClickEvent();
-
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
           this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
             this.limitOpenOrders = [];
             console.log(res);
@@ -956,6 +1049,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.closePercentage.push(0.0);
               }
             });
+            this.positions.reverse();
+
             console.log(this.positions);
 
             if (res !== {}) {
@@ -970,6 +1065,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           else if (res.code === -2013) {
             this.isInsufficientFund = true;
             this.errMsg = 'Error Placing Order';
+          }
+          else if (res.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
@@ -996,6 +1095,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             price: this.sellAtPriceLimit,
             stopPrice: this.stopPriceSell,
             leverage: this.currentLeverage,
+            reduceOnly: this.isReduceOnly,
+
             quantityPrecision: this.coinDataList[this.selectedCoin].precision,
             ratio: 100,
             side: 'BUY'
@@ -1011,6 +1112,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.limitOpenOrders = res.data;
               }
             });
+            this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+              this.availableBalance = res.data.availableBalance;
+            });
             this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
               this.positions = [];
@@ -1020,6 +1124,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                   this.closePercentage.push(0.0);
                 }
               });
+              this.positions.reverse();
+
               console.log(this.positions);
 
               if (res !== {}) {
@@ -1044,6 +1150,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           symbol: this.selectedCoin,
           quantity: this.sellAmount,
           leverage: this.currentLeverage,
+          reduceOnly: this.isReduceOnly,
+
           quantityPrecision: this.coinDataList[this.selectedCoin].precision
 
         }).subscribe((res: any) => {
@@ -1056,6 +1164,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -1065,6 +1176,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.closePercentage.push(0.0);
               }
             });
+            this.positions.reverse();
+
             console.log(this.positions);
 
             if (res !== {}) {
@@ -1077,6 +1190,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Insufficient Fund';
 
+          } else if (res.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           } else {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Order Placed';
@@ -1088,6 +1204,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           quantity: this.sellAmount,
           stopPrice: this.stopPriceSell,
           leverage: this.currentLeverage,
+          reduceOnly: this.isReduceOnly,
+
           quantityPrecision: this.coinDataList[this.selectedCoin].precision,
           ratio: 100,
           side: 'SELL'
@@ -1101,6 +1219,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.limitOpenOrders = res.data;
             }
           });
+          this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+            this.availableBalance = res.data.availableBalance;
+          });
           this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
 
             this.positions = [];
@@ -1110,6 +1231,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.closePercentage.push(0.0);
               }
             });
+            this.positions.reverse();
+
             console.log(this.positions);
 
             if (res !== {}) {
@@ -1121,8 +1244,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         });
       } else {
-        this.isInsufficientFund2 = true;
-        this.errMsg2 = 'Incorrect Combination';
+        const dialogRef = this.dialog.open(InvalidMessage, {
+          width: '550px'
+        });
       }
 
     }, (err: HttpErrorResponse) => {
@@ -1150,6 +1274,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
           console.log(res);
           this.limitAsset = [];
+          if (res.asset === 'USDT') {
+            this.availableBalance = Math.abs(Number(res.free));
+          }
           res.forEach((data: any) => {
             this.limitAsset.push({
               name: data.asset,
@@ -1203,6 +1330,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       const symbol = this.getstockName(this.wathcList[this.index]);
       console.log(symbol);
       this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
+        if (res.asset === 'USDT') {
+          this.availableBalance = Math.abs(Number(res.free));
+        }
         console.log(res);
         this.limitAsset = [];
         res.forEach((data: any) => {
@@ -1248,6 +1378,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           });
           this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
             console.log(res);
+            if (res.asset === 'USDT') {
+              this.availableBalance = Math.abs(Number(res.free));
+            }
             this.limitAsset = [];
             res.forEach((data: any) => {
               this.limitAsset.push({
@@ -1324,6 +1457,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
                 console.log(res);
                 this.limitAsset = [];
+                if (res.asset === 'USDT') {
+                  this.availableBalance = Math.abs(Number(res.free));
+                }
                 res.forEach((data: any) => {
                   this.limitAsset.push({
                     name: data.asset,
@@ -1382,6 +1518,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
             console.log(res);
             this.limitAsset = [];
+            if (res.asset === 'USDT') {
+              this.availableBalance = Math.abs(Number(res.free));
+            }
             res.forEach((data: any) => {
               this.limitAsset.push({
                 name: data.asset,
@@ -1456,6 +1595,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.http.get<any>(environment.Route + '/api/user/user-balance').subscribe((res: any) => {
             console.log(res);
             this.limitAsset = [];
+            if (res.asset === 'USDT') {
+              this.availableBalance = Math.abs(Number(res.free));
+            }
             res.forEach((data: any) => {
               this.limitAsset.push({
                 name: data.asset,
@@ -3152,6 +3294,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.closePercentage.push(0.0);
           }
         });
+        this.positions.reverse();
+
         console.log(this.positions);
 
         if (res !== {}) {
@@ -3184,6 +3328,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.closePercentage.push(0.0);
           }
         });
+        this.positions.reverse();
+
         console.log(this.positions);
 
         if (res !== {}) {
@@ -3203,8 +3349,70 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
   }
+  closeALlOrder() {
+    const dialogRef = this.dialog.open(CloseAllOrders, {
+      width: '550px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.authService.sendClickEvent();
+
+      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+        this.positions = [];
+        res.data.forEach(item => {
+          if (item.entryPrice > 0) {
+            this.positions.push(item);
+            this.closePercentage.push(0.0);
+          }
+        });
+        this.positions.reverse();
+
+        console.log(this.positions);
+
+        if (res !== {}) {
+          this.openOrders = (res);
+        }
+
+      });
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        this.limitOpenOrders = [];
+        console.log(res);
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
+    });
+
+  }
   ngAfterViewInit(): void {
     this.tradingView(this.selectedCoin);
+    // setInterval(() => {
+    //   this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+    //     this.limitOpenOrders = [];
+
+    //     if (res !== {}) {
+    //       this.limitOpenOrders = res.data;
+    //     }
+    //   });
+
+    //   this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+    //     this.positions = [];
+    //     res.data.forEach(item => {
+    //       if (item.entryPrice > 0) {
+    //         this.positions.push(item);
+    //         this.closePercentage.push(0.0);
+    //       }
+    //     });
+    //     console.log(this.positions);
+
+    //     if (res !== {}) {
+    //       this.openOrders = (res);
+    //     }
+
+    //   });
+    // }, 5000)
 
     this.cdRef.detectChanges();
   }
@@ -3226,22 +3434,35 @@ export class CloseOrderComponent {
   }
 
   limitOrder() {
+    let Side = '';
+    console.log(this.item);
+    let div = this.ratio / 100;
+    if (this.item.amount.substring(0, 1) === '-') {
+      Side = 'BUY'
+    } else {
+      Side = 'SELL'
+
+    }
+
     this.http.post(environment.Route + '/api/action/future-limit', {
       symbol: this.item.symbol,
       quantity: this.sellAmount,
       price: this.sellAtPrice,
       leverage: this.item.leverage,
       quantityPrecision: this.item.precision,
-      side: 'SELL'
+      side: Side,
+      reduceOnly: true
+
 
 
     }).subscribe((res: any) => {
       console.log(res);
-      this.dialogRef.close();
       this.authService.sendClickEvent();
+      this.dialogRef.close();
 
 
     });
+
   }
   closePos() {
     console.log('Called');
@@ -3263,14 +3484,48 @@ export class CloseOrderComponent {
       quantity: Math.abs(quantity),
       side: Side,
       ratio: this.ratio,
-      quantityPrecision: this.item.precision
+      quantityPrecision: this.item.precision,
+      reduceOnly: true
 
     }).subscribe((res) => {
       console.log(res);
-      this.dialogRef.close();
       this.authService.sendClickEvent();
+      this.dialogRef.close();
 
     });
+
+  }
+}
+@Component({
+  selector: 'close-all',
+  templateUrl: 'closeAll.html',
+})
+export class CloseAllOrders {
+  constructor(public http: HttpClient, public dialogRef: MatDialogRef<CloseAllOrders>) {
+
+  }
+  closeAll() {
+    this.http.post(environment.Route + '/api/action/future-cancle-all-orders', {}).subscribe((res) => {
+      console.log(res);
+      this.dialogRef.close();
+
+    });
+  }
+  closeDialog() {
+    this.dialogRef.close();
+
+  }
+}
+@Component({
+  selector: 'invalid-message',
+  templateUrl: 'invalidCombo.html',
+})
+export class InvalidMessage {
+  constructor(public dialogRef: MatDialogRef<InvalidMessage>) {
+
+  }
+  onclose() {
+    this.dialogRef.close();
   }
 }
 @Component({
@@ -3280,7 +3535,7 @@ export class CloseOrderComponent {
 export class IsolatedMargin {
   item: any;
   marginPrice = 0;
-  marginBalace = 0; s
+  marginBalace = 0;
   balance = 0
   amount = 0;
   constructor(

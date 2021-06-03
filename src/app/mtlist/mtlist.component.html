@@ -26,10 +26,12 @@
     <div>
       <mat-spinner class="uploader-status"></mat-spinner>
     </div>
-  </div>
+    </div>
+
   <div style="display:flex; flex-direction: column; align-items: center;" *ngIf="isLoaded">
-    <div style="display: flex; max-width:800px; width: 100%; align-items: center; margin-top:15px;"
-      *ngFor="let item of arr">
+<div style="display: flex; max-width:1500px; width: 100%; align-items: center; margin-top:15px;"
+  *ngFor="let item of arr; let i = index;">
+
       <div style="flex: 1;">
         <img src="../../assets/image 42.png" style="max-width:70px;" *ngIf="item.user[0].image_url === undefined">
         <img [src]="item.user[0].image_url" style="max-width:70px;" *ngIf="item.user[0].image_url !== undefined">
@@ -38,11 +40,7 @@
       <div style="font-size:20px; font-weight:bold; margin-left: 20px; flex: 1;">
         {{item.user[0].full_name}}
       </div>
-      <div style="flex: 1; text-align: center; display: flex; justify-content:center;">
-        <div style=" text-align: right; width:fit-content; color: #308725; padding: 5px; border:2px solid #308725; ">
-          1
-        </div>
-      </div>
+
       <div style="flex: 1; display: flex; justify-content:center;">
         <div style=" color: red; font-size:20px; font-weight:bold;"
           *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') > -1">
@@ -65,6 +63,13 @@
           *ngIf="followerId.indexOf(item.id) === -1" style="background-color:#981B40; color:white">Follow</button>
         <button mat-raised-button data-toggle="modal"  (click)="unFollow(item.id)"
           *ngIf="followerId.indexOf(item.id)  > -1">Unfollow</button>
+      </div>
+      <div style="flex: 1; font-size:20px; font-weight:bold; text-align: center;">
+        <div style="font-weight:bold; opacity: 0.8;" *ngIf="i === 0">Followers <br><br></div> {{item.followersCount}}
+      </div>
+      <div style="flex: 1; font-size:20px; font-weight:bold; text-align: center;">
+        <div style="font-weight:bold; opacity: 0.8;" *ngIf="i === 0">Followers Equity <br><br></div>
+        {{item.allFollowersBalance}}
       </div>
       </div>
       </div>

@@ -70,7 +70,7 @@ export class AppComponent implements AfterViewInit{
         console.log(res);
         this.authService.followers = res;
       });
-      this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {
+      this.http.get(environment.Route + '/api/user/notification?page=1&limit=10').subscribe((res: any) => {
         console.log(res);
         res = res.results;
         res.forEach((item, index) => {

@@ -108,7 +108,10 @@ export class AuthService {
           if (this.userType === 'admin') {
             this.showMenu = false;
             localStorage.setItem('isLoggedIn', 'true');
+            location.reload();
+
             this.router.navigate(['/admin']);
+
           }
           if (this.userType)
             this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {

@@ -1,3 +1,4 @@
+<div style="max-height:550px;">
 <h3 style="color:#981B40;
 font-size: 30px;">Performance</h3>
 <div style="color:green; font-weight: bold; font-size:18px">
@@ -29,7 +30,7 @@ font-size: 30px;">Performance</h3>
   Total Available Balance &nbsp; {{item.balance.availableBalance}}
 </div>
 <br>
-<div style="display:flex; justify-content: center; align-items: center; flex-direction:column; min-width:500px;"
+<div style="display:flex; justify-content: center; align-items: center; flex-direction:column; min-width:500px; "
   *ngIf="pilData.length > 0">
   <div
     style="display:flex; margin-top: 55px; padding-bottom: 15px; font-size:20px; width:100%;   border-bottom: 2px solid rgba(128, 128, 128, 0.295);" *ngFor="let pos of pilData">
@@ -45,4 +46,5 @@ font-size: 30px;">Performance</h3>
   </div>
 <div *ngIf="pilData.length == 0">
   No Data To Display
+</div>
 </div>

@@ -48,11 +48,13 @@ export class DashboardComponent implements OnInit {
   constructor(public dialog: MatDialog,private httpService: HttpClient,public router: Router,
     private http: HttpClient, public authService: AuthService,
     public actRoute: ActivatedRoute) {
+
       let id = this.actRoute.snapshot.paramMap.get('id');
 
     }
   ngOnInit(): void {
     // this.openDialog();
+
     let isVarify = localStorage.getItem('isInvalidAPI');
     if (isVarify === 'true') {
       this.dialog.open(APIKeyComponent, {});

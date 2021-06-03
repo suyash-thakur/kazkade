@@ -61,7 +61,7 @@ import { AdminComponent } from './admin/admin.component';
 import { SettingsComponent } from './settings/settings.component';
 import { TermsComponent } from './terms/terms.component';
 import { RecaptchaModule } from "ng-recaptcha";
-import { TradingMarketComponent, CloseOrderComponent, IsolatedMargin } from './trading-market/trading-market.component';
+import { TradingMarketComponent, CloseOrderComponent, IsolatedMargin, CloseAllOrders } from './trading-market/trading-market.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -101,7 +101,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     ForgotPasswordInputComponent,
     MasterDataComponent,
     CloseOrderComponent,
-    IsolatedMargin
+    IsolatedMargin,
+    CloseAllOrders
 
   ],
 
@@ -112,7 +113,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     PilComponent,
     MasterDataComponent,
     CloseOrderComponent,
-    IsolatedMargin
+    IsolatedMargin,
+    CloseAllOrders
   ],
   imports: [
     MatFormFieldModule,

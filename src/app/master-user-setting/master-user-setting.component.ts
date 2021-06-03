@@ -87,9 +87,10 @@ export class MasterUserSettingComponent implements OnInit {
 
     this.http.post(environment.Route + '/api/user/image-upload', formData).subscribe((x: any) => {
       console.log(x);
-      this.src = x.url;
       if (x.url !== undefined) {
         localStorage.setItem('imgUrl', x.url);
+        this.src = x.url;
+
       }
     });
   }
