@@ -26,6 +26,8 @@ import { TermsComponent } from './terms/terms.component';
 import { TradingMarketComponent } from './trading-market/trading-market.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
+import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
 
 
 const routes: Routes = [
@@ -123,6 +125,14 @@ const routes: Routes = [
   {
     path: 'enterForgotPassword',
     component: ForgotPasswordInputComponent
+  },
+  {
+    path: 'qrcode',
+    component: QrcodeComponent
+  },
+  {
+    path: 'verify',
+    component: QrcodeVerifyComponent
   }
 ];
 

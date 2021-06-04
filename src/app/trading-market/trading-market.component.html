@@ -137,7 +137,7 @@
                   </div>
                   <div class="order-detailItem" *ngFor="let item of positions">
                     <span *ngIf="!item.unRealizedProfit.includes('-')" style="color: #2ecc71">
-                    {{item.unRealizedProfit}}
+                    {{item.unRealizedProfit |number:'1.0-4'}}
                   </span>
                   <span *ngIf="item.unRealizedProfit.includes('-')" style="color: #e74c3c">
                     {{item.unRealizedProfit}}

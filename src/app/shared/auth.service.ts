@@ -98,7 +98,15 @@ export class AuthService {
             localStorage.setItem('user_name', res.user.full_name);
             localStorage.setItem('isLoggedIn', 'true');
             this.sendClickEvent();
-          this.router.navigate(['/dashboard']);
+            if (this.userType === 'admin') {
+              this.showMenu = false;
+              localStorage.setItem('isLoggedIn', 'true');
+              location.reload();
+
+              this.router.navigate(['/admin']);
+
+            }
+
             this.id = res.user._id;
           LoggedInUser.full_name = res.user.full_name;
           }
@@ -106,19 +114,18 @@ export class AuthService {
             this.userType = res.user_type;
           }
 
-          if (this.userType === 'admin') {
-            this.showMenu = false;
-            localStorage.setItem('isLoggedIn', 'true');
-            location.reload();
 
-            this.router.navigate(['/admin']);
-
-          }
           if (this.userType)
             this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {
               console.log(res);
               this.followers = res;
             });
+          if (!res.is_2fa_completed) {
+            this.router.navigate(['/qrcode']);
+          } else {
+            this.router.navigate(['/verify']);
+
+          }
         }
         if (this.t === true) {
           return true;

@@ -1,0 +1,29 @@
+<div style="width: 100%;text-align: center; margin-top:20px; margin-bottom: 20px; padding: 64px;">
+  <div style="display:flex; justify-content:center; min-height:70vh; align-items: center; ">
+    <mat-card style="min-width: 400px; padding: 15px;">
+      <div style="font-weight:bold; opacity: 0.8; width:100%; font-size:19px">
+        Security Verification
+      </div>
+      <br>
+      <div>
+        To secure your account, please complete the following verification
+      </div>
+      <br>
+      <div *ngIf="isErr" style="color:red; font-weight:bold; opacity: 0.8;">
+        {{erMsg}}
+        <br>
+        <br>
+      </div>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Enter 6 digit code from Google Authenticator</mat-label>
+        <input matInput type="password" [(ngModel)]="verificationCode">
+      </mat-form-field>
+      <div style="display:flex; justify-content:center;">
+        <div style="padding: 10px 20px 10px 20px; text-align:center; background-color: #981B40 ; color:white;"
+          (click)="verifyQR()">
+          Submit
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

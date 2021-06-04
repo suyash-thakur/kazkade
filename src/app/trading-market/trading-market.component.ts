@@ -546,6 +546,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   clickHighestPrice() {
     this.sellAtPriceLimit = this.coinDataList[this.selectedCoin].lastPrice;
+    this.sellAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
   }
   changeBuyAmount() {
     let amountDec = this.buyTotalPrice / this.coinDataList[this.selectedCoin].lastPrice;
@@ -3359,6 +3360,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.limitOpenOrders = res.data;
         }
       });
+      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        this.availableBalance = res.data.availableBalance;
+      });
     });
 
 
@@ -3396,6 +3400,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         if (res !== {}) {
           this.limitOpenOrders = res.data;
         }
+      });
+      this.http.get(environment.Route + '/api/action/future-account').subscribe((res: any) => {
+        this.availableBalance = res.data.availableBalance;
       });
     });
 

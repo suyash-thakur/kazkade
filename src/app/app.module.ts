@@ -66,6 +66,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
+import { QrcodeComponent } from './qrcode/qrcode.component';
+import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,7 +104,9 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
     MasterDataComponent,
     CloseOrderComponent,
     IsolatedMargin,
-    CloseAllOrders
+    CloseAllOrders,
+    QrcodeComponent,
+    QrcodeVerifyComponent
 
   ],
 
