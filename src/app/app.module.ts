@@ -68,6 +68,16 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
+import { AngularFireModule } from '@angular/fire';
+export const firebaseConfig = {
+  apiKey: "AIzaSyBMhsmMWCuDx8ZD6jhASnLbcgdhRQaLkH4",
+  authDomain: "http-start-15d34.firebaseapp.com",
+  databaseURL: "https://http-start-15d34.firebaseio.com",
+  projectId: "http-start-15d34",
+  storageBucket: "http-start-15d34.appspot.com",
+  messagingSenderId: "735182522830",
+  appId: "1:735182522830:web:1bd8b5b16784f50bfac39f"
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -152,6 +162,7 @@ import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
     MatSliderModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
@@ -170,6 +181,7 @@ import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
         blacklistedRoutes: []
       }
     })
+
   ],
   providers: [
     {

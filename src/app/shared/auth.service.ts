@@ -6,7 +6,8 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Router, UrlSegment } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { LoggedInUser } from '../shared/user';
-
+import { AngularFireAuth } from "@angular/fire/auth";
+import firebase from 'firebase/app';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +27,8 @@ export class AuthService {
   isWrongCred = false;
   selectedMasterTrader;
   isInvalidAPI = false;
+  isTwitterValid = false;
+  TwitterUsername = '';
 
   email = '';
   userId = '';
@@ -33,9 +36,33 @@ export class AuthService {
   imgUrl = '';
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
+    public afAuth: AngularFireAuth,
   ) {
   }
+  login() {
+    this.afAuth.signInWithPopup(new firebase.auth.TwitterAuthProvider()).then((res: any) => {
+      console.log(res);
+      if (res.additionalUserInfo.username !== undefined) {
+        this.TwitterUsername = res.additionalUserInfo.username;
+        this.isTwitterValid = true;
+        this.http.post(environment.Route + '/api/user/twitter-username', {
+          twitter_username: this.TwitterUsername
+        }).subscribe((res: any) => {
+          console.log(res);
+        });
+      }
+    });
+  }
+
+  logout() {
+    this.afAuth.signOut().then((res: any) => {
+      console.log(res);
+      this.TwitterUsername = '';
+      this.isTwitterValid = false;
+    });
+  }
+  // Auth logic to run auth providers
 
   // Sign-up
   signUp(user: User): Observable<any> {
@@ -89,6 +116,13 @@ export class AuthService {
             localStorage.setItem('userType', this.userType);
             localStorage.setItem('email', res.user.email);
             localStorage.setItem('mobile', res.user.mno);
+            if (res.user.twitter_username !== undefined) {
+              this.TwitterUsername = res.user.twitter_username;
+              this.isTwitterValid = true;
+              localStorage.setItem('twitter_username', res.user.twitter_username);
+
+            }
+
             this.userId = res.user._id;
             localStorage.setItem('userId', res.user._id);
 

@@ -1,8 +1,15 @@
-<div style="background-color: rgb(224, 224, 224);">
+<div style="background-color: rgb(224, 224, 224); padding-left: 15px;">
+  <br>
+  <div *ngIf="isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;">
+    Future Market
+  </div>
+  <div *ngIf="!isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;">
+    Spot Market
+  </div>
   <br>
   <div style="display:flex;" *ngIf="isLoaded">
     <div>
-      <mat-form-field appearance="fill" style="margin-top:105px; margin-right: 5px;" name="coin">
+<mat-form-field appearance="fill" style=" margin-right: 5px;" name="coin">
         <mat-label>Coin</mat-label>
         <mat-select [(ngModel)]="selectedCoin" panelClass="myPanelClass" disableOptionCentering>
 
@@ -21,7 +28,7 @@
       </mat-form-field>
     </div>
     <div style="flex-grow: 1">
-      <div style="display:flex; width: 100%; align-items: center; margin-top:105px; justify-content: space-between;">
+      <div style="display:flex; width: 100%; align-items: center;  justify-content: space-between;">
         <div style="border-right: 2px solid gray; padding: 10px;">
           <b style="font-size: 26px;">{{selectedCoin}}</b>
         </div>

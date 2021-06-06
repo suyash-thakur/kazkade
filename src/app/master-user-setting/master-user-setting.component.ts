@@ -44,10 +44,14 @@ export class MasterUserSettingComponent implements OnInit {
     this.mobile = localStorage.getItem('mobile');
     let temp = localStorage.getItem('imgUrl');
     console.log(temp);
+
     if (temp !== null && temp !== 'undefined') {
       this.src = localStorage.getItem('imgUrl');
 
     }
+  }
+  connectToTwitter() {
+    this.authService.login();
   }
   submitDescription() {
     this.http.post(environment.Route + '/api/master-trader/mt-description', {

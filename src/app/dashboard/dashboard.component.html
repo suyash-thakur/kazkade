@@ -56,7 +56,7 @@
       <div style="flex:3">
         <div style="display:flex">
           <div *ngIf="dataArray.length > 0" style="flex: 2;">
-            <ngx-charts-pie-chart [view]='view' [results]="dataArray" scheme="picnic">
+            <ngx-charts-pie-chart [view]='view' [results]="dataArray" scheme="picnic" [animations]='false'>
             </ngx-charts-pie-chart>
           </div>
           <div *ngIf="dataArray.length === 0"
@@ -80,7 +80,7 @@
       <div
         style="flex:2; display: flex; justify-content: center; align-items: center; flex-direction: column; border-left: 2px solid #981B40;">
         <div *ngIf="!this.authService.binanceuser"
-          style="text-align: left; font-size: 32px; line-height: 38px; padding-left: 10px;">
+          style="text-align: left; font-size: 24px; line-height: 30px; padding-left: 10px;">
           <h2 style="font-size: 42px; line-height:45px;">Thanks for signing up! <br> Lets get you started.</h2>
           <br>
           <div>
@@ -104,7 +104,7 @@
             <b>Your hedge mode is on please switch it off to enable copy trades</b>
           </div>
         </div>
-        <div style="text-align:center" *ngIf="!this.authService.binanceuser">
+        <div style="text-align:center; margin-top: 45px;" *ngIf="!this.authService.binanceuser">
           <button mat-stroked-button [routerLink]="'/keys'"
             style="background-color: #981B40; color: white; font-size: larger;" class="btn-block">Connect to
             Binance</button>

@@ -1,17 +1,32 @@
 <div style="width: 100%;text-align: center; margin-top:20px; margin-bottom: 20px; padding: 64px;">
   <div style="display:flex; justify-content:center; min-height:70vh; align-items: center; ">
-    <mat-card>
+    <br>
+    <mat-card style="max-width:600px; margin-top:50px;">
       <div style="font-weight: bold; font-size:18px; width:100%; text-align:left; margin-bottom: 7px;">Step 1</div>
-      <div style="font-size:14px; font-weight: bold; opacity: 0.7;">Download and install the Google Authenticator app
+      <div style="font-size:14px; font-weight: bold; opacity: 0.7; text-align:left;">Download and install the Google
+        Authenticator app
       </div>
       <br>
       <div style="font-weight: bold; font-size:18px; width:100%; text-align:left; margin-bottom: 7px;">Step 2</div>
-      <div style="font-size:14px; font-weight: bold; opacity: 0.7;">Scan this QR code in the Google Authenticator app
+      <div style="font-size:14px; font-weight: bold; opacity: 0.7; text-align:left;">Scan this QR code in the Google
+        Authenticator app
       </div>
       <br>
       <div>
         <img [src]="url" style="width:250px; height:250px;">
       </div>
+      <br>
+      <div style="font-weight: bold; font-size:18px; width:100%; text-align:left; margin-bottom: 7px;">Step 3</div>
+      <div style="font-size:14px; font-weight: bold;text-align:left; opacity: 0.7;">Please save this Key on paper. This Key
+        will allow you to
+        recover your Google Authenticator in case of phone loss.
+      </div>
+      <br>
+      <div style="font-weight: bold; font-size:14px; width:100%; text-align:center; margin-bottom: 7px;">
+        {{key}}
+      </div>
+
+      <br>
       <div style="display:flex; justify-content:center;">
         <div style="padding: 10px 20px 10px 20px; text-align:center; background-color: #981B40 ; color:white;"
           (click)="showVerify()">
