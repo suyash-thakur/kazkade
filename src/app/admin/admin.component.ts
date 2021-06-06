@@ -65,4 +65,11 @@ export class AdminComponent implements OnInit {
       });
     });
   }
+  unverify2fa(id) {
+    this.http.post(environment.Route + '/api/admin/reset-2fa', {
+      id: id
+    }).subscribe((res: any) => {
+
+    });
+  }
 }

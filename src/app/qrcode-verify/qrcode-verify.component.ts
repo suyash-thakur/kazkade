@@ -25,8 +25,14 @@ export class QrcodeVerifyComponent implements OnInit {
       if (!res.verified) {
         console.log("called", res.verified);
         this.isErr = true;
+        this.authService.is_2fa_completed = false;
+
+        localStorage.setItem('is_2fa_completed', 'false');
         this.erMsg = 'Invalid verification code.';
       } else {
+        this.authService.is_2fa_completed = true;
+
+        localStorage.setItem('is_2fa_completed', 'false');
         this.router.navigate(['/dashboard']);
       }
     });

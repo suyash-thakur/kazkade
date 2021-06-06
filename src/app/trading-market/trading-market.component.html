@@ -533,7 +533,10 @@
                 <b> {{ errMsgBuy }}</b>
               </div>
             </div>
-            <div class="buy_button" style="margin-top: 50px;" (click)="buy()">
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              Self Trading Not Allowed
+            </div>
+            <div class="buy_button" style="margin-top: 50px;" (click)="buy()" *ngIf="isBuyAllowed()">
               BUY {{ selectedCoin }}
             </div>
           </mat-tab>
@@ -659,7 +662,10 @@
                 <b> {{ errMsg2 }}</b>
               </div>
             </div>
-            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sell()">
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              Self Trading Not Allowed
+            </div>
+            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sell()" *ngIf="isBuyAllowed()">
               SELL {{ selectedCoin }}
             </div>
           </mat-tab>
@@ -831,7 +837,10 @@
                 <b> {{ errMsgBuy }}</b>
               </div>
             </div>
-            <div class="buy_button" style="margin-top: 50px;" (click)="buyLeverage()">
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              Self Trading Not Allowed
+            </div>
+            <div class="buy_button" style="margin-top: 50px;" (click)="buyLeverage()" *ngIf="isBuyAllowed()">
 
               BUY {{ selectedCoin }}
             </div>
@@ -962,7 +971,11 @@
                 <b> {{ errMsg2 }}</b>
               </div>
             </div>
-            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sellLeverage()">
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+              Self Trading Not Allowed
+            </div>
+            <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sellLeverage()"
+              *ngIf="isBuyAllowed()">
               SELL {{ selectedCoin }}
             </div>
           </mat-tab>

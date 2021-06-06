@@ -964,6 +964,14 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     });
 
   }
+  isBuyAllowed() {
+    let subscription = JSON.parse(localStorage.getItem('userSubscription'));
+    if (this.authService.userType === 'COPY' && subscription.subscription_type === 'BASIC') {
+      return false;
+    } else {
+      return true;
+    }
+  }
   onInputChange(event: MatSliderChange) {
     this.currentLeverage = event.value;
     this.changeTotalPrice();

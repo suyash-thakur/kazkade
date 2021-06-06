@@ -28,6 +28,14 @@ export class AppComponent implements AfterViewInit{
       this.authService.showMenu = false;
 
     }
+
+    let is2Fa = localStorage.getItem("is_2fa_completed");
+    if (is2Fa === 'true') {
+      this.authService.is_2fa_completed = true;
+    } else {
+      this.authService.is_2fa_completed = false;
+
+    }
     this.authService.getClickEvent().subscribe(() => {
       this.notification = [];
       this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {

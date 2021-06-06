@@ -29,6 +29,7 @@ export class AuthService {
   isInvalidAPI = false;
   isTwitterValid = false;
   TwitterUsername = '';
+  is_2fa_completed = false;
 
   email = '';
   userId = '';
@@ -107,10 +108,22 @@ export class AuthService {
         else{
           localStorage.setItem('access_token', res.access_token);
           console.log(res.access_token);
+          if (res.user_type === 'admin') {
+            this.showMenu = false;
+            localStorage.setItem('isLoggedIn', 'true');
+            console.log('here');
+
+            this.router.navigate(['/admin']);
+            return;
+
+          }
           if (res.user !== undefined) {
+
             this.userType = res.user.userType;
+
             this.subscription = res.subscription;
             this.imgUrl = res.user.image_url;
+
             localStorage.setItem('imgUrl', this.imgUrl);
             localStorage.setItem('userSubscription', JSON.stringify(this.subscription));
             localStorage.setItem('userType', this.userType);
@@ -132,14 +145,7 @@ export class AuthService {
             localStorage.setItem('user_name', res.user.full_name);
             localStorage.setItem('isLoggedIn', 'true');
             this.sendClickEvent();
-            if (this.userType === 'admin') {
-              this.showMenu = false;
-              localStorage.setItem('isLoggedIn', 'true');
-              location.reload();
 
-              this.router.navigate(['/admin']);
-
-            }
 
             this.id = res.user._id;
           LoggedInUser.full_name = res.user.full_name;
@@ -149,17 +155,23 @@ export class AuthService {
           }
 
 
-          if (this.userType)
+          if (this.userType !== 'admin') {
             this.http.get(environment.Route + '/api/master-trader/followed').subscribe((res: any) => {
               console.log(res);
               this.followers = res;
             });
-          if (!res.is_2fa_completed) {
-            this.router.navigate(['/qrcode']);
+            if (!res.user.is_2fa_completed) {
+              this.router.navigate(['/qrcode']);
+
+
           } else {
-            this.router.navigate(['/verify']);
+              this.router.navigate(['/verify']);
+
+
 
           }
+          }
+
         }
         if (this.t === true) {
           return true;

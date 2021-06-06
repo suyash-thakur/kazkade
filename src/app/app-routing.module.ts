@@ -58,6 +58,8 @@ const routes: Routes = [
   {
     path: 'masterlist',
     component: MtlistComponent,
+    canActivate: [AuthGuard]
+
     // canActivate: [AuthGuard]
   },
   {
@@ -91,18 +93,26 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    component: MasterUserSettingComponent
+    component: MasterUserSettingComponent,
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'userProfile',
-    component: UserProfileComponent
+    component: UserProfileComponent,
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'followerList',
-    component: FollowerListComponent
+    component: FollowerListComponent,
+    canActivate: [AuthGuard]
+
   }, {
     path: 'profitLoss',
-    component: ProfitLossComponent
+    component: ProfitLossComponent,
+    canActivate: [AuthGuard]
+
   }, {
     path: 'about',
     component: AboutComponent
