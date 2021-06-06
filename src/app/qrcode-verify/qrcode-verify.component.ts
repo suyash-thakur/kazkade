@@ -32,7 +32,7 @@ export class QrcodeVerifyComponent implements OnInit {
       } else {
         this.authService.is_2fa_completed = true;
 
-        localStorage.setItem('is_2fa_completed', 'false');
+        localStorage.setItem('is_2fa_completed', 'true');
         this.router.navigate(['/dashboard']);
       }
     });

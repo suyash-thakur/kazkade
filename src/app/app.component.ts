@@ -30,6 +30,7 @@ export class AppComponent implements AfterViewInit{
     }
 
     let is2Fa = localStorage.getItem("is_2fa_completed");
+    console.log(is2Fa);
     if (is2Fa === 'true') {
       this.authService.is_2fa_completed = true;
     } else {
