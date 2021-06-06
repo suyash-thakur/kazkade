@@ -17,9 +17,25 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isLoggedIn !== true) {
+    console.log(this.authService.is_2fa_completed, typeof (this.authService.is_2fa_completed));
+    console.log(this.authService.isLoggedIn, typeof (this.authService.isLoggedIn));
+
+    if (this.authService.isLoggedIn !== true || this.authService.is_2fa_completed !== true) {
+      console.log(this.authService.is_2fa_completed);
+
       window.alert('Access not allowed!');
-      this.router.navigate([''])
+      if (this.authService.isLoggedIn !== true) {
+        this.router.navigate(['/login']);
+        return false;
+      }
+      //
+
+      if (this.authService.is_2fa_completed !== true) {
+        this.router.navigate(['/qrcode']);
+        return false;
+
+      }
+      this.router.navigate(['/login']);
     }
     return true;
   }
