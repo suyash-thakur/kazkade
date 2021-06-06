@@ -17,13 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
               Authorization: 'Bearer ' + authToken
           }
       });
-    } else if (req.url.includes('https://api.twitter.com/')) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: 'Bearer ' + environment.Twitter_Bearer_Token
-        }
-      });
-      }
+    }
 
         return next.handle(req);
     }
