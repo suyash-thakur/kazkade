@@ -28,6 +28,7 @@ export class AuthService {
   selectedMasterTrader;
   isInvalidAPI = false;
   isTwitterValid = false;
+  isPrevValid = false;
   TwitterUsername = '';
   is_2fa_completed = false;
 
@@ -161,10 +162,13 @@ export class AuthService {
               this.followers = res;
             });
             if (!res.user.is_2fa_completed) {
+              this.isPrevValid = false;
               this.router.navigate(['/qrcode']);
 
 
-          } else {
+            } else {
+              this.isPrevValid = true;
+
               this.router.navigate(['/verify']);
 
 

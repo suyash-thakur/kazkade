@@ -31,8 +31,14 @@ export class AuthGuard implements CanActivate {
       //
 
       if (this.authService.is_2fa_completed !== true) {
-        this.router.navigate(['/qrcode']);
-        return false;
+        if (this.authService.isPrevValid === true) {
+          this.router.navigate(['/verify']);
+          return false;
+        } else {
+          this.router.navigate(['/qrcode']);
+          return false;
+        }
+
 
       }
       this.router.navigate(['/login']);
