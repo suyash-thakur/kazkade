@@ -150,6 +150,7 @@ font-weight: bold;
 font-size: 15px;
 cursor: pointer;
 }
+
 .myPanelClass {
   transform: translateY(-200px);
 }.cdk-overlay-container .cdk-overlay-pane .myPanelClass{

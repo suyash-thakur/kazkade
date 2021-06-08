@@ -17,6 +17,12 @@
 .image {
   min-height: 100vh;
 }
+.button-refresh {
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:10;
+}
 
 .bg-image {
   background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x1200');

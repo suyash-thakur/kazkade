@@ -1,89 +1,142 @@
 <div style="display: flex; justify-content:center;width:100%; margin-left: 15px;">
-  <div class="snip1404">
+  <div class="snip1404" style="display:flex; justify-content: space-between;">
     <div class="plan">
       <header>
-        <h4 class="plan-title" style="padding-bottom: 12px;">
+        <h4 class="plan-title" style="padding-bottom: 12px;   font-size: 25px;
+                                                                                        ">
 
           Basic
-        </h4>
-        <div class="plan-cost"><span class="plan-price">$24.99</span><span class="plan-type">/month</span></div>
-      </header>
-      <ul class="plan-features">
-        <li><i class="ion-checkmark"> </i>
-          Copy trading (Spot market)
-        </li>
-        <li><i class="ion-checkmark"> </i>Customer support</li>
-        <li><i class="ion-checkmark"> </i>1 Master trader to copy
-        </li>
-        <li><i class="ion-checkmark"> </i>Trading notifications</li>
-        <li><i class="ion-checkmark"> </i>Exchanges
-          (Binance)
-          Other</li>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-      </ul>
-      <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Basic')">Select Plan</a></div>
-    </div>
-    <div class="plan featured">
-      <header>
-        <h4 class="plan-title" style="padding-bottom: 0px;">
-
-          Intermediate
-        </h4>
-        <div class="plan-cost"><span class="plan-price">$34.99</span><span class="plan-type">/month</span></div>
-      </header>
-      <ul class="plan-features">
-        <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
-        <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
-        <li><i class="ion-checkmark"> </i>Customer support</li>
-        <li><i class="ion-checkmark"> </i>3 Master trader to copy</li>
-        <li><i class="ion-checkmark"> </i>Trading view integration
-        </li>
-        <li><i class="ion-checkmark"> </i>
-          Trading notifications
-
-        </li>
-        <li><i class="ion-checkmark"> </i>
-          Exchanges
-          (Binance)
-          Other
-        </li>
-        <br>
-        <br>
-      </ul>
-      <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Intermediate')">Select Plan</a></div>
-    </div>
-    <div class="plan">
-      <header>
-        <h4 class="plan-title" style="padding-bottom: 4px;">
-
-          Premium
-        </h4>
-        <div class="plan-cost"><span class="plan-price">$49.99</span><span class="plan-type">/month</span></div>
-      </header>
-      <ul class="plan-features">
-        <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
-        <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
-        <li><i class="ion-checkmark"> </i>Customer support</li>
-        <li><i class="ion-checkmark"> </i>Manual Trading</li>
-
-        <li><i class="ion-checkmark"> </i>Unlimited Master trader to copy</li>
-        <li><i class="ion-checkmark"> </i>Trading view integration
-        </li>
-        <li><i class="ion-checkmark"> </i>
-          Trading notifications
-
-        </li>
-        <li><i class="ion-checkmark"> </i>
-          Exchanges
-          (Binance)
-          Other
-        </li>
-      </ul>
-      <div class="plan-select"><a routerLink="deposit" (click)="selectPlan('Premium')">Select Plan</a></div>
-    </div>
+          </h4>
+          <div class="plan-cost" *ngIf="this.authService.userType !== 'MASTER'"><span class="plan-price">$19.99</span><span
+              class="plan-type">/month</span></div>
+          </header>
+          <ul class="plan-features">
+            <li><i class="ion-checkmark"> </i>
+              Copy trading (Spot market)
+            </li>
+            <li><i class="ion-checkmark"> </i>Customer support</li>
+            <li><i class="ion-checkmark"> </i>Trading View Integration
+            </li>
+            <li><i class="ion-checkmark"> </i>One Master Trader To Copy</li>
+            <li>
+              <div style="display:flex;">
+                <div>
+                  <i class="ion-checkmark"> </i>
+                </div>
+                <div>
+                  Trading Notification (Trade Taken By Master Trader)
+                  via SMS / Email
+                </div>
+              </div>
+            </li>
+            <br *ngIf=" this.authService.userType !== 'MASTER'">
+            <br *ngIf=" this.authService.userType !== 'MASTER'">
+            <br *ngIf=" this.authService.userType !== 'MASTER'">
+            <br *ngIf=" this.authService.userType !== 'MASTER'">
+            <br>
+            </ul>
+  <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Basic')"
+      *ngIf="this.authService.subscription !== 'Basic'  ">Select Plan</a>
+    <a *ngIf="this.authService.subscription == 'Basic'">Selected</a>
   </div>
+  </div>
+  <div class="plan featured">
+    <header>
+      <h4 class="plan-title"
+        style="padding-bottom: 0px;   font-size: 25px;
+                                                                                                                                                            ">
+
+        Intermediate
+        </h4>
+        <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$34.99</span><span
+            class="plan-type">/month</span></div>
+        </header>
+        <ul class="plan-features">
+          <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
+          <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
+          <li><i class="ion-checkmark"> </i>Automated Futures Copy Trading</li>
+          <li><i class="ion-checkmark"> </i>Self Trading</li>
+
+          <li><i class="ion-checkmark"> </i>Customer support</li>
+          <li><i class="ion-checkmark"> </i>Trading view integration
+          </li>
+          <li><i class="ion-checkmark"> </i>One Master trader to copy</li>
+
+          <li>
+            <div style="display:flex;">
+              <div>
+                <i class="ion-checkmark"> </i>
+              </div>
+              <div>
+                Trading Notification (Trade Taken By Master Trader)
+                via SMS / Email
+              </div>
+            </div>
+          </li>
+          <br>
+          <br>
+          </ul>
+  <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Intermediate')"
+      *ngIf="this.authService.subscription !== 'Intermediate' && this.authService.userType !== 'MASTER'">Select Plan</a>
+    <a *ngIf="this.authService.subscription == 'Intermediate'">Selected</a>
+  </div>
+  </div>
+  <div class="plan">
+
+    <header>
+      <h4 class="plan-title"
+        style="padding-bottom: 4px;   font-size: 25px;
+                                                                                                                                                            ">
+
+        Premium
+
+        </h4>
+        <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$49.99</span><span
+            class="plan-type">/month</span></div>
+
+
+        </header>
+        <ul class="plan-features">
+          <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
+          <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
+          <li><i class="ion-checkmark"> </i>Automated Futures Copy Trading</li>
+          <li>
+            <div style="display:flex;">
+              <div>
+                <i class="ion-checkmark"> </i>
+              </div>
+              <div>
+                Manual futures copy-trading
+                (Risk % change
+                Or capital sizing change)
+              </div>
+            </div>
+          </li>
+          <li><i class="ion-checkmark"> </i>Sell Trading</li>
+
+          <li><i class="ion-checkmark"> </i>Customer support</li>
+          <li><i class="ion-checkmark"> </i>Trading view integration
+          </li>
+          <li><i class="ion-checkmark"> </i>One Master trader to copy</li>
+          <li>
+            <div style="display:flex;">
+              <div>
+                <i class="ion-checkmark"> </i>
+              </div>
+              <div>
+                Trading Notification (Trade Taken By Master Trader)
+                via SMS / Email
+              </div>
+            </div>
+          </li>
+</ul>
+    <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'">
+      <a (click)="selectPlan('Premium')" *ngIf="this.authService.subscription !== 'Premium'">Select
+        Plan</a>
+      <a *ngIf="this.authService.subscription == 'Premium'">Selected</a>
+
+    </div>
+    </div>
+
+    </div>
 </div>

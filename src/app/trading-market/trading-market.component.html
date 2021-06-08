@@ -84,6 +84,12 @@
           <mat-tab-group class="orderDetail" style="max-width: 100%;" class="completedorders">
             <mat-tab [label]="'OPEN POSITIONS' + '(' +  positions.length + ')'"
               *ngIf="isFuture">
+              <div style="display: flex; justify-content:flex-end;">
+                <div style="cursor: pointer; color:white;background-color:#981B40;margin:5px; font-size: 12px; padding:5px;"
+                  (click)="refresh()">
+                  Refresh
+                </div>
+              </div>
               <div style="display:flex; justify-content: space-between; " *ngIf="authService.isLoggedIn">
                 <div style="flex-grow: 1;">
                   <div class="header-orderDetail">
@@ -198,7 +204,13 @@
 
             </mat-tab>
         <mat-tab [label]="'OPEN ORDERS' + ' ' + '(' +  limitOpenOrders.length + ')'">
-          <div style="display: flex; justify-content: center; height: 350px;">
+          <div style="display: flex; justify-content:flex-end;">
+            <div style="cursor: pointer; color:white;background-color:#981B40; margin:5px;font-size: 12px; padding:5px;"
+              (click)="refresh()">
+              Refresh
+            </div>
+          </div>
+          <div style="display: flex; justify-content: center; height: 300px;">
     <div style="display:flex; justify-content: space-between; width:100%"
       *ngIf="authService.isLoggedIn  && limitOpenOrders !== undefined">
                   <div>
@@ -270,7 +282,14 @@
               </div>
               </mat-tab>
             <mat-tab [label]="'COMPLETED ORDERS' + ' ' + '(' +  completedOrders.length + ')'" *ngIf="isFuture">
-              <div style="display: flex; justify-content: center; height: 350px;">
+              <div style="display: flex; justify-content:flex-end;">
+                <div
+                  style="cursor: pointer; color:white;background-color:#981B40;margin:5px; font-size: 12px; margin:5px; padding:5px;"
+                  (click)="refresh()">
+                  Refresh
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center; height: 300px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
                   *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
                   <div>
@@ -316,7 +335,13 @@
               </div>
               </mat-tab>
             <mat-tab [label]="'COMPLETED ORDERS' + ' ' + '(' +  completedOrders.length + ')'" *ngIf="!isFuture">
-              <div style="display: flex; justify-content: center; height: 350px;">
+              <div style="display: flex; justify-content:flex-end;">
+                <div style="cursor: pointer; color:white;background-color:#981B40;margin:5px; font-size: 12px; padding:5px;"
+                  (click)="refresh()">
+                  Refresh
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center; height: 300px;">
                 <div style="display:flex; justify-content: space-between; width:100%"
                   *ngIf="authService.isLoggedIn && completedOrders.length !== 0">
                   <div *ngIf="!isFuture">
@@ -374,7 +399,13 @@
             </div>
             </mat-tab>
             <mat-tab label="ASSETS" *ngIf="!isFuture">
-              <div style="display: flex; justify-content: center; height: 350px;">
+              <div style="display: flex; justify-content:flex-end;">
+                <div style="cursor: pointer; color:white;background-color:#981B40; font-size: 12px; margin:5px;padding:5px;"
+                  (click)="refresh()">
+                  Refresh
+                </div>
+              </div>
+              <div style="display: flex; justify-content: center; height: 300px;">
                 <div style="display:flex; justify-content: flex-start; width:100%"
                   *ngIf="authService.isLoggedIn && limitAsset.length !== 0">
                   <div>
@@ -414,6 +445,7 @@
 
         <mat-tab-group class="">
           <mat-tab label="BUY">
+
             <div style="margin-left: 10px; margin-top: 10px; font-weight: bold; font-size: 14px; opacity:0.8; ">
               Available Balance: &nbsp;{{availableBalance}}
             </div>

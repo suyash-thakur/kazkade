@@ -3270,6 +3270,54 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     }
   }
+  refresh() {
+    if (this.isFuture) {
+
+      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+        this.limitOpenOrders = [];
+
+        if (res !== {}) {
+          this.limitOpenOrders = res.data;
+        }
+      });
+
+      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
+
+        this.positions = [];
+        res.data.forEach(item => {
+          if (item.entryPrice > 0) {
+            this.positions.push(item);
+            this.closePercentage.push(0.0);
+          }
+        });
+        console.log(this.positions);
+
+        if (res !== {}) {
+          this.openOrders = (res);
+        }
+
+      });
+    } else {
+      this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
+        console.log(res);
+        console.log("Open orders", res);
+        if (res !== {}) {
+          this.completedOrders = [];
+          this.completedOrders = res.reverse();
+
+        }
+      });
+      this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
+        console.log(res);
+        if (res !== {}) {
+          this.limitOpenOrders = [];
+          this.limitOpenOrders = res.data;
+
+        }
+      });
+    }
+
+  }
   ngOnInit(): void {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -3282,11 +3330,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     return this.coinDataList.filter(coinDataList => coinDataList.indexOf(filterValue) === 0);
   }
   tradingView(data) {
+    let sym = 'BINANCE:' + data;
+    if (this.isFuture) {
+
+      sym = sym + 'PERP';
+    }
     this.temp = new TradingView.widget(
       {
 
 
-        symbol: 'BINANCE:' + data,
+        symbol: sym,
         interval: '5',
         timezone: 'Australia/Adelaide',
         theme: 'light',
@@ -3417,32 +3470,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.tradingView(this.selectedCoin);
-    setInterval(() => {
-      this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
-        this.limitOpenOrders = [];
 
-        if (res !== {}) {
-          this.limitOpenOrders = res.data;
-        }
-      });
-
-      this.http.get(environment.Route + '/api/action/future-positions').subscribe((res: any) => {
-
-        this.positions = [];
-        res.data.forEach(item => {
-          if (item.entryPrice > 0) {
-            this.positions.push(item);
-            this.closePercentage.push(0.0);
-          }
-        });
-        console.log(this.positions);
-
-        if (res !== {}) {
-          this.openOrders = (res);
-        }
-
-      });
-    }, 5000)
 
     this.cdRef.detectChanges();
   }
