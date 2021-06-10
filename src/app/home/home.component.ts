@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.authService.subscription = JSON.parse(localStorage.getItem('userSubscription'));
     console.log(this.authService.subscription);
+    console.log(this.authService.userType);
+
   }
   selectPlan(plan) {
     if (this.authService.isLoggedIn === true) {

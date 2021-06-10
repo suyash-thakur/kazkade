@@ -100,7 +100,7 @@ color: #981B40;
 }
 .snip1404 .plan-price {
   font-weight: 600;
-  font-size: 2.3em;
+  font-size: 1.8em;
 }
 .snip1404 .plan-type {
   opacity: 0.8;
@@ -179,13 +179,14 @@ color: #981B40;
 }
 .mat-dialog-container-o {
   display: block;
-  padding: 24px;
+  padding: 20px;
   border-radius: 4px;
   box-sizing: border-box;
   overflow: auto;
   outline: 0;
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
+  margin-top: 30px;
   min-height: inherit;
   max-height: inherit;
   background: none !important;

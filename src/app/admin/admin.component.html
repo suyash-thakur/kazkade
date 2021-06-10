@@ -19,6 +19,12 @@
       <div *ngIf="item.subscription.length > 0" style="flex:1">
         {{item.subscription[0].payment_reference_number}}
       </div>
+<div *ngIf="item.subscription.length == 0" style="flex:1">
+  NILL
+</div>
+<div *ngIf="item.subscription.length > 0" style="flex:1">
+  {{item.subscription[0].coin}}
+</div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
         NILL
       </div>

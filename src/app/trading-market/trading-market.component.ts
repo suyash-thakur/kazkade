@@ -190,6 +190,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   ];
   wathlistSpot: Array<any> = [
 
+
     "BINANCE:BTC" + this.currentCurrency,
 
     "BINANCE:ETH" + this.currentCurrency,

@@ -41,7 +41,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonModule } from '@angular/common';
 import { BinancekeysComponent } from './binancekeys/binancekeys.component';
 import { PilComponent } from './follower-list/follower-list.component';
-import { MtlistComponent, MasterDataComponent } from './mtlist/mtlist.component';
+import { MtlistComponent, MasterDataComponent, DialogOverviewExampleDialog } from './mtlist/mtlist.component';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -116,7 +116,8 @@ export const firebaseConfig = {
     IsolatedMargin,
     CloseAllOrders,
     QrcodeComponent,
-    QrcodeVerifyComponent
+    QrcodeVerifyComponent,
+    DialogOverviewExampleDialog
 
   ],
 
@@ -128,7 +129,8 @@ export const firebaseConfig = {
     MasterDataComponent,
     CloseOrderComponent,
     IsolatedMargin,
-    CloseAllOrders
+    CloseAllOrders,
+    DialogOverviewExampleDialog
   ],
   imports: [
     MatFormFieldModule,

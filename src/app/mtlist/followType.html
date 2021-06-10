@@ -3,7 +3,7 @@
     <div class="plan">
       <header>
         <h4 class="plan-title" style="padding-bottom: 12px;   font-size: 25px;
-                                                                                        ">
+                                                                                ">
 
           Basic
           </h4>
@@ -34,17 +34,24 @@
             <br *ngIf=" this.authService.userType !== 'MASTER'">
             <br *ngIf=" this.authService.userType !== 'MASTER'">
             <br>
-            </ul>
-  <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Basic')"
+    </ul>
+  <div class="plan-select"
+    *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
+    <a (click)="selectPlan('Basic')"
       *ngIf="this.authService.subscription !== 'Basic'  ">Select Plan</a>
     <a *ngIf="this.authService.subscription == 'Basic'">Selected</a>
+
   </div>
+  <p *ngIf="this.authService.userType ===  'undefined' ||  this.authService.userType ===  undefined"
+    style="text-align:center;">
+    Please Select A User Type
+  </p>
   </div>
   <div class="plan featured">
     <header>
       <h4 class="plan-title"
         style="padding-bottom: 0px;   font-size: 25px;
-                                                                                                                                                            ">
+                                                                                                                                                      ">
 
         Intermediate
         </h4>
@@ -75,18 +82,24 @@
           </li>
           <br>
           <br>
-          </ul>
-  <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'"><a (click)="selectPlan('Intermediate')"
+    </ul>
+  <div class="plan-select"
+    *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
+    <a (click)="selectPlan('Intermediate')"
       *ngIf="this.authService.subscription !== 'Intermediate' && this.authService.userType !== 'MASTER'">Select Plan</a>
     <a *ngIf="this.authService.subscription == 'Intermediate'">Selected</a>
   </div>
+  <p *ngIf="this.authService.userType ===  'undefined' ||  this.authService.userType ===  undefined"
+    style="text-align:center;">
+    Please Select A User Type
+  </p>
   </div>
   <div class="plan">
 
     <header>
       <h4 class="plan-title"
         style="padding-bottom: 4px;   font-size: 25px;
-                                                                                                                                                            ">
+                                                                                                                                                      ">
 
         Premium
 
@@ -129,13 +142,19 @@
               </div>
             </div>
           </li>
-</ul>
-    <div class="plan-select" *ngIf="this.authService.userType !== 'MASTER'">
+
+          </ul>
+    <div class="plan-select"
+      *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
       <a (click)="selectPlan('Premium')" *ngIf="this.authService.subscription !== 'Premium'">Select
         Plan</a>
       <a *ngIf="this.authService.subscription == 'Premium'">Selected</a>
 
     </div>
+    <p *ngIf="this.authService.userType ===  'undefined' ||  this.authService.userType ===  undefined"
+      style="text-align:center;">
+      Please Select A User Type
+    </p>
     </div>
 
     </div>
