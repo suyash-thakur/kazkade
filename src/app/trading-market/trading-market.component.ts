@@ -1241,7 +1241,26 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
         }).subscribe((res: any) => {
-          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+          if (res.code === -2010) {
+            this.isInsufficientFund = true;
+            this.errMsg = 'Insufficient Fund';
+          }
+          else if (res.code === -2013) {
+            this.isInsufficientFund = true;
+            this.errMsg = 'Error Placing Order';
+          }
+          else if (res.code === -4164) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
+          }
+          else if (res.code === -1013) {
+            this.isInsufficientFund = true;
+            this.errMsg = 'Amount Lower Than Minimun Limit';
+          }
+          else {
+            this.isInsufficientFund = true;
+            this.errMsg = res.msg;
+          } this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
             this.limitOpenOrders = [];
             console.log(res);
             if (res !== {}) {
