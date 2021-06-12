@@ -3,7 +3,7 @@
   <span style=" flex: 1 1 auto;"></span>
   <button mat-button (click)="authService.doLogout()">Logout</button>
 </mat-toolbar>
-<mat-list style="width:100%; max-width: 800px; margin:auto; min-height:80vh" *ngIf="show">
+<mat-list style="width:100%; max-width: 1200px; margin:auto; min-height:80vh" *ngIf="show">
   <mat-list-item *ngFor="let item of users">
 
     <div style="display:flex; width:100%; justify-content: flex-start;">
@@ -38,8 +38,12 @@
       <div *ngIf="item.subscription.length == 0" style="flex:1">
         NILL
       </div>
-      <div>
+      <div style="flex:1">
         <button (click)="deleteUser(item.id)">DELETE</button>
+
+      </div>
+      <div style="flex:1">
+        <button (click)="unverify2fa(item.id)">RESET 2FA</button>
 
       </div>
     </div>

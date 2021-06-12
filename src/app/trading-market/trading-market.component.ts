@@ -477,7 +477,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
   }
   cancelOrderLimit(i) {
-    this.http.post(environment.Route + '/api/action/cancle-order', this.limitOpenOrders[i]).subscribe((res) => {
+    const dialogRef = this.dialog.open(ConformClose, {
+      width: '550px',
+      data: { data: this.limitOpenOrders[i], future: false }
+    });
+    dialogRef.afterClosed().subscribe((res) => {
       this.http.get(environment.Route + '/api/action/openOrders').subscribe((res: any) => {
         console.log(res);
         if (res !== {}) {
@@ -501,10 +505,14 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         });
       });
-    });
+    })
   }
   cancelOrder(i) {
-    this.http.post(environment.Route + '/api/action/future-cancle-order', this.limitOpenOrders[i]).subscribe((res) => {
+    const dialogRef = this.dialog.open(ConformClose, {
+      width: '550px',
+      data: { data: this.limitOpenOrders[i], future: true }
+    });
+    dialogRef.afterClosed().subscribe((res) => {
       this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
         if (res !== {}) {
           this.limitOpenOrders = res.data;
@@ -515,7 +523,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         this.availableBalance = res.data.availableBalance;
 
       });
-    });
+    })
+
   }
   toggleMarket() {
     this.isMarket = !this.isMarket;
@@ -770,7 +779,25 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
           }).subscribe((res: any) => {
             this.authService.sendClickEvent();
-
+            if (res.data.code === -2010) {
+              this.isInsufficientFund = true;
+              this.errMsg = 'Insufficient Fund';
+            }
+            else if (res.data.code === -2013) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Error Placing Order';
+            }
+            else if (res.data.code === -1013) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Amount Lower Than Minimun Limit';
+            } else if (res.data.code === -4164) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
+            }
+            else {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = 'Order Placed';
+            }
             this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
               this.limitOpenOrders = [];
               console.log(res);
@@ -802,25 +829,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           }, (err: HttpErrorResponse) => {
 
           });
-        if (res.data.code === -2010) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
-          }
-        else if (res.data.code === -2013) {
-            this.isInsufficientFund = true;
-            this.errMsgBuy = 'Error Placing Order';
-          }
-        else if (res.data.code === -1013) {
-            this.isInsufficientFund = true;
-            this.errMsgBuy = 'Amount Lower Than Minimun Limit';
-        } else if (res.data.code === -4164) {
-          this.isInsufficientFund = true;
-          this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
-          }
-          else {
-            this.isInsufficientFund = true;
-            this.errMsgBuy = 'Order Placed';
-          }
+
 
 
       }
@@ -3291,6 +3300,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.closePercentage.push(0.0);
           }
         });
+        this.positions.reverse();
+
         console.log(this.positions);
 
         if (res !== {}) {
@@ -3625,5 +3636,34 @@ export class IsolatedMargin {
       this.authService.sendClickEvent();
       this.dialogRef.close();
     });
+  }
+}
+@Component({
+  selector: 'conform-close',
+  templateUrl: 'conformCloseOrder.html',
+})
+export class ConformClose {
+  closeOrderData;
+  isFuture;
+  constructor(public dialogRef: MatDialogRef<ConformClose>, @Inject(MAT_DIALOG_DATA) public data, public http: HttpClient, public authService: AuthService, public router: Router, public dialog: MatDialog) {
+    this.closeOrderData = data.data;
+    this.isFuture = data.future;
+  }
+
+  conformClose() {
+    if (this.isFuture) {
+      this.http.post(environment.Route + '/api/action/future-cancle-order', this.closeOrderData).subscribe((res) => {
+        this.dialogRef.close();
+
+      });
+    } else {
+      this.http.post(environment.Route + '/api/action/cancle-order', this.closeOrderData).subscribe((res) => {
+        this.dialogRef.close();
+      });
+    }
+
+  }
+  cancel() {
+    this.dialogRef.close();
   }
 }

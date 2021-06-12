@@ -1,5 +1,8 @@
 <header class="w3-container "
   style="padding:128px 80px; color: white; text-align: left; background-image: url(../../assets/Chosen\ Design.png); background-size:cover; background-position: center; ">
+  <div style="margin-top:100px" *ngIf="this.authService.isLoggedIn">
+
+  </div>
   <h1 class=" "
     style="color: white; margin-bottom:15px; font-size:45px; line-height: 75px;font-weight:bold; text-align: left;">
     Crypto trading has never<br>been easier. It’s just copying.</h1>
@@ -146,15 +149,23 @@
         <div class="plan">
 
           <header>
-            <h4 class="plan-title"
-              style="padding-bottom: 4px;   font-size: 25px;
-                                                                                                                                                            ">
+            <div style="display:flex; width:100%; justify-content:center; padding-left: 10%;">
+              <div>
+                <h4 class="plan-title"
+                style="padding-bottom: 4px;  text-align: center; font-size: 25px;
+                                                                                                                                                              ">
+                Premium
 
-              Premium
-
-              </h4>
+                </h4>
+              </div>
+              <div>
+                <img src="../../assets/Daco_6016606.png"
+                  style="position:inherit; width: 100px; height:100px; transform:translateX(70px) translateY(10px)">
+              </div>
+              </div>
               <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$49.99</span><span
-                  class="plan-type">/month</span></div>
+                  class="plan-type">/month</span>
+                </div>
 
 
               </header>
@@ -207,7 +218,6 @@
           </div>
 
           </div>
-          <img src="../../assets/bs.png" style=" " class="margin-image">
 
           </div>
 

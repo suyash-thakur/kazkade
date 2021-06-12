@@ -17,9 +17,10 @@
         </mat-expansion-panel>
     </mat-accordion>
 </div> -->
-<div style="padding-top: 80px; padding-left: 15px; padding-right: 15px;">
+<div style="padding-top: 140px; padding-left: 15px; padding-right: 15px;">
   <h2>
-    Explore Traders:
+    Explore Traders: &nbsp; <span style="font-weight:bold;  color: red; ">You can only follow one
+      master trader at a time</span>
   </h2>
   <div style="display:flex;  flex-direction: column; align-items: center; min-height: 70vh; width: 100%;"
     *ngIf="!isLoaded">
@@ -82,7 +83,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Select Fllower Type</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Select Follower Type</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

@@ -7,12 +7,7 @@
   <div style="display:flex; justify-content: center; background-color:#F1F1F1" *ngIf="authService.isLoggedIn">
     <div class="example-sidenav-content">
       <h2>Account Details</h2>
-      <div style="color: green; font-size: 18px;" *ngIf="isUpdate">
-        Update Successful
-      </div>
-      <div style="color: red; font-size: 18px;" *ngIf="isError">
-        Email or mobile number already exist
-      </div>
+
       <br>
 
       <div class="input_container">
@@ -80,7 +75,7 @@
           <input type="file" (change)="onSelectFile($event.target.files)" name="file" id="file">
         </div>
       </div>
-      <div style=" justify-content: center;" class="input_container">
+      <div style=" justify-content: flex-start; align-items: center; display: flex;" class="input_container">
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
           (click)="submitDetails()" *ngIf="!isDis">
@@ -91,6 +86,12 @@
           (click)="toggleEdit()" *ngIf="isDis">
           Edit
         </div>
+        <div style="margin-left:20px;color: green; font-size: 18px;" *ngIf="isUpdate">
+          Update Successful
+        </div>
+        <div style="color: red; font-size: 18px;" *ngIf="isError">
+          Email or mobile number already exist
+        </div>
       </div>
       </div>
       </div>
@@ -99,9 +100,7 @@
 
         <div class="example-sidenav-content">
           <h2>Key Settings</h2>
-          <div style="color: green; font-size: 18px;" *ngIf="isUpdateAPI">
-            Update Successful
-          </div>
+
           <br>
               <div style="" class="input_container">
                 <div class="label" style="flex:1">
@@ -120,7 +119,7 @@
                 </div>
               </div>
 
-              <div style=" justify-content: center;" class="input_container">
+              <div style="display:flex; justify-content: right;" class="input_container">
                 <div
                   style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 100px; text-align: center;"
                   (click)="submitAPIKey()" *ngIf="!isDis">
@@ -131,6 +130,9 @@
                     (click)="toggleEdit()" *ngIf="isDis">
                     Edit
                   </div>
+                  <div style="margin-left:20px;color: green; font-size: 18px;" *ngIf="isUpdateAPI">
+                    Update Successful
+                  </div>
                   </div>
                   </div>
 </div>
@@ -139,9 +141,7 @@
 
   <div style="flex:1; margin-right:10px; background-color:#F1F1F1; padding: 20px;">
     <h2>Password Details</h2>
-    <div *ngIf="isUpdatePass" style="color: green;">
-      Update Successful
-    </div>
+
 
     <br>
       <!-- <div style="" class="input_container">
@@ -160,12 +160,15 @@
             <input class="input_account" type="password" [disabled]="isDis" [(ngModel)]="password">
           </div>
           </div>
-      <div style=" justify-content: center;" class="input_container">
+      <div style="display:flex; justify-content: right;" class="input_container">
 
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 120px; text-align: center;"
           (click)="passChange()" >
           Change
+        </div>
+        <div *ngIf="isUpdatePass" style="color: green; margin-left: 20px;">
+          Update Successful
         </div>
         </div>
         </div>
@@ -173,9 +176,7 @@
           *ngIf="authService.userType === 'MASTER'">
           <h2>Edit about section</h2>
           <p class="label">This section will appear on your profile</p>
-          <div style="color:green; font-size: 18px;" *ngIf="isUpdateDesc">
-            Update Successful
-          </div>
+
           <br>
           <div style="">
             <div>
@@ -185,7 +186,7 @@
             </div>
           </div>
         <br>
-        <div style=" justify-content: center;  display: flex;">
+        <div style=" justify-content: right;  display: flex;">
         <div
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
           (click)="submitDescription()" *ngIf="!isDis">
@@ -195,6 +196,9 @@
           style="background-color: #981B40; padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer;"
           (click)="toggleEdit()" *ngIf="isDis">
           Edit
+        </div>
+        <div style="color:green; font-size: 18px; margin-left: 20px;" *ngIf="isUpdateDesc">
+          Update Successful
         </div>
       </div>
     </div>

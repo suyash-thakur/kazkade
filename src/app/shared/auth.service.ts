@@ -130,6 +130,7 @@ export class AuthService {
             localStorage.setItem('userType', this.userType);
             localStorage.setItem('email', res.user.email);
             localStorage.setItem('mobile', res.user.mno);
+            localStorage.setItem('description', res.description);
             if (res.user.twitter_username !== undefined) {
               this.TwitterUsername = res.user.twitter_username;
               this.isTwitterValid = true;

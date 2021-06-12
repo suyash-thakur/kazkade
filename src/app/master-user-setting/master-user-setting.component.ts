@@ -43,6 +43,8 @@ export class MasterUserSettingComponent implements OnInit {
     this.email = localStorage.getItem('email');
     this.mobile = localStorage.getItem('mobile');
     let temp = localStorage.getItem('imgUrl');
+    this.description = localStorage.getItem('description');
+
     console.log(temp);
 
     if (temp !== null && temp !== 'undefined') {
