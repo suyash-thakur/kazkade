@@ -56,7 +56,14 @@ export class AuthService {
       }
     });
   }
+  disconnectTwitter() {
+    this.http.post(environment.Route + '/api/user/twitter-disconnected', {
 
+    }).subscribe((res) => {
+      this.TwitterUsername = '';
+      this.isTwitterValid = false;
+    })
+  }
   logout() {
     this.afAuth.signOut().then((res: any) => {
       console.log(res);

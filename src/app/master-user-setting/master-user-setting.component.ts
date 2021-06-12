@@ -55,6 +55,9 @@ export class MasterUserSettingComponent implements OnInit {
   connectToTwitter() {
     this.authService.login();
   }
+  disconnectTwiiter() {
+    this.authService.disconnectTwitter();
+  }
   submitDescription() {
     this.http.post(environment.Route + '/api/master-trader/mt-description', {
       description: this.description

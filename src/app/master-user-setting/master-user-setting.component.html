@@ -57,6 +57,10 @@
               {{authService.TwitterUsername}}
             </div>
           </div>
+          <div *ngIf="authService.isTwitterValid" (click)="disconnectTwiiter()"
+            style="font-weight: bold; cursor: pointer; margin-left: 10px;">
+            Disconnect Twitter
+          </div>
         </div>
         <!-- <div class="input_container" *ngIf="authService.isTwitterValid" style="margin-top: -10px;">
                   <div class="label" style="flex:1; font-size:15px; font-weight:bold; cursor: pointer;" (click)="authService.logout()">
