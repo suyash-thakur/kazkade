@@ -976,7 +976,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   isBuyAllowed() {
     let subscription = JSON.parse(localStorage.getItem('userSubscription'));
-    if (this.authService.userType === 'COPY' && subscription.subscription_type === 'BASIC') {
+
+    if ((this.authService.userType === 'COPY' && subscription.subscription_type === 'BASIC')) {
       return false;
     } else {
       return true;
@@ -1242,24 +1243,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
         }).subscribe((res: any) => {
           if (res.code === -2010) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Insufficient Fund';
-          }
-          else if (res.code === -2013) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Error Placing Order';
-          }
-          else if (res.code === -4164) {
+            this.isInsufficientFund2 = true;
+            this.errMsg2 = 'Insufficient Fund';
+
+          } else if (res.code === -4164) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
-          else if (res.code === -1013) {
-            this.isInsufficientFund = true;
-            this.errMsg = 'Amount Lower Than Minimun Limit';
-          }
           else {
-            this.isInsufficientFund = true;
-            this.errMsg = res.msg;
+            this.isInsufficientFund2 = true;
+            this.errMsg2 = 'Order Placed';
           } this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
             this.limitOpenOrders = [];
             console.log(res);
