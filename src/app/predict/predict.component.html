@@ -25,6 +25,9 @@
             <th>Units</th>
             <th>Avg Open</th>
             <th>Time</th>
+            <th *ngIf="isFuture">Reduced Only</th>
+            <th *ngIf="isFuture">Origin Type</th>
+
         </tr>
       </thead>
       <tbody>
@@ -46,6 +49,8 @@
               </p>
             </td>
 <td>{{pred.time | date : 'medium'}}</td>
+<td *ngIf="isFuture"><br>{{pred.reduceOnly}}</td>
+<td *ngIf="isFuture"><br>{{pred.origType}}</td>
 
         </tr>
       </tbody>

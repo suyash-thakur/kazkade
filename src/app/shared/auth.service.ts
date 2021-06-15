@@ -42,6 +42,9 @@ export class AuthService {
     public afAuth: AngularFireAuth,
   ) {
   }
+  openTwitterlink(username) {
+    window.location.href = 'https://twitter.com/' + username;
+  }
   login() {
     this.afAuth.signInWithPopup(new firebase.auth.TwitterAuthProvider()).then((res: any) => {
       console.log(res);

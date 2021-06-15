@@ -58,10 +58,11 @@ export class PilComponent {
   winCount: any = 0;
   constructor(
     public dialogRef: MatDialogRef<PilComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) {
+    @Inject(MAT_DIALOG_DATA) public data, public authservice: AuthService) {
     this.item = data;
     this.lossCount = 0;
     this.winCount = 0;
+    console.log(this.item);
     data.balance.positions.forEach(data => {
       if (data.positionAmt !== 0) {
         this.pilData.push(data);
