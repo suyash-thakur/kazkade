@@ -250,7 +250,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
       this.positions = [];
       this.openOrders = {};
       this.isLoaded = false;
-
+      this.buyAtPrice = 0;
+      this.sellAtPrice = 0;
+      this.buyAmount = 0;
+      this.buyTotalPrice = 0;
+      this.sellTotalPrice = 0;
+      this.buyAtPriceLimit = 0;
+      this.sellAmount = 0;
+      this.sellQuantity = 0;
+      this.stopPriceBuy = 0;
+      this.stopPriceSell = 0;
 
       this.myWebSocket.unsubscribe();
       if (params.market === 'future') {
@@ -699,6 +708,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order Placed';
           }
+          this.eraseMessage();
+
         }, (err: HttpErrorResponse) => {
 
         });
@@ -744,6 +755,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order Placed';
           }
+          this.eraseMessage();
+
         }, (err: HttpErrorResponse) => {
 
         });
@@ -798,6 +811,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.isInsufficientFund = true;
               this.errMsgBuy = 'Order Placed';
             }
+            this.eraseMessage();
+
             this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
               this.limitOpenOrders = [];
               console.log(res);
@@ -958,6 +973,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Order Placed';
               }
+              this.eraseMessage();
+
             }, (err: HttpErrorResponse) => {
 
             });
@@ -1108,6 +1125,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsg = res.msg;
           }
+          this.eraseMessage();
+
         }, (err: HttpErrorResponse) => {
 
         });
@@ -1227,6 +1246,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Order Placed';
           }
+          this.eraseMessage();
+
         });
       } else if (this.isStopLossSell && !this.isLImitSell && !this.isMarketSell) {
         this.http.post(environment.Route + '/api/action/future-stop-loss', {
@@ -1253,7 +1274,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           else {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Order Placed';
-          } this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
+          }
+          this.eraseMessage();
+
+          this.http.get(environment.Route + '/api/action/future-open-orders').subscribe((res: any) => {
             this.limitOpenOrders = [];
             console.log(res);
             if (res !== {}) {
@@ -1362,6 +1386,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
@@ -1441,6 +1466,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
+
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
       });
@@ -1519,6 +1546,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 }
               });
             }
+            this.eraseMessage();
+
           });
         }
       }, (err: HttpErrorResponse) => {
@@ -1580,6 +1609,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
+
       });
     } else {
       const dialogRef = this.dialog.open(InvalidMessage, {
@@ -1661,6 +1692,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
+
 
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -1714,6 +1747,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
 
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -1787,6 +1821,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             }
           });
         }
+        this.eraseMessage();
 
       }, (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -1847,6 +1882,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           });
 
         }
+        this.eraseMessage();
+
       });
     } else {
       const dialogRef = this.dialog.open(InvalidMessage, {
@@ -3452,6 +3489,15 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
 
+  }
+  eraseMessage() {
+    setTimeout(() => {
+      this.errMsg = '';
+      this.errMsg2 = '';
+      this.isInsufficientFund = false;
+      this.isInsufficientFund2 = false
+      this.errMsgBuy = '';
+    }, 4000);
   }
   closeALlOrder() {
     const dialogRef = this.dialog.open(CloseAllOrders, {

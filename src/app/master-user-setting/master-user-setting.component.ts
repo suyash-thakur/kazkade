@@ -26,6 +26,7 @@ export class MasterUserSettingComponent implements OnInit {
   email = '';
   mobile = '';
   confPassword = '';
+  userType = '';
   isDis = true;
   apiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   password = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
@@ -42,6 +43,7 @@ export class MasterUserSettingComponent implements OnInit {
     this.userName = localStorage.getItem('user_name');
     this.email = localStorage.getItem('email');
     this.mobile = localStorage.getItem('mobile');
+    this.userType = localStorage.getItem('userType');
     let temp = localStorage.getItem('imgUrl');
     this.description = localStorage.getItem('description');
 
