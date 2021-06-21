@@ -95,12 +95,12 @@ color: #981B40;
   border-color: rgba(0, 0, 0, 0.5) transparent transparent;
 }
 .snip1404 .plan-cost {
-  padding: 30px 20px 10px;
-  text-align: right;
+  padding: 0px 20px 10px;
+  text-align: center;
 }
 .snip1404 .plan-price {
   font-weight: 600;
-  font-size: 1.8em;
+  font-size: 1em;
 }
 .snip1404 .plan-type {
   opacity: 0.8;
@@ -114,12 +114,12 @@ color: #981B40;
   margin-top: 20px;
 }
 .snip1404 .plan-features li {
-  padding: 8px 5%;
+  padding: 8px 2%;
 }
 .snip1404 .plan-features i {
-  margin-right: 8px;
+  margin-right: 10px;
   color: rgba(0, 0, 0, 0.5);
-  font-size: 20px;
+  font-size: 15px;
 }
 .snip1404 .plan-select {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
@@ -186,9 +186,9 @@ color: #981B40;
   outline: 0;
   width: 100%;
   max-width: 800px;
-  margin-top: 30px;
+  margin-top: 100px;
   min-height: inherit;
-  max-height: inherit;
+  max-height: 500px;
   background: none !important;
 }
 

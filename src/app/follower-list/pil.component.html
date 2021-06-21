@@ -7,7 +7,7 @@
     <div>
       <div
         style="display:flex; align-items:center; background-color:#1DA1F2;padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 170px; text-align: center;"
-        *ngIf="item.user[0].twitter_username !== null &&  item.user[0].twitter_username !== undefined"
+        *ngIf="item.user[0].twitter_username !== null &&  item.user[0].twitter_username !== undefined && this.authservice.userType === 'COPY'"
         (click)="authservice.openTwitterlink(item.user[0].twitter_username)">
         <div>
           <img style="width: 25px;"
@@ -17,8 +17,16 @@
           {{item.user[0].twitter_username}}
         </div>
       </div>
+
     </div>
   </div>
+  <textarea style="width:100%" rows="5"></textarea>
+  <div
+    style=" background-color:#981B40;padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 150px; text-align: center;"
+    *ngIf=" this.authservice.userType !== 'COPY'">
+    Send Message
+  </div>
+  <br>
 <h3 style="color:#981B40;
 font-size: 30px;">Performance</h3>
 

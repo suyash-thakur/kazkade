@@ -43,6 +43,11 @@
                 Unable to verify your crendentials. Please try again.
               </p>
             </div>
+            <div *ngIf="this.authService.isEmailVerfied" style="color: rgb(255, 0, 0); text-align: center;">
+              <p>
+                Verify Your Email And Try Again
+              </p>
+            </div>
           </form>
       </mat-tab>
       <mat-tab label="Sign Up">

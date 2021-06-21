@@ -43,7 +43,7 @@ export class MtlistComponent implements OnInit {
       }
     });
     if (this.authService.subscription === 'null' || this.authService.subscription === null) {
-      const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { panelClass: 'mat-dialog-container-o' });
+      const dialogRef = this.dialog.open(DialogOverviewExampleDialog, { panelClass: 'mat-dialog-container-o', position: { bottom: '50px' } });
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed');
 

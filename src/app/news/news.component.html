@@ -1,6 +1,6 @@
 <div style="padding-top: 100px; padding-left: 10px; padding-right: 30px;">
   <div class="row" *ngIf="this.call">
-    <div class="col-md-3 col-xs-12 col-sm-6 hoverStyle" *ngFor="let item of news; let index = index"
+    <div class="col-md-3 col-xs-12 col-sm-6 hoverStyle" *ngFor="let item of news.sort(sortFunc); let index = index"
       style="margin-top:20px; ">
       <div style="padding:10px; background-color:white; margin: 5px; height:490px; box-shadow:  20px 20px 60px #bebebe,
       -20px -20px 60px #ffffff; cursor: pointer;" (click)="openTab(index)">

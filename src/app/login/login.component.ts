@@ -14,12 +14,13 @@ export class LoginComponent implements OnInit {
   signupForm: FormGroup;
   a = 0;
   b = 0;
+  errMsg = '';
   isForgotPass = false;
   isDisabled = true;
   showMsg = false;
   isSignedUp = false;
   isSignupValid = false;
-  errMsg = '';
+  errMsg2 = '';
 
   emailValidExpe: RegExp = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
   passwordValidExpe: RegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/);
@@ -103,6 +104,15 @@ export class LoginComponent implements OnInit {
           if (err.status === 400) {
             this.signupForm.reset();
             this.isSignupValid = true;
+            this.errMsg2 = err.msg;
+            this.isSignedUp = false;
+            this.a = 0;
+            return;
+          }
+          if (err.status === 401) {
+            this.signupForm.reset();
+            this.isSignupValid = true;
+            this.errMsg2 = err.msg;
             this.isSignedUp = false;
             this.a = 0;
             return;

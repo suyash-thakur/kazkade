@@ -31,6 +31,7 @@ export class AuthService {
   isPrevValid = false;
   TwitterUsername = '';
   is_2fa_completed = false;
+  isEmailVerfied = false;
 
   email = '';
   userId = '';
@@ -198,7 +199,17 @@ export class AuthService {
         if (err.status === 400) {
           this.t = false;
           this.isWrongCred = true;
+          this.isEmailVerfied = false;
+
           console.log('400 error', this.isWrongCred);
+
+          return this.t;
+        }
+        if (err.status === 401) {
+          this.isEmailVerfied = true;
+          this.isWrongCred = false;
+
+          console.log('400 error', this.isEmailVerfied);
 
           return this.t;
         }

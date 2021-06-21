@@ -78,8 +78,12 @@ export class PredictComponent implements OnInit {
   ngOnInit(): void {
     this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
       if (res.data.length > 0 && res.data !== undefined) {
-        this.orderData = res.data.reverse();
-
+        res.data.forEach((item) => {
+          if (Number(item.avgPrice) !== 0) {
+            this.orderData.push(item);
+          }
+        });
+        this.orderData.reverse();
       }
       else {
         this.orderData = res.data
@@ -101,7 +105,13 @@ export class PredictComponent implements OnInit {
       console.log(res);
 
       if (res.length > 0) {
-        this.orderData = res.reverse();
+        res.forEach((item) => {
+          if (Number(item.price) > 0) {
+            this.orderData.push(item);
+          }
+        });
+        this.orderData.reverse();
+
 
       }
       else {
