@@ -56,12 +56,17 @@ export class PilComponent {
   item;
   lossCount: any = 0;
   winCount: any = 0;
+  msg = ''
+  isShowMsg = false;
+  sucMsg = '';
   constructor(
     public dialogRef: MatDialogRef<PilComponent>,
-    @Inject(MAT_DIALOG_DATA) public data, public authservice: AuthService) {
+    @Inject(MAT_DIALOG_DATA) public data, public authservice: AuthService, public http: HttpClient) {
     this.item = data;
     this.lossCount = 0;
     this.winCount = 0;
+    this.isShowMsg = false;
+
     console.log(this.item);
     data.balance.positions.forEach(data => {
       if (data.positionAmt !== 0) {
@@ -74,6 +79,15 @@ export class PilComponent {
           this.winCount = this.winCount + 1;
         }
       }
+    });
+  }
+  sendNotif() {
+    this.http.post(environment.Route + '/api/master-trader/send-notification', {
+      follower_id: this.item.id, msg: this.msg
+    }).subscribe((res: any) => {
+      console.log(res);
+      this.isShowMsg = true;
+      this.sucMsg = 'Notification Send';
     });
   }
   public saleData = [

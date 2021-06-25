@@ -1,4 +1,4 @@
-<div style="max-height:550px;">
+<div style="height:410px;">
   <div style="display:flex; justify-content:space-between; align-items: center;">
     <div>
       <h3 style="color:#981B40;
@@ -20,10 +20,15 @@
 
     </div>
   </div>
-  <textarea style="width:100%" rows="5"></textarea>
+  <textarea style="width:100%" rows="5" [(ngModel)]="msg"></textarea>
+  <div *ngIf="isShowMsg" style=" color: #2ecc71; font-size:15px; font-weight:bold;">
+    <br>
+    {{sucMsg}}
+    <br>
+  </div>
   <div
     style=" background-color:#981B40;padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px; color: white; border-radius: 25px; cursor: pointer; max-width: 150px; text-align: center;"
-    *ngIf=" this.authservice.userType !== 'COPY'">
+    *ngIf=" this.authservice.userType !== 'COPY'" (click) ="sendNotif()">
     Send Message
   </div>
   <br>
@@ -76,4 +81,5 @@ font-size: 30px;">Performance</h3>
 <div *ngIf="pilData.length == 0">
   No Data To Display
 </div>
+
 </div>

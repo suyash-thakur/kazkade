@@ -3,7 +3,7 @@
   <span style=" flex: 1 1 auto;"></span>
   <button mat-button (click)="authService.doLogout()">Logout</button>
 </mat-toolbar>
-<mat-list style="width:100%; max-width: 1200px; margin:auto; min-height:80vh" *ngIf="show">
+<mat-list style="width:100%; max-width: 1500px; margin:auto; min-height:80vh" *ngIf="show">
   <mat-list-item *ngFor="let item of users; let i = index">
 
     <div style="display:flex; width:100%; justify-content: flex-start;">
@@ -35,13 +35,17 @@
 
   {{item.subscription[0].coin}}
 </div>
-<div *ngIf="item.subscription.length > 0" style="flex:1">
+<div style="flex:1">
   <span *ngIf="i === 0" style="font-weight:bold;">Balance Date</span> <br>
-  Date
+  <span *ngIf="item.user[0].initial_balance !== undefined">{{item.user[0].initial_balance}}</span>
+  <span *ngIf="item.user[0].initial_balance === undefined">NILL</span>
 </div>
-<div *ngIf="item.subscription.length > 0" style="flex:1">
+<div style="flex:1">
   <span *ngIf="i === 0" style="font-weight:bold;">Initial Balance</span> <br>
-  Balance
+  <span *ngIf="item.user[0].initial_balance_date !== undefined">{{item.user[0].initial_balance_date |
+    date:'short'}}</span>
+  <span *ngIf="item.user[0].initial_balance_date === undefined">NILL</span>
+
 </div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
         <span *ngIf="i === 0" style="font-weight:bold;">Action</span> <br>

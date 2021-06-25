@@ -16,7 +16,7 @@ export class NewsComponent implements OnInit {
       this.news = res.articles;
       this.call = true;
     }, (err) => {
-      this.http.get('https://api.npoint.io/986e47df3a2c9989289d').subscribe((res: any) => {
+      this.http.get('https://api.npoint.io/786ef10a189b8277987c').subscribe((res: any) => {
         console.log(res);
         this.news = res.articles;
         this.call = true;
