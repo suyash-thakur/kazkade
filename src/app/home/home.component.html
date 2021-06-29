@@ -59,7 +59,7 @@
 
                 Basic
                 </h4>
-                <div class="plan-cost" *ngIf="this.authService.userType !== 'MASTER'"><span class="plan-price">$19.99</span><span
+                <div class="plan-cost" *ngIf="this.authService.userType !== 'MASTER'"><span class="plan-price">$29.99</span><span
                     class="plan-type">/month</span></div>
                 </header>
                 <ul class="plan-features">
@@ -101,13 +101,21 @@
         </div>
         <div class="plan featured">
           <header>
-            <h4 class="plan-title"
-              style="padding-bottom: 0px;   font-size: 25px;
-                                                                                                                                                            ">
+            <div style="display:flex; width:100%; justify-content:center; padding-left: 10%;">
+              <div>
+                <h4 class="plan-title"
+                style="padding-bottom: 4px;  text-align: center; font-size: 25px;
+                                                                                                                                                              ">
+                Intermediate
 
-              Intermediate
-              </h4>
-              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$34.99</span><span
+                </h4>
+              </div>
+              <div>
+                <img src="../../assets/Daco_6016606.png"
+                  style="position:inherit; width: 100px; height:100px; transform:translateX(70px) translateY(10px)">
+              </div>
+              </div>
+              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$59.99</span><span
                   class="plan-type">/month</span></div>
               </header>
               <ul class="plan-features">
@@ -158,12 +166,9 @@
 
                 </h4>
               </div>
-              <div>
-                <img src="../../assets/Daco_6016606.png"
-                  style="position:inherit; width: 100px; height:100px; transform:translateX(70px) translateY(10px)">
+
               </div>
-              </div>
-              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$49.99</span><span
+              <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$74.99</span><span
                   class="plan-type">/month</span>
                 </div>
 

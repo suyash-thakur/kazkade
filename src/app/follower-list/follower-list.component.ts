@@ -37,9 +37,16 @@ export class FollowerListComponent implements OnInit {
 
   }
   openDialog(index) {
+    let bottom;
+    if (window.innerHeight < 700) {
+      bottom = 0;
+    }
     const dialogRef = this.dialog.open(PilComponent, {
       width: '550px',
-      data: this.followerList[index]
+      data: this.followerList[index],
+      position: {
+        bottom: bottom,
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
