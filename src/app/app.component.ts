@@ -13,7 +13,7 @@ import { RecaptchaComponent } from 'ng-recaptcha';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit{
-  title = 'Kazkade';
+  title = 'Kazcade';
   indeterminate = 'indeterminate';
   notification = [];
   timestamp = [];
@@ -21,7 +21,7 @@ export class AppComponent implements AfterViewInit{
   loading;
   constructor(private titleService: Title, private httpService: HttpClient, private http: HttpClient, public authService: AuthService, public router: Router) {
     this.loading = true;
-    this.titleService.setTitle("Kazkade");
+    this.titleService.setTitle("Kazcade");
     let isLoggedIn = localStorage.getItem('isLoggedIn');
     this.authService.userType = localStorage.getItem('userType');
     if (this.authService.userType === 'admin') {
@@ -39,7 +39,7 @@ export class AppComponent implements AfterViewInit{
     }
     this.authService.getClickEvent().subscribe(() => {
       this.notification = [];
-      this.http.get(environment.Route + '/api/user/notification?page=1&limit=15').subscribe((res: any) => {
+      this.http.get(environment.Route + '/api/user/notification?page=1&limit=10').subscribe((res: any) => {
         console.log(res);
         res = res.results;
         res.forEach((item, index) => {
@@ -52,6 +52,11 @@ export class AppComponent implements AfterViewInit{
 
 
         })
+      }, (err) => {
+        if (err.status == 403) {
+          console.log('called');
+          this.authService.doLogout();
+        }
       });
     })
     RecaptchaComponent.prototype.ngOnDestroy = function () {
@@ -82,6 +87,7 @@ export class AppComponent implements AfterViewInit{
       this.http.get(environment.Route + '/api/user/notification?page=1&limit=10').subscribe((res: any) => {
         console.log(res);
         res = res.results;
+        this.notification = [];
         res.forEach((item, index) => {
           if (this.convertJson(item.notification)) {
             console.log(JSON.parse(item.notification));
@@ -92,11 +98,33 @@ export class AppComponent implements AfterViewInit{
 
 
         })
+      }, (err) => {
+        if (err.status == 403) {
+          console.log('called');
+          this.authService.doLogout();
+        }
       });
     }
 
   }
+  refreshNotif() {
+    this.http.get(environment.Route + '/api/user/notification?page=1&limit=10').subscribe((res: any) => {
+      console.log(res);
+      res = res.results;
+      this.notification = [];
+      this.timestamp = [];
+      res.forEach((item, index) => {
+        if (this.convertJson(item.notification)) {
+          console.log(JSON.parse(item.notification));
+          this.notification.push(JSON.parse(item.notification));
+          this.timestamp.push(item.updatedAt);
 
+        }
+
+
+      })
+    });
+  }
   convertJson(str): boolean {
     try {
       JSON.parse(str);

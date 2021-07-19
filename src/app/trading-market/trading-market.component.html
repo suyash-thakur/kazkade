@@ -1,11 +1,11 @@
 <div style="background-color: rgb(224, 224, 224); padding-left: 15px;">
   <br>
-  <div *ngIf="isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;  padding: 15px;">
+  <div *ngIf="isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;  ">
     <div style="padding:20px; background-color: #981B40; width: fit-content; color:white;">
       Future Market
     </div>
   </div>
-  <div *ngIf="!isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;  padding: 15px;">
+  <div *ngIf="!isFuture" style="font-size: 18px; margin-top:105px; font-weight: bold;  ">
     <div style="padding:20px; background-color: #981B40; width: fit-content; color:white;">
       Spot Market
     </div>
@@ -554,7 +554,7 @@
                 </div>
               </div>
               <div style="">
-                <input type="number" [(ngModel)]="stopPriceBuy" [step]="coinDataList[selectedCoin].stepSize"
+                <input type="number" [(ngModel)]="stopPriceBuy" [step]="0.1 * coinDataList[selectedCoin].stepSize"
                   placeholder="STOP PRICE" style="width:100%">
               </div>
             </div>
@@ -572,7 +572,7 @@
               <div style="display:flex; align-items: center;">
                 <div>
                   <input type="number" [(ngModel)]="buyAtPriceSpot" [disabled]="!isLimit"
-                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
                     style="background-color:transparent; border: none; font-weight: bold;"
                     (ngModelChange)="changeTotalPrice()">
                 </div>
@@ -592,7 +592,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" value="0.78898" step="0.000001" placeholder="AMOUNT" style="width:100%"
+                <input type="number" decimals="coinDataList[selectedCoin].stepSize" [step]="0.1 * coinDataList[selectedCoin].stepSize"
+                  placeholder="AMOUNT" style="width:100%"
                   [(ngModel)]="buyAmount" (ngModelChange)="changeTotalPrice()">
               </div>
 
@@ -609,7 +610,7 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
+                <input type="number" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE" style="width:100%"
                   (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
               </div>
 
@@ -626,18 +627,20 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" (ngModelChange)="changeBuyAmount()"
+                <input type="number" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE" style="width:100%"
+                  (ngModelChange)="changeBuyAmount()"
                   [(ngModel)]="stopPriceTotal">
               </div>
 
             </div>
-            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+            <div
+              style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px; padding-left: 10px; padding-right: 10px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
               </div>
             </div>
-            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
-              Self Trading Not Allowed
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 45px;">
+              Self Trading Not Allowed. <br> Upgrade to Premium
             </div>
             <div class="buy_button" style="margin-top: 50px;" (click)="buy()" *ngIf="isBuyAllowed()">
               BUY {{ selectedCoin }}
@@ -681,7 +684,7 @@
                 </div>
               </div>
               <div style="">
-                <input type="number" [(ngModel)]="stopPriceSell" [step]="coinDataList[selectedCoin].stepSize"
+                <input type="number" [(ngModel)]="stopPriceSell" [step]="0.1 * coinDataList[selectedCoin].stepSize"
                   placeholder="STOP PRICE" style="width:100%">
               </div>
             </div>
@@ -698,7 +701,8 @@
               </div>
               <div style="display: flex;">
                 <div>
-                  <input type="number" [(ngModel)]="sellAtPriceLimit" step="0.000001" placeholder="PRICE" [disabled]="isMarketSell"
+                  <input type="number" [(ngModel)]="sellAtPriceLimit" [step]="0.1 * coinDataList[selectedCoin].stepSize"
+                    placeholder="PRICE" [disabled]="isMarketSell"
                     style="width:100%; border: none;">
 
                 </div>
@@ -721,7 +725,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount"
+                <input type="number" decimals="coinDataList[selectedCoin].stepSize" [step]="0.1 * coinDataList[selectedCoin].stepSize"
+                  placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount"
                   (ngModelChange)="changeTotalPriceSell()">
               </div>
 
@@ -738,7 +743,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" [(ngModel)]="sellTotalPrice" step="0.000001" placeholder="PRICE" style="width:100%"
+                <input type="number" [(ngModel)]="sellTotalPrice" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                  style="width:100%"
                   (ngModelChange)="changeSellAmount()">
               </div>
 
@@ -755,7 +761,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" [(ngModel)]="stopPriceTotal" disabled step="0.000001" placeholder="PRICE" style="width:100%"
+                <input type="number" [(ngModel)]="stopPriceTotal" disabled [step]="0.1 * coinDataList[selectedCoin].stepSize"
+                  placeholder="PRICE" style="width:100%"
                   (ngModelChange)="changeSellAmount()">
               </div>
 
@@ -765,8 +772,8 @@
                 <b> {{ errMsg2 }}</b>
               </div>
             </div>
-            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
-              Self Trading Not Allowed
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 45px;">
+              Self Trading Not Allowed. <br> Upgrade to Premium
             </div>
             <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sell()" *ngIf="isBuyAllowed()">
               SELL {{ selectedCoin }}
@@ -852,7 +859,7 @@
                 </div>
               </div>
               <div style="">
-                <input type="number" [(ngModel)]="stopPriceBuy" [step]="coinDataList[selectedCoin].stepSize"
+                <input type="number" [(ngModel)]="stopPriceBuy" [step]="0.1 * coinDataList[selectedCoin].stepSize"
                   placeholder="STOP PRICE" style="width:100%">
               </div>
             </div>
@@ -870,10 +877,10 @@
               <div style="display:flex; align-items: center;">
                 <div>
                   <input type="number" [(ngModel)]="buyAtPrice" [disabled]="!isLimit"
-                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
                     style="background-color:transparent; border: none; font-weight: bold;" *ngIf="!isLimit">
                   <input type="number" [(ngModel)]="buyAtPriceLimit" [disabled]="!isLimit"
-                    [step]="coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                    [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
                     style="background-color:transparent; border: none; font-weight: bold;" *ngIf="isLimit"
                     (ngModelChange)="changeTotalPrice()">
                 </div>
@@ -894,7 +901,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" value="0.78898" step="0.000001" placeholder="AMOUNT" style="width:100%"
+                <input type="number" value="0.78898" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="AMOUNT"
+                  style="width:100%"
                   [(ngModel)]="buyAmount" (ngModelChange)="changeTotalPrice()">
               </div>
 
@@ -911,7 +919,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="stopPriceTotal" disabled>
+                <input type="number" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE" style="width:100%"
+                  [(ngModel)]="stopPriceTotal" disabled>
               </div>
             </div>
             <div class="buy_input"
@@ -926,7 +935,7 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%"
+                <input type="number" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE" style="width:100%"
                   (ngModelChange)="changeBuyAmount()" [(ngModel)]="buyTotalPrice">
               </div>
             </div>
@@ -935,13 +944,14 @@
               <input type="checkbox" [value]="isReduceOnly" (change)="isReduceOnly = !isReduceOnly"> &nbsp; Reduce Only
             </div>
 
-            <div style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
+            <div
+              style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px; padding-left: 10px; padding-right: 10px;">
               <div *ngIf="isInsufficientFund">
                 <b> {{ errMsgBuy }}</b>
               </div>
             </div>
-            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
-              Self Trading Not Allowed
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 45px;">
+              Self Trading Not Allowed. <br> Upgrade to Premium
             </div>
             <div class="buy_button" style="margin-top: 50px;" (click)="buyLeverage()" *ngIf="isBuyAllowed()">
 
@@ -986,7 +996,7 @@
                 </div>
               </div>
               <div style="">
-                <input type="number" [(ngModel)]="stopPriceSell" [step]="coinDataList[selectedCoin].stepSize"
+                <input type="number" [(ngModel)]="stopPriceSell" [step]="0.1 * coinDataList[selectedCoin].stepSize"
                   placeholder="STOP PRICE" style="width:100%">
               </div>
             </div>
@@ -1003,9 +1013,10 @@
               </div>
               <div style="display: flex;">
                 <div>
-                  <input type="number" [(ngModel)]="sellAtPriceLimit" step="0.000001" placeholder="PRICE"
+                  <input type="number" [(ngModel)]="sellAtPriceLimit" [step]="0.1 * coinDataList[selectedCoin].stepSize"
+                    placeholder="PRICE"
                     style="width:100%; border: none;" *ngIf="isLImitSell" (ngModelChange)="changeTotalPriceSell()">
-                  <input type="number" [(ngModel)]="sellAtPrice" step="0.000001" placeholder="PRICE"
+                  <input type="number" [(ngModel)]="sellAtPrice" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
                     style="width:100%; border: none;" *ngIf="!isLImitSell" disabled>
                 </div>
                 <div>
@@ -1027,7 +1038,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" step="0.000001" placeholder="PRICE" style="width:100%" [(ngModel)]="sellAmount"
+                <input type="number" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE" style="width:100%"
+                  [(ngModel)]="sellAmount"
                   (ngModelChange)="changeTotalPriceSell()">
               </div>
 
@@ -1044,7 +1056,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" [(ngModel)]="sellTotalPrice" step="0.000001" placeholder="PRICE" style="width:100%"
+                <input type="number" [(ngModel)]="sellTotalPrice" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                  style="width:100%"
                   (ngModelChange)="changeSellAmount()">
               </div>
 
@@ -1061,7 +1074,8 @@
                 </div>
               </div>
               <div style="flex-grow: 1;">
-                <input type="number" [(ngModel)]="stopPriceTotal" step="0.000001" placeholder="PRICE" style="width:100%" disabled>
+                <input type="number" [(ngModel)]="stopPriceTotal" [step]="0.1 * coinDataList[selectedCoin].stepSize" placeholder="PRICE"
+                  style="width:100%" disabled>
               </div>
 
             </div><br>
@@ -1074,8 +1088,8 @@
                 <b> {{ errMsg2 }}</b>
               </div>
             </div>
-            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 15px;">
-              Self Trading Not Allowed
+            <div *ngIf="!isBuyAllowed()" style="color: #e74c3c; text-align: center;margin-top: 10px; height: 45px;">
+              Self Trading Not Allowed. <br> Upgrade to Premium
             </div>
             <div class="buy_button" style="margin-top: 20px; background-color: #e74c3c" (click)="sellLeverage()"
               *ngIf="isBuyAllowed()">

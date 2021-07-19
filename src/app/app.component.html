@@ -147,7 +147,7 @@
               <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position:absolute; z-index:10000; width:100%;"
                 *ngIf="router.url !== '/admin' && this.authService.isLoggedIn ">
                 <a class="navbar-brand" routerLink="/">
-                  <img src="../assets/kazcade-10.svg" alt="" style="width:200px; margin-bottom: 8px;">
+                  <img src="../assets/kazcade-10.png" alt="" style="width:130px !important; margin-bottom: 8px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                   aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,10 +156,10 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav "
-                    style="justify-content:space-between; width:100%; padding-left: 145px; padding-right: 415px;">
+                    style="justify-content:space-between; width:100%; padding-left: 240px; padding-right: 415px;">
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" id="navbarDropdown4" data-toggle="dropdown" role="button"
-                        aria-haspopup="true" aria-expanded="false" style="font-size: 24px; font-weight: bold;">Market </a>
+                        aria-haspopup="true" aria-expanded="false" style="font-size: 20px; font-weight: bold;">Market </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown4" style="background-color:white; opacity:1;">
                         <a class="dropdown-item" (click)="futureSelect()">
                           Future
@@ -171,24 +171,65 @@
                     </li>
 
                     <li class="nav-item" routerLinkActive="active" [routerLink]="'about'">
-                      <a class="nav-link" style="font-size: 24px; font-weight: bold;">About</a>
+                      <a class="nav-link" style="font-size: 20px; font-weight: bold;">About</a>
                     </li>
                     <li class="nav-item" routerLinkActive="active" [routerLink]="'news'">
-                      <a class="nav-link" style="font-size: 24px; font-weight: bold;">News</a>
+                      <a class="nav-link" style="font-size: 20px; font-weight: bold;">News</a>
                     </li>
                     <li class="nav-item highlightButton" [routerLink]="'login'" *ngIf="!this.authService.isLoggedIn" style="">
-                      <a class="nav-link" style="" style="font-size: 24px; font-weight: bold; color:white;">Login</a>
-                    </li>
+                      <a class="nav-link" style="" style="font-size: 20px; font-weight: bold; color:white;">Login</a>
+                      </li>
+                      <li class="nav-item dropdown " *ngIf="this.authService.isLoggedIn"
+                        style=" padding-left: 15px; padding-right: 15px; border-radius: 15px; position: absolute; right:180px;">
+                        <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+                          style=" white-space: normal; display: flex; align-items: center;" aria-expanded="false" *ngIf="username()">
+                          <mat-icon style="transform: translateY(2px);transform: scale(1.15);">notifications</mat-icon> &nbsp; <div
+                            style="font-weight:bold; font-size: 20px; transform: translateY(-2px);"> &#40;{{ notification.length }}&#41;
+                          </div>
+                        </a>
+                        <div class="dropdown-menu notify-drop text-muted" aria-labelledby="navbarDropdown2"
+                          style="background-color:white; min-width: 391px;opacity:1; white-space: normal; transform: translateX(-300px);  ">
+                          <div style="display: flex; justify-content: flex-end; width:100%; padding-right:10px;">
+                            <div (click)="refreshNotif()">
+                              <mat-icon>autorenew</mat-icon>
+                            </div>
+                          </div>
+                          <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
+                            style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      white-space:noraml; ">
+                            <div style="" class="mb-0" *ngIf="item.msg !== undefined">
+                              <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">
+                              <div>
+                                {{item.symbol}}
+                              </div>
+                              <div>
+                                {{item.side}}
+                              </div>
+                            </div>
+                            <div>
+                              {{timestamp[i]| date:'medium'}}
+                            </div>
+
+                          </div>
+
+                          <p *ngIf="notification.length === 0" style="text-align: center;">
+                            No Notification
+                          </p>
+                        </div>
+                      </li>
                     <li class="nav-item dropdown" *ngIf="this.authService.isLoggedIn"
-                      style=" padding-left: 15px;font-size: 24px; padding-right: 15px; border-radius: 15px; position: absolute; right:90px;">
+                      style=" padding-left: 15px;font-size: 20px; padding-right: 15px; border-radius: 15px; position: absolute; right:-30px;">
                       <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false" *ngIf="username()">
                         Hi, {{this.name}}
                       </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:white; opacity:1;">
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+                        style="background-color:white; opacity:1; transform: translateX(-80px); ">
                         <a class="dropdown-item" *ngIf="this.authService.isLoggedIn"
                           style="background-color: rgb(230, 230, 230); cursor: text;">
-                          <mat-icon>info</mat-icon> Complete Your KYC (coming Soon)
+                          <mat-icon>info</mat-icon> Complete Your KYC <br> &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;(coming Soon)
                         </a>
                         <a class="dropdown-item" *ngIf="this.authService.isLoggedIn" [routerLink]="'dashboard'">
                           <mat-icon>perm_identity</mat-icon> Dashboard
@@ -212,47 +253,14 @@
                         </a>
                       </div>
                     </li>
-                    <li class="nav-item dropdown " *ngIf="this.authService.isLoggedIn"
-                      style=" padding-left: 15px; padding-right: 15px; border-radius: 15px; position: absolute; right:0px;">
-                      <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
-                        style=" white-space: normal;" aria-expanded="false" *ngIf="username()">
-                        <mat-icon style="transform: translateY(2px);transform: scale(1.5);">notifications</mat-icon>
-                      </a>
-                      <div class="dropdown-menu notify-drop text-muted" aria-labelledby="navbarDropdown2"
-                        style="background-color:white; min-width: 391px;opacity:1; white-space: normal; transform: translateX(-300px);  ">
 
-                        <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
-                          style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
-                                                                                                                                                                                                                                                                                                                                                                  white-space:noraml; ">
-                          <div style="" class="mb-0" *ngIf="item.msg !== undefined">
-                            <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
-                          </div>
-                          <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">
-                            <div>
-                              {{item.symbol}}
-                            </div>
-                            <div>
-                              {{item.side}}
-                            </div>
-                          </div>
-                          <div>
-                            {{timestamp[i]| date:'medium'}}
-                          </div>
-
-                        </div>
-
-                  <p *ngIf="notification.length === 0" style="text-align: center;">
-                    No Notification
-                  </p>
-                  </div>
-                  </li>
                   </ul>
                   </div>
                   </nav>
                   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position:absolute; z-index:10000; width:100%;"
                     *ngIf="router.url !== '/admin' && !this.authService.isLoggedIn ">
                     <a class="navbar-brand" routerLink="/">
-                      <img src="../assets/kazcade-10.svg" alt="" style="width:200px;  margin-bottom: 8px;">
+                      <img src="../assets/kazcade-10.png" alt="" style="width:150px;  margin-bottom: 8px;">
                       </a>
                       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -261,10 +269,10 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="navbar-nav "
-                      style="justify-content:space-between; width:100%; padding-left: 150px; padding-right: 150px;">
+                      style="justify-content:space-between; width:100%;padding-left: 285px; padding-right: 0px;">
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown4" data-toggle="dropdown" role="button"
-                          aria-haspopup="true" aria-expanded="false" style="font-size: 24px; font-weight: bold;">Market </a>
+                          aria-haspopup="true" aria-expanded="false" style="font-size: 20px; font-weight: bold;">Market </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown4" style="background-color:white; opacity:1;">
                           <a class="dropdown-item" (click)="futureSelect()">
                             Future
@@ -276,18 +284,52 @@
                       </li>
 
                       <li class="nav-item" routerLinkActive="active" [routerLink]="'about'">
-                        <a class="nav-link" style="font-size: 24px; font-weight: bold;">About</a>
+                        <a class="nav-link" style="font-size: 20px; font-weight: bold;">About</a>
                       </li>
                       <li class="nav-item" routerLinkActive="active" [routerLink]="'news'">
-                        <a class="nav-link" style="font-size: 24px; font-weight: bold;">News</a>
+                        <a class="nav-link" style="font-size: 20px; font-weight: bold;">News</a>
                       </li>
                       <li class="nav-item highlightButton" [routerLink]="'login'" *ngIf="!this.authService.isLoggedIn" style="">
-                        <a class="nav-link" style="" style="font-size: 24px; font-weight: bold; color:white;">Login</a>
+                        <a class="nav-link" style="" style="font-size: 20px; font-weight: bold; color:white !important; ">Login</a>
                       </li>
+                      <li class="nav-item dropdown " *ngIf="this.authService.isLoggedIn"
+                      style=" padding-left: 15px; padding-right: 15px; border-radius: 15px; position: absolute; right:90px;">
+                      <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        style=" white-space: normal;" aria-expanded="false" *ngIf="username()">
+                        <mat-icon style="transform: translateY(2px);transform: scale(1.5);">notifications</mat-icon>
+                        </a>
+                        <div class="dropdown-menu notify-drop text-muted" aria-labelledby="navbarDropdown2"
+                          style="background-color:white; min-width: 391px;opacity:1; white-space: normal; transform: translateX(-300px);  ">
+
+                          <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
+                            style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                white-space:noraml; ">
+                            <div style="" class="mb-0" *ngIf="item.msg !== undefined">
+                              <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">
+                              <div>
+                                {{item.symbol}}
+                              </div>
+                              <div>
+                                {{item.side}}
+                              </div>
+                            </div>
+                            <div>
+                              {{timestamp[i]| date:'medium'}}
+                            </div>
+
+                          </div>
+
+                          <p *ngIf="notification.length === 0" style="text-align: center;">
+                            No Notification
+                          </p>
+                          </div>
+                          </li>
                       <li class="nav-item dropdown" *ngIf="this.authService.isLoggedIn"
-                        style=" padding-left: 15px;font-size: 24px; padding-right: 15px; border-radius: 15px; position: absolute; right:90px;">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false" *ngIf="username()">
+                        style=" padding-left: 15px;font-size: 20px; padding-right: 15px; border-radius: 15px; position: absolute; right:0px;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                          aria-expanded="false" *ngIf="username()">
                           Hi, {{this.name}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:white; opacity:1;">
@@ -317,58 +359,22 @@
                           </a>
                         </div>
                       </li>
-                      <li class="nav-item dropdown " *ngIf="this.authService.isLoggedIn"
-                        style=" padding-left: 15px; padding-right: 15px; border-radius: 15px; position: absolute; right:0px;">
-                        <a class="nav-link" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
-                          style=" white-space: normal;" aria-expanded="false" *ngIf="username()">
-                          <mat-icon style="transform: translateY(2px);transform: scale(1.5);">notifications</mat-icon>
-                          </a>
-                          <div class="dropdown-menu notify-drop text-muted" aria-labelledby="navbarDropdown2"
-                            style="background-color:white; min-width: 391px;opacity:1; white-space: normal; transform: translateX(-300px);  ">
-
-                            <div class="dropdown-item" *ngFor="let item of notification ; let i = index"
-                              style="font-size: 14px; border-bottom:1px solid rgba(128, 128, 128, 0.342);  overflow:hidden;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              white-space:noraml; ">
-                              <div style="" class="mb-0" *ngIf="item.msg !== undefined">
-                                <b>{{ (item.msg.length>6)? (item.msg | slice:0:50)+'..':(item.msg)}}</b> <br>
-                              </div>
-                              <div style="display:flex; justify-content:space-between; font-size: 12px; font-weight: bold; opacity: 0.7;">
-                                <div>
-                                  {{item.symbol}}
-                                </div>
-                                <div>
-                                  {{item.side}}
-                                </div>
-                              </div>
-                              <div>
-                                {{timestamp[i]| date:'medium'}}
-                              </div>
-
-                            </div>
-
-                            <p *ngIf="notification.length === 0" style="text-align: center;">
-                              No Notification
-                            </p>
-                            </div>
-                            </li>
                             </ul>
                             </div>
                             </nav>
 
 
-                            <div style="background-color: #ffffff; min-height: 50vh;">
+                            <div style="background-color: #ffffff; min-height: 50vh; ">
                               <router-outlet style="position:absolute; z-index:1;"></router-outlet>
           </div>
+        <footer class="bg-light text-center " style="background-color:#ffffff; ">
           <br>
-          <br>
-          <br>
-          <br>
-          <footer class="bg-light text-center " style="padding-top: 35px; background-color:#ffffff; ">
             <!-- Grid container -->
-            <div class="container p-4">
+            <div class="container ">
               <div class="row">
-                <div class="col-md-4 col-xs-6" style="text-align:left">
-                  <b style="font-size:20px; color:#ACACAC">Kazkade</b>
+                <div class="col-md-4 col-xs-6" style="text-align:left; display: flex; justify-content: flex-start">
+                  <div style="">
+                    <b style="font-size:20px; color:#981B40">Kazcade</b>
                   <div style="font-size: 20px; margin-top: 10px;">
                   <a [routerLink]="['/about']" routerLinkActive="router-link-active"> About Kazcade</a>
                   </div>
@@ -379,24 +385,26 @@
                     <a [routerLink]="['/settings']" routerLinkActive="router-link-active">Support</a>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-6" style="text-align:left;">
-                  <b style="font-size:20px; color:#ACACAC">My account</b>
-                  <div style="font-size: 20px; margin-top: 10px;">
-                  <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active"> Dashboard</a>
+                </div>
+                <div class="col-md-4 col-xs-6" style="text-align:left; display: flex; justify-content: center;">
+                  <div>
+                    <b style="font-size:20px; color:#981B40">My account</b>
+                    <div style="font-size: 20px; margin-top: 10px;">
+                      <a [routerLink]="['/dashboard']" routerLinkActive="router-link-active"> Dashboard</a>
+                    </div>
+                    <div style="font-size: 20px; margin-top: 10px;">
+                      <a [routerLink]="['/settings']" routerLinkActive="router-link-active" *ngIf="this.authService.isLoggedIn">Account
+                        settings</a>
+                    </div>
                   </div>
+                  </div>
+                  <div class="col-md-4 col-xs-6" style="text-align: left; display: flex; justify-content: flex-end;">
+                    <div>
+                      <b style="font-size:20px; color:#981B40; ">Other</b>
                   <div style="font-size: 20px; margin-top: 10px;">
-                    <a [routerLink]="['/settings']" routerLinkActive="router-link-active" *ngIf="this.authService.isLoggedIn">Account
-                      settings</a>
+                    <a [routerLink]="['/terms']" routerLinkActive="router-link-active">Terms</a>
                   </div>
                 </div>
-                <div class="col-md-4 col-xs-6" style="text-align: left;">
-                  <b style="font-size:20px; color:#ACACAC; ">Other</b>
-                  <div style="font-size: 20px; margin-top: 10px;">
-                    <a [routerLink]="['/terms']" routerLinkActive="router-link-active">Terms and Conditions</a>
-                  </div>
-                  <div style="font-size: 20px; margin-top: 10px;">
-                    Privacy policy
-                  </div>
                 </div>
               </div>
               <!-- Section: Social media -->

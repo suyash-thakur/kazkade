@@ -1,12 +1,14 @@
-<div style="text-align:centre; padding: 10%; height: 100%;">
+<div style="text-align:centre; padding: 10%; height: 100%; min-height: 80vh;">
   <div style="display:flex; justify-content:space-between">
-    <div>
-      <h1 style="color: black;"><b>History</b></h1><br>
-</div>
+    <div style="font-size: 18px; margin-top:0px; font-weight: bold;   padding-top: 0px;">
+      <div style="padding:20px; background-color: #981B40; width: fit-content; color:white;">
+        History
+      </div>
+    </div>
 <div>
   <mat-form-field appearance="fill">
     <mat-label>Market Type</mat-label>
-    <mat-select>
+    <mat-select [(ngModel)]="select">
       <mat-option value='Future' (click)="futureOrders()">
         Future
       </mat-option>
@@ -17,7 +19,7 @@
   </mat-form-field>
 </div>
 </div>
-    <table class="table" *ngIf="arr && !isLoading">
+    <table class="table" *ngIf="arr && !isLoading && isFuture">
         <!-- ADD HEADERS -->
         <thead>
         <tr>
@@ -55,4 +57,9 @@
         </tr>
       </tbody>
     </table>
+    <div style="width:100%; justify-content: center; display:flex;" *ngIf="!isFuture">
+      <div>
+        <h1 style='color:#981B40'>Coming Soon</h1>
+      </div>
+    </div>
 </div>

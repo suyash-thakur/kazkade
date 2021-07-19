@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
     this.http.get(environment.Route + '/api/admin/all-copy-traders').subscribe((res: any) => {
       this.users = res;
       console.log(res);
+
       this.show = true;
     });
   }

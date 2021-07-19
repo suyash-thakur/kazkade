@@ -78,6 +78,7 @@ a {
   text-decoration:none;
   color:inherit;
 }
+
 .active {
   color:#981b4194;
   font-weight: bold;
@@ -86,6 +87,14 @@ a {
 .active > a {
   color:#981B40 !important;
   opacity: 1;
+}
+.nav-link:hover {
+  color:#981B40 !important;
+
+}
+.highlightButton > a {
+  color:#fff !important;
+
 }
 .highlightButton {
   background-color:#981B40;  padding-left: 15px; padding-right: 15px; border-radius: 15px;
@@ -96,7 +105,7 @@ mat-icon {
   transform:translateY(7px);
 }
 #navbarSupportedContent {
-  transform: translateX(-50px);
+  transform: translateX(-30px);
 }
 @media only screen and (max-width: 900px) {
   .highlightButton {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -13,10 +14,13 @@ export class ForgotPasswordComponent implements OnInit {
   token;
   userid;
   error;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
+    this.userid = this.route.snapshot.queryParams.id;
+    this.token = this.route.snapshot.queryParams.token;
+    console.log(this.userid);
+  }
 
   ngOnInit(): void {
-    this.userid = localStorage.getItem('userId');
   }
   resetPassword(): void {
     if (this.newPassword === this.confPassword) {

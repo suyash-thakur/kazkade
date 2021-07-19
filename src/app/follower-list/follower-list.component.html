@@ -1,15 +1,16 @@
 <div style="padding:15px; padding-top: 50px; min-height:80vh">
-  <br>
-  <br>
-  <br>
-  <br>
-  <h2 *ngIf="this.authservice.userType !== 'COPY'">
-    Followers:
-  </h2>
-  <h2 *ngIf="this.authservice.userType === 'COPY'">
-    Following:
+  <div style="font-size: 18px; margin-top:105px; font-weight: bold;  padding: 15px; padding-top: 0px;">
+    <div style="padding:20px; background-color: #981B40; width: fit-content; color:white;">
+      <div *ngIf="this.authservice.userType !== 'COPY'">
+        Followers:
+      </div>
+      <div *ngIf="this.authservice.userType === 'COPY'">
+        Following:
+    </div>
+    </div>
+    </div>
 
-  </h2>
+
   <div style="display:flex; flex-direction: column; align-items: center;"
     *ngFor="let item of followerList; let i = index">
     <div style="display: flex; max-width:800px; width: 100%; align-items: center;  margin-top: 15px;">

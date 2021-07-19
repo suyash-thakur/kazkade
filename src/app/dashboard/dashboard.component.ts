@@ -18,7 +18,8 @@ export class DashboardComponent implements OnInit {
   view: any[] = [500, 400]
   color='#981B40';
   amount:any;
-  currency:any;
+  currency: any;
+  selected = "Future";
   dataArray = [];
   dataArrayTemp = [];
   isloaded = false;

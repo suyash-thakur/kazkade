@@ -28,6 +28,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-password-input.component';
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
+import { SpotSoonComponent } from './spot-soon/spot-soon.component';
 
 
 const routes: Routes = [
@@ -128,6 +129,9 @@ const routes: Routes = [
   }, {
     path: 'trade/:market/:coin',
     component: TradingMarketComponent
+  }, {
+    path: 'trade/spot',
+    component: SpotSoonComponent
   }, {
     path: 'forgotPassword',
     component: ForgotPasswordComponent

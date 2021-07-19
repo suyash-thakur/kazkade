@@ -203,10 +203,16 @@ export class PaymentDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<PaymentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data, public authService: AuthService, public router: Router, public dialog: MatDialog) { }
+    @Inject(MAT_DIALOG_DATA) public data, public authService: AuthService, public router: Router, public dialog: MatDialog, public http: HttpClient) { }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  sendReminder() {
+    this.http.post(environment.Route + '/api/user/payment-reminder', {}).subscribe((res) => {
+      console.log(res);
+      this.dialogRef.close();
+    })
   }
 
 

@@ -1,5 +1,5 @@
 <div mat-dialog-content
-  style="padding: 10%;margin:auto; min-height: 80vh; margin-top: 0px; padding:120px; text-align: center; max-width: 650px; color: black;">
+  style="padding: 10%;margin:auto; min-height: 80vh; margin-top: 0px; padding:120px; text-align: center; max-width: 650px; color: black; overflow-y: hidden !important;">
     <h1 style="color: black; font-size: 40px;"> Connect Your Binance Account </h1><br>
     <form class="example-form">
         <div class="example-full-width">
@@ -7,7 +7,11 @@
         </div>
         <br>
         <div class="example-full-width">
-            <input id="ip2" type="text" placeholder="Binanace Secret Key" [(ngModel)]="pathSecret" name="pathSecret" required>
+            <input id="ip2" type="text" placeholder="Binance Secret Key" [(ngModel)]="pathSecret" name="pathSecret" required>
+            </div>
+            <br>
+            <div>
+              <span style="font-weight: bold;">Note-:</span>&nbsp; <span>Please enter both the keys to activate submit button</span>
         </div>
         <br>
         <button mat-button style="" class="btn-block1" (click)="onSubmit()" [disabled]="pathKey === '' || pathSecret === ''">

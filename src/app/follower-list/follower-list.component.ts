@@ -90,7 +90,7 @@ export class PilComponent {
   }
   sendNotif() {
     this.http.post(environment.Route + '/api/master-trader/send-notification', {
-      follower_id: this.item.id, msg: this.msg
+      follower_id: this.item.copy_trader_id, msg: this.msg
     }).subscribe((res: any) => {
       console.log(res);
       this.isShowMsg = true;

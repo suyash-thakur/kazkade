@@ -191,49 +191,49 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   wathlistSpot: Array<any> = [
 
 
-    "BINANCE:BTC" + this.currentCurrency,
+    'BINANCE:BTC' + this.currentCurrency,
 
-    "BINANCE:ETH" + this.currentCurrency,
+    'BINANCE:ETH' + this.currentCurrency,
 
-    "BINANCE:BNB" + this.currentCurrency,
+    'BINANCE:BNB' + this.currentCurrency,
 
-    "BINANCE:XRP" + this.currentCurrency,
+    'BINANCE:XRP' + this.currentCurrency,
 
-    "BINANCE:DOGE" + this.currentCurrency,
+    'BINANCE:DOGE' + this.currentCurrency,
 
-    "BINANCE:ADA" + this.currentCurrency,
-
-
-    "BINANCE:BCH" + this.currentCurrency,
-
-    "BINANCE:LTC" + this.currentCurrency,
-
-    "BINANCE:LINK" + this.currentCurrency,
-
-    "BINANCE:XLM" + this.currentCurrency,
-
-    "BINANCE:VET" + this.currentCurrency,
-
-    "BINANCE:THETA" + this.currentCurrency,
-
-    "BINANCE:IOTA" + this.currentCurrency,
-
-    "BINANCE:ETC" + this.currentCurrency,
+    'BINANCE:ADA' + this.currentCurrency,
 
 
-    "BINANCE:ATOM" + this.currentCurrency,
+    'BINANCE:BCH' + this.currentCurrency,
 
-    "BINANCE:ALGO" + this.currentCurrency,
+    'BINANCE:LTC' + this.currentCurrency,
 
-    "BINANCE:MKR" + this.currentCurrency,
+    'BINANCE:LINK' + this.currentCurrency,
 
-    "BINANCE:XTZ" + this.currentCurrency,
+    'BINANCE:XLM' + this.currentCurrency,
 
-    "BINANCE:DASH" + this.currentCurrency,
+    'BINANCE:VET' + this.currentCurrency,
 
-    "BINANCE:XEM" + this.currentCurrency,
+    'BINANCE:THETA' + this.currentCurrency,
 
-    "BINANCE:MATIC" + this.currentCurrency
+    'BINANCE:IOTA' + this.currentCurrency,
+
+    'BINANCE:ETC' + this.currentCurrency,
+
+
+    'BINANCE:ATOM' + this.currentCurrency,
+
+    'BINANCE:ALGO' + this.currentCurrency,
+
+    'BINANCE:MKR' + this.currentCurrency,
+
+    'BINANCE:XTZ' + this.currentCurrency,
+
+    'BINANCE:DASH' + this.currentCurrency,
+
+    'BINANCE:XEM' + this.currentCurrency,
+
+    'BINANCE:MATIC' + this.currentCurrency
 
   ];
   sortedData: any[];
@@ -269,6 +269,8 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
 
       } else {
+        this.router.navigate(['/trade/spot']);
+        return;
         this.currentLeverage = 1;
         this.isFuture = false;
         this.wathcList = this.wathlistSpot;
@@ -332,7 +334,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.buyAtPriceSpot = this.coinDataList[this.selectedCoin].lastPrice;
             this.sellAtPrice = this.coinDataList[this.selectedCoin].lastPrice;
             this.sellAtPriceLimit = this.coinDataList[this.selectedCoin].lastPrice;
-            console.log("THis is called");
+            console.log('THis is called');
             const sortedKeys = Object.keys(this.coinDataList).sort();
             let temp = {};
             sortedKeys.forEach(elem => {
@@ -351,7 +353,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         if (this.authService.isLoggedIn === true) {
 
           if (this.isFuture) {
-            this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: "ISOLATED" }).subscribe((res) => {
+            this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: 'ISOLATED' }).subscribe((res) => {
               console.log(res);
             });
             this.http.get(environment.Route + '/api/action/future-all-orders').subscribe((res: any) => {
@@ -420,7 +422,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           } else {
             this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
               console.log(res);
-              console.log("Open orders", res);
+              console.log('Open orders', res);
               if (res !== {}) {
                 this.completedOrders = res.reverse();
 
@@ -608,6 +610,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
 
     this.sellAmount = amountDec.toFixed(this.coinDataList[this.selectedCoin].precision);
   }
+
   changeTotalPriceSell() {
     if (this.marketType !== 'Future') {
       if (this.isLImitSell === false) {
@@ -704,6 +707,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
+          else if (res.data.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.data.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
+          }
           else {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order Placed';
@@ -750,6 +757,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
+          }
+          else if (res.data.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.data.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
           }
           else {
             this.isInsufficientFund = true;
@@ -806,6 +817,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             } else if (res.data.code === -4164) {
               this.isInsufficientFund = true;
               this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
+            }
+            else if (res.data.code === -1111) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = res.data.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
             }
             else {
               this.isInsufficientFund = true;
@@ -908,6 +923,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
+          else if (res.data.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.data.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
+          }
           else if (res.data.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Amount Lower Than Minimun Limit';
@@ -965,6 +984,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Error Placing Order';
               }
+              else if (res.data.code === -1111) {
+                this.isInsufficientFund = true;
+                this.errMsgBuy = res.data.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
+              }
               else if (res.data.code === -1013) {
                 this.isInsufficientFund = true;
                 this.errMsgBuy = 'Amount Lower Than Minimun Limit';
@@ -993,8 +1016,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   }
   isBuyAllowed() {
     let subscription = JSON.parse(localStorage.getItem('userSubscription'));
-
-    if ((this.authService.userType === 'COPY' && subscription.subscription_type === 'BASIC')) {
+    if (subscription === null) {
+      return false;
+    }
+    if ((this.authService.userType === 'COPY' && subscription.subscription_type === 'INTERMEDIATE')) {
       return false;
     } else {
       return true;
@@ -1006,7 +1031,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     this.changeTotalPriceSell();
   }
   sellPosition(symbol, sellAmount, sellAtPrice, leverage, amount) {
-    console.log("amount", amount);
+    console.log('amount', amount);
     const dialogRef = this.dialog.open(CloseOrderComponent, {
       width: '550px',
       data: { flag: 1, precision: this.coinDataList[symbol].precision, symbol: symbol, leverage: leverage, quatity: sellAmount, amount: amount }
@@ -1117,6 +1142,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           }
+          else if (res.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+          }
           else if (res.code === -1013) {
             this.isInsufficientFund = true;
             this.errMsg = 'Amount Lower Than Minimun Limit';
@@ -1189,7 +1218,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Insufficient Fund';
 
-          } else {
+          } else if (res.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+          }
+          else {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Order Placed';
           }
@@ -1239,7 +1272,11 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
             this.isInsufficientFund2 = true;
             this.errMsg2 = 'Insufficient Fund';
 
-          } else if (res.code === -4164) {
+          } else if (res.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+          }
+          else if (res.code === -4164) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
           } else {
@@ -1270,6 +1307,9 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           } else if (res.code === -4164) {
             this.isInsufficientFund = true;
             this.errMsgBuy = 'Order notional must be no smaller than 5.0 (unless you choose reduce only';
+          } else if (res.code === -1111) {
+            this.isInsufficientFund = true;
+            this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
           }
           else {
             this.isInsufficientFund2 = true;
@@ -1364,13 +1404,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         else if (res.code === -1013) {
           this.isInsufficientFund = true;
           this.errMsgBuy = res.msg;
+        } else if (res.code === -1111) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;
         }
         else {
           this.isInsufficientFund = true;
           this.errMsgBuy = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
               this.completedOrders = res.reverse();
@@ -1430,12 +1473,16 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.isInsufficientFund = true;
           this.errMsg = 'Amount Lower Than Minimun Limit';
         }
+        else if (res.code === -1111) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+        }
         else {
           this.isInsufficientFund = true;
           this.errMsg = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
               this.completedOrders = res.reverse();
@@ -1490,6 +1537,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
         else if (res.code === -1013) {
 
         }
+        else if (res.code === -1111) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+        }
         else {
           this.http.post(environment.Route + '/api/action/stop-loss', {
             symbol: this.selectedCoin,
@@ -1507,6 +1558,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.isInsufficientFund = true;
               this.errMsgBuy = res.msg;
             }
+            else if (res.code === -1111) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+            }
             else if (res.code === -1013) {
               this.isInsufficientFund = true;
               this.errMsgBuy = res.msg;
@@ -1515,7 +1570,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.errMsgBuy = 'Order Placed';
               this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
                 console.log(res);
-                console.log("Open orders", res);
+                console.log('Open orders', res);
                 if (res !== {}) {
                   this.completedOrders = [];
                   this.completedOrders = res.reverse();
@@ -1570,6 +1625,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.isInsufficientFund = true;
           this.errMsgBuy = res.msg;
         }
+        else if (res.code === -1111) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+        }
         else if (res.code === -1013) {
           this.isInsufficientFund = true;
           this.errMsgBuy = res.msg;
@@ -1578,7 +1637,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.errMsgBuy = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
               this.completedOrders = res.reverse();
@@ -1630,10 +1689,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
   toggleIsolated() {
     this.isIsolated = !this.isIsolated;
     if (this.isIsolated) {
-      this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: "ISOLATED" }).subscribe((res) => {
+      this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: 'ISOLATED' }).subscribe((res) => {
       });
     } else if (!this.isIsolated) {
-      this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: "CROSSED" }).subscribe((res) => {
+      this.http.post(environment.Route + '/api/action/future-margin-type', { symbol: this.selectedCoin, type: 'CROSSED' }).subscribe((res) => {
       });
     }
   }
@@ -1661,7 +1720,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.errMsg2 = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
               this.completedOrders = res.reverse();
@@ -1719,7 +1778,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.errMsg2 = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
               this.completedOrders = res.reverse();
@@ -1782,6 +1841,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.isInsufficientFund2 = true;
               this.errMsg2 = res.msg;
             }
+            else if (res.code === -1111) {
+              this.isInsufficientFund = true;
+              this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+            }
             else if (res.code === -1013) {
               this.isInsufficientFund2 = true;
               this.errMsg2 = res.msg;
@@ -1790,7 +1853,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
               this.errMsg2 = 'Order Placed';
               this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
                 console.log(res);
-                console.log("Open orders", res);
+                console.log('Open orders', res);
                 if (res !== {}) {
                   this.completedOrders = [];
                   this.completedOrders = res.reverse();
@@ -1843,6 +1906,10 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.isInsufficientFund2 = true;
           this.errMsg2 = res.msg;
         }
+        else if (res.code === -1111) {
+          this.isInsufficientFund = true;
+          this.errMsgBuy = res.msg + ". The precision for this asset is " + this.coinDataList[this.selectedCoin].precision;;
+        }
         else if (res.code === -1013) {
           this.isInsufficientFund2 = true;
           this.errMsg2 = res.msg;
@@ -1851,7 +1918,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
           this.errMsg2 = 'Order Placed';
           this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
             console.log(res);
-            console.log("Open orders", res);
+            console.log('Open orders', res);
             if (res !== {}) {
               this.completedOrders = [];
 
@@ -3361,7 +3428,7 @@ export class TradingMarketComponent implements OnInit, AfterViewInit {
     } else {
       this.http.get(environment.Route + '/api/action/completed-orders').subscribe((res: any) => {
         console.log(res);
-        console.log("Open orders", res);
+        console.log('Open orders', res);
         if (res !== {}) {
           this.completedOrders = [];
           this.completedOrders = res.reverse();
@@ -3687,9 +3754,9 @@ export class IsolatedMargin {
   }
   marginData(i) {
     this.http.post(environment.Route + '/api/action/future-position-margin', {
-      "symbol": this.item.symbol,
-      "amount": this.amount,
-      "type": i
+      'symbol': this.item.symbol,
+      'amount': this.amount,
+      'type': i
     }).subscribe((res) => {
       this.authService.sendClickEvent();
       this.dialogRef.close();

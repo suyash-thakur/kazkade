@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content:center;width:100%; margin-left: 15px; max-height: 600px;">
-  <div class="snip1404" style="display:flex; justify-content: space-between;">
-    <div class="plan">
+  <div class="snip1404" style="display:flex; justify-content: center">
+    <!-- <div class="plan">
       <header>
         <h4 class="plan-title" style="padding-bottom: 12px;   font-size: 20px;
                                                                                 ">
@@ -11,17 +11,23 @@
               class="plan-type">/month</span></div>
           </header>
           <ul class="plan-features">
-            <li><i class="ion-checkmark"> </i>
+            <li>
+              <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>
               Copy trading (Spot market)
             </li>
-            <li><i class="ion-checkmark"> </i>Customer support</li>
-            <li><i class="ion-checkmark"> </i>Trading View Integration
+            <li>
+              <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Customer support
             </li>
-            <li><i class="ion-checkmark"> </i>One Master Trader To Copy</li>
+            <li>
+              <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Trading View Integration
+            </li>
+            <li>
+              <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>One Master Trader To Copy
+            </li>
             <li>
               <div style="display:flex;">
                 <div>
-                  <i class="ion-checkmark"> </i>
+                  <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>
                 </div>
                 <div>
                   Trading Notification (Trade Taken By Master Trader)
@@ -46,51 +52,60 @@
     style="text-align:center;">
     Please Select A User Type
   </p>
-  </div>
-  <div class="plan featured">
+  </div> -->
+  <div class="plan featured" style="margin-right:40px;">
     <header>
       <div style="display:flex; width:100%; justify-content:center; padding-left: 10%;">
         <div>
           <h4 class="plan-title"
           style="padding-bottom: 4px;  text-align: center; font-size: 25px;
                                                                                                                                                         ">
-          Intermediate
+          Beginner
 
           </h4>
         </div>
         <div>
           <img src="../../assets/Daco_6016606.png"
-            style="position:inherit; width: 100px; height:100px; transform:translateX(70px) translateY(10px)">
+            style="position:inherit; width: 50px; height:50px; transform:translateX(20px) translateY(10px)">
         </div>
         </div>
         <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$59.99</span><span
             class="plan-type">/month</span></div>
         </header>
-        <ul class="plan-features">
-          <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
-          <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
-          <li><i class="ion-checkmark"> </i>Automated Futures Copy Trading</li>
-          <li><i class="ion-checkmark"> </i>Self Trading</li>
-
-          <li><i class="ion-checkmark"> </i>Customer support</li>
-          <li><i class="ion-checkmark"> </i>Trading view integration
-          </li>
-          <li><i class="ion-checkmark"> </i>One Master trader to copy</li>
-
+        <ul class="plan-features" style="padding-bottom:45px">
           <li>
             <div style="display:flex;">
               <div>
-                <i class="ion-checkmark"> </i>
+                <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>
               </div>
               <div>
-                Trading Notification (Trade Taken By Master Trader)
-                via SMS / Email
+                Automated copy trading (USDT futures market).
               </div>
             </div>
           </li>
-          <br>
-          <br>
-    </ul>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Trading view integration.
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>One master trader to copy at a time.
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Trading notifications
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Customer support
+          </li>
+
+
+          <li style="visibility:hidden">
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>One Master Trader To Copy
+          </li>
+          <li style="visibility:hidden">
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon> Trading Notification (Trade Taken By Master Trader)
+            via SMS / Email
+          </li>
+
+          </ul>
   <div class="plan-select"
     *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
     <a (click)="selectPlan('Intermediate')"
@@ -102,68 +117,68 @@
     Please Select A User Type
   </p>
   </div>
-  <div class="plan">
-
+  <div class="plan" style="margin-left:40px;">
     <header>
-      <h4 class="plan-title"
-        style="padding-bottom: 4px;   font-size: 20px;
-                                                                                                                                                      ">
-
-        Premium
-
+      <h4 class="plan-title" style="padding-bottom: 4px;   font-size: 25px;">
+        Professional
         </h4>
-        <div class="plan-cost" *ngIf=" this.authService.userType !== 'MASTER'"><span class="plan-price">$74.99</span><span
+        <div style="display:flex; width:100%; justify-content:flex-end; margin-top: -50px; padding-right: 25px;">
+          <div>
+            <img src="../../assets/Daco_6016606.png" style="position:inherit; width: auto; height:80px; visibility: hidden;">
+          </div>
+        </div>
+        <div class="plan-cost" *ngIf="this.authService.userType !== 'MASTER'"><span class="plan-price">$74.99</span><span
             class="plan-type">/month</span></div>
-
-
         </header>
         <ul class="plan-features">
-          <li><i class="ion-checkmark"> </i>Copy trading (Spot market)</li>
-          <li><i class="ion-checkmark"> </i>Copy trading (Futures market)</li>
-          <li><i class="ion-checkmark"> </i>Automated Futures Copy Trading</li>
           <li>
             <div style="display:flex;">
               <div>
-                <i class="ion-checkmark"> </i>
+                <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>
               </div>
               <div>
-                Manual futures copy-trading
-                (Risk % change
-                Or capital sizing change)
+                Automated copy trading (USDT futures market).
               </div>
             </div>
           </li>
-          <li><i class="ion-checkmark"> </i>Sell Trading</li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Trading view integration.
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>One master trader to copy at a time.
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Trading notifications
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Customer support
+          </li>
+          <li>
+            <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>Self-trading.
+          </li>
+          <li>
+            <div style="display:flex;">
+              <div>
+                  <mat-icon [ngStyle]="{'color':'green'}">done</mat-icon>
+                  </div>
+                  <div>
+                  Manual copy trading (Adjustable Capital sizing [%])
+                  </div>
+                  </div>
+                  </li>
 
-          <li><i class="ion-checkmark"> </i>Customer support</li>
-          <li><i class="ion-checkmark"> </i>Trading view integration
-          </li>
-          <li><i class="ion-checkmark"> </i>One Master trader to copy</li>
-          <li>
-            <div style="display:flex;">
-              <div>
-                <i class="ion-checkmark"> </i>
-              </div>
-              <div>
-                Trading Notification (Trade Taken By Master Trader)
-                via SMS / Email
-              </div>
-            </div>
-          </li>
 
           </ul>
-    <div class="plan-select"
-      *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
-      <a (click)="selectPlan('Premium')" *ngIf="this.authService.subscription !== 'Premium'">Select
-        Plan</a>
-      <a *ngIf="this.authService.subscription == 'Premium'">Selected</a>
+  <div class="plan-select"
+    *ngIf="this.authService.userType !== 'MASTER' && this.authService.userType !==  'undefined' &&  this.authService.userType !==  undefined">
+  <a (click)="selectPlan('Premium')" *ngIf="this.authService.subscription !== 'Premium'  ">Select Plan</a>
+  <a *ngIf="this.authService.subscription == 'Premium'">Selected</a>
 
-    </div>
-    <p *ngIf="this.authService.userType ===  'undefined' ||  this.authService.userType ===  undefined"
-      style="text-align:center;">
-      Please Select A User Type
-    </p>
-    </div>
-
+</div>
+<p *ngIf="this.authService.userType ===  'undefined' ||  this.authService.userType ===  undefined"
+  style="text-align:center;">
+  Please Select A User Type
+</p>
+</div>
     </div>
 </div>

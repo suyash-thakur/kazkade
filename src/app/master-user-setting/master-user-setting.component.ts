@@ -27,7 +27,7 @@ export class MasterUserSettingComponent implements OnInit {
   mobile = '';
   confPassword = '';
   userType = '';
-  isDis = true;
+  isDis = [true, true, true, true];
   apiKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   password = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
   securityKey = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
@@ -146,8 +146,8 @@ export class MasterUserSettingComponent implements OnInit {
     });
   }
   submitSupport() {
-    this.http.post(environment.Route + '/api/admin/support', {
-      subject: this.subject
+    this.http.post(environment.Route + '/api/user/support-mail', {
+      msg: this.support
     }).subscribe((res: any) => {
       this.isSupportSend = true;
     });
@@ -156,10 +156,12 @@ export class MasterUserSettingComponent implements OnInit {
   passChange() {
     this.router.navigate(['/enterForgotPassword']);
   }
-  toggleEdit() {
-    this.isDis = !this.isDis;
-    this.apiKey = '';
-    this.password = '';
-    this.securityKey = '';
+  toggleEdit(i) {
+    this.isDis[i] = !this.isDis[i];
+    if (i === 1) {
+      this.apiKey = '';
+      this.securityKey = '';
+    }
+
   }
 }

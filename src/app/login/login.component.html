@@ -11,24 +11,29 @@
     <br>
     <br>
     <mat-card style="box-shadow:  20px 20px 60px #bebebe,
-                                                                            -20px -20px 60px #ffffff; margin-top: 80px;">
+                                                                            -20px -20px 60px #ffffff; margin-top: 80px; ">
     <mat-tab-group *ngIf="!isForgotPass">
       <mat-tab label="Login">
         <br><br>
           <form class="example-form" [formGroup]="signinForm" (ngSubmit)="loginUser()">
             <mat-card-content>
               <div class="example-full-width">
-                <input id="ip2" type="email" formControlName="mno" placeholder="Enter Email" required>
+                <input id="ip2" type="email" formControlName="email" placeholder="Enter Email" required>
               </div>
               <br>
               <div class="example-full-width">
                 <input id="ip2" type="password" formControlName="password" placeholder="Password" required>
               </div>
               <br>
-              <div style="padding-left: 10px; opacity:0.7; cursor:pointer;">
-                <a [routerLink]="['/enterForgotPassword']" routerLinkActive="router-link-active"
-                  style="text-decoration: inherit; color: inherit;">Forgot Password</a>
-              </div>
+              <div style="display: flex; align-items:center">
+                <div style="padding-left: 10px; opacity:0.7; cursor:pointer;">
+                  <a [routerLink]="['/enterForgotPassword']" routerLinkActive="router-link-active"
+                    style="text-decoration: inherit; color: inherit;">Forgot Password ?</a>
+                </div>
+                <div style="margin-left: 20px;" *ngIf="authService.isLoading">
+                  <mat-spinner [diameter]="25"></mat-spinner>
+                </div>
+                </div>
             </mat-card-content><br>
             <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
 
@@ -40,7 +45,7 @@
             <div *ngIf="this.b==1 || !this.authService.t || this.authService.isWrongCred"
               style="color: rgb(255, 0, 0); text-align: center;">
               <p>
-                Unable to verify your crendentials. Please try again.
+                Unable to verify your crendentials. Please try again. <br>
               </p>
             </div>
             <div *ngIf="this.authService.isEmailVerfied" style="color: rgb(255, 0, 0); text-align: center;">
@@ -74,7 +79,11 @@
               <div class="example-full-width">
                 <input id="ip2" type="password" formControlName="U_c_pass" placeholder="Confirm Password*" required>
               </div><br>
-
+              <div class="example-full-width" style="text-align: center;">
+                <div style="margin-left: 20px; text-align: center; display: flex; justify-content: center;" *ngIf="isLoadingSignup">
+                  <mat-spinner [diameter]="25"></mat-spinner>
+                </div>
+              </div><br>
             </mat-card-content>
             <re-captcha (resolved)="resolved($event)" siteKey="6LfN3NMaAAAAAHN_k-sx7bgOaNLMAiKQ9YoBwFpI"></re-captcha>
             <br>
@@ -83,8 +92,8 @@
                 [disabled]="isDisabled">Sign Up!</button>
             </div>
           </form>
-          <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center;">
-            Unable to process the details.
+          <div *ngIf="this.a==1" style="color: rgb(255, 0, 0); text-align: center; max-width: 350px !important;">
+            Unable to process the details. <br>
             <!--  <br>Password must contains
                                                           minimum eight characters, at least one letter and one number -->
             {{errMsg}}

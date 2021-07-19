@@ -18,6 +18,7 @@ export class PredictComponent implements OnInit {
   market = 'trending_up';
   isFuture = true;
   isLoading = false;
+  select = "Future";
   arr = [
     {
       curr: "BTC",

@@ -9,8 +9,14 @@
     <div style="display:flex; width:100%; justify-content: flex-start;">
 
       <div style="flex:1">
-        <span *ngIf="i === 0" style="font-weight:bold;">Full Name</span> <br>
-        {{item.user[0].full_name}}
+        <span *ngIf="i === 0 " style="font-weight:bold;">Full Name</span> <br>
+        <span *ngIf="item.user.length > 0">
+          {{item.user[0].full_name}}
+</span>
+<span *ngIf="item.user.length === 0">
+  ERROR
+
+</span>
       </div>
       <div *ngIf="item.subscription.length > 0" style="flex:1">
         <span *ngIf="i === 0" style="font-weight:bold;">Subscription Type</span> <br>
@@ -18,6 +24,7 @@
         {{item.subscription[0].subscription_type}}
       </div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
+        <br>
         No Subscription
       </div>
       <div *ngIf="item.subscription.length > 0" style="flex:1">
@@ -37,15 +44,25 @@
 </div>
 <div style="flex:1">
   <span *ngIf="i === 0" style="font-weight:bold;">Balance Date</span> <br>
-  <span *ngIf="item.user[0].initial_balance !== undefined">{{item.user[0].initial_balance}}</span>
-  <span *ngIf="item.user[0].initial_balance === undefined">NILL</span>
+  <span *ngIf="item.user.length > 0 && item.user[0].initial_balance !== undefined">{{item.user[0].initial_balance}}</span>
+  <span *ngIf="item.user.length > 0">
+    <span *ngIf=" item.user[0].initial_balance === undefined">NILL</span>
+  </span>
+  <span *ngIf="item.user.length === 0">
+    ERROR
+  </span>
 </div>
 <div style="flex:1">
   <span *ngIf="i === 0" style="font-weight:bold;">Initial Balance</span> <br>
-  <span *ngIf="item.user[0].initial_balance_date !== undefined">{{item.user[0].initial_balance_date |
+  <span
+    *ngIf="item.user.length > 0 && item.user[0].initial_balance_date !== undefined">{{item.user[0].initial_balance_date |
     date:'short'}}</span>
-  <span *ngIf="item.user[0].initial_balance_date === undefined">NILL</span>
-
+  <span *ngIf="item.user.length > 0">
+    <span *ngIf="item.user[0].initial_balance_date === undefined">NILL</span>
+</span>
+<span *ngIf="item.user.length === 0">
+  ERROR
+</span>
 </div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
         <span *ngIf="i === 0" style="font-weight:bold;">Action</span> <br>
@@ -64,6 +81,7 @@
 
       </div>
       <div *ngIf="item.subscription.length == 0" style="flex:1">
+        <br>
         NILL
       </div>
       <div style="flex:1">

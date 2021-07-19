@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn !== true || this.authService.is_2fa_completed !== true) {
       console.log(this.authService.is_2fa_completed);
 
-      window.alert('Access not allowed!');
+      window.alert('Please login/sign-up');
       if (this.authService.isLoggedIn !== true) {
         this.router.navigate(['/login']);
         return false;

@@ -69,6 +69,8 @@ import { ForgotPasswordInputComponent } from './forgot-password-input/forgot-pas
 import { QrcodeComponent } from './qrcode/qrcode.component';
 import { QrcodeVerifyComponent } from './qrcode-verify/qrcode-verify.component';
 import { AngularFireModule } from '@angular/fire';
+import { NumberDirective } from './number.directive';
+import { SpotSoonComponent } from './spot-soon/spot-soon.component';
 export const firebaseConfig = {
   apiKey: "AIzaSyBMhsmMWCuDx8ZD6jhASnLbcgdhRQaLkH4",
   authDomain: "http-start-15d34.firebaseapp.com",
@@ -118,7 +120,9 @@ export const firebaseConfig = {
     CloseAllOrders,
     QrcodeComponent,
     QrcodeVerifyComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    NumberDirective,
+    SpotSoonComponent
 
   ],
 

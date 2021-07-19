@@ -17,6 +17,7 @@
         </mat-expansion-panel>
     </mat-accordion>
 </div> -->
+<div style="min-height:80vh">
 <div style="padding-top: 140px; padding-left: 15px; padding-right: 15px;">
   <h2>
     Explore Traders: &nbsp; <span style="font-weight:bold;  color: red; ">You can only follow one
@@ -45,11 +46,11 @@
       <div style="flex: 1; display: flex; justify-content:center;">
         <div style=" color: red; font-size:20px; font-weight:bold;"
           *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') > -1">
-          {{item.balance.totalUnrealizedProfit }}
+          {{item.balance.totalUnrealizedProfit | number}}
         </div>
         <div style=" color: #308725; font-size:20px; font-weight:bold;"
           *ngIf="item.balance !== {} && item.balance.totalUnrealizedProfit.indexOf('-') === -1">
-          {{item.balance.totalUnrealizedProfit }}
+          {{item.balance.totalUnrealizedProfit | number}}
         </div>
         <div style=" color: #308725; font-size:20px; font-weight:bold;" *ngIf="item.balance.totalUnrealizedProfit == undefined">
           0.0000000
@@ -70,7 +71,7 @@
       </div>
       <div style="flex: 1; font-size:20px; font-weight:bold; text-align: center;">
         <div style="font-weight:bold; opacity: 0.8;" *ngIf="i === 0">Followers Equity <br><br></div>
-        {{item.allFollowersBalance}}
+        {{item.allFollowersBalance | number}}
       </div>
       </div>
       </div>
@@ -99,16 +100,20 @@
                           </div> -->
               <div style="display: flex; ">
                 <div style="font-size:18px; font-weight:bold;">
-                  Amount
+                  Manual capital amount (%) to use in every trade (fixed)
                 </div>
                 <div style="margin-left: 25px;">
                   <input type="number" step="0.00001" [disabled]="disabled" [(ngModel)]="amount">
                 </div>
               </div>
               <br>
-              <div>
-                <input type="checkbox" placeholder="Automatic" (change)="toggleCheckbox($event)" id="isautomatic">&nbsp;<label
-                  for="isautomatic">Automatic</label>
+              <div style="display:flex;">
+                <div>
+                <input type="checkbox" placeholder="Automatic" (change)="toggleCheckbox($event)" id="isautomatic">&nbsp;
+                </div>
+                <div>
+                  <label for="isautomatic">Automatic copy (copy master trader exactly in the ratio of account balance)</label>
+                </div>
               </div>
               <div style="color:red" *ngIf="followMsg !== 'success'">
                 {{followMsg}}
@@ -132,3 +137,4 @@
         </div>
       </div>
 
+    </div>
