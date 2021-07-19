@@ -32,6 +32,7 @@ export class AuthService {
   TwitterUsername = '';
   is_2fa_completed = false;
   isEmailVerfied = false;
+  isLoading = false;
 
   email = '';
   userId = '';
@@ -44,7 +45,8 @@ export class AuthService {
   ) {
   }
   openTwitterlink(username) {
-    window.location.href = 'https://twitter.com/' + username;
+    let url = 'https://twitter.com/' + username;
+    window.open(url, '_blank');
   }
   login() {
     this.afAuth.signInWithPopup(new firebase.auth.TwitterAuthProvider()).then((res: any) => {
@@ -96,6 +98,7 @@ export class AuthService {
       email: email
     });
   }
+
   tokenRefresh() {
     this.http.get(environment.Route + '/api/user/relogin').subscribe((res: any) => {
       console.log(res);
@@ -110,9 +113,12 @@ export class AuthService {
   signIn(user: User) {
     var url_to_hit = this.endpoint+'/login'
     console.log(user);
+    this.isLoading = true;
     // tslint:disable-next-line: prefer-const
     this.http.post<any>(url_to_hit, user)
       .subscribe((res: any) => {
+        this.isLoading = false;
+
         console.log(res);
         if(res.access_token==null){
           this.t=false;
@@ -194,7 +200,9 @@ export class AuthService {
         }
         return false;
       },
-      (err: HttpErrorResponse) => {
+        (err: HttpErrorResponse) => {
+          this.isLoading = false;
+
         console.log(err.message);
         if (err.status === 400) {
           this.t = false;
@@ -202,6 +210,15 @@ export class AuthService {
           this.isEmailVerfied = false;
 
           console.log('400 error', this.isWrongCred);
+
+            return this.t;
+          }
+          if (err.status === 404) {
+            this.t = false;
+            this.isWrongCred = true;
+            this.isEmailVerfied = false;
+
+            console.log('400 error', this.isWrongCred);
 
           return this.t;
         }
