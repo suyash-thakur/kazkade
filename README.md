@@ -1,4 +1,4 @@
-# Angular Frontend for GoInvest App
+# Angular Frontend for Kazcade
 
 To start the frontend:
 ```
